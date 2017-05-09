@@ -18,6 +18,7 @@ public class AndroidAppTests {
 
     // These instance variables need to be replaced by the actual variables in other classes when code is written
     private String connectionString;
+    private int lowerBoundForNoOfCharsInConnString = 10; //Assign here recommended no. chars for case
     
     /**
      * @param args the command line arguments
@@ -30,7 +31,7 @@ public class AndroidAppTests {
     public void isConnectionStringValid()
     {
         assert connectionString instanceof String;
-        assert connectionString.length() >= 10;
+        assert connectionString.length() >= lowerBoundForNoOfCharsInConnString;
     }
     
     @Test
