@@ -1,7 +1,11 @@
 import java.sql.SQLException;
 import junit.framework.Assert;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,12 +23,39 @@ public class AndroidAppTests {
     // These instance variables need to be replaced by the actual variables in other classes when code is written
     private String connectionString;
     private int lowerBoundForNoOfCharsInConnString = 10; //Assign here recommended no. chars for case
+    private Thread sut;
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+    }
+    
+    @Before
+    public void setUp()
+    {
+        sut = new Thread(new ServerThread());
+        sut.start();
+    }
+    
+    @Test
+    public void isServerThreadAlive()
+    {
+        sut.checkAccess();
+        boolean sutIsAlive = sut.isAlive();
+        assertEquals(sutIsAlive, true);
+    }
+    
+    @Test
+    public void doesServerThreadHaveRightPermissions()
+    {
+        try {
+            sut.checkAccess();
+        } catch (SecurityException e) {
+            System.out.println("Security exception thrown");
+            fail("Test failed, exception thrown");
+        }
     }
     
     @Test
@@ -50,7 +81,12 @@ public class AndroidAppTests {
             fail();
         }
     }
-
+    
+    @After
+    public void tearDown()
+    {
+        sut.stop();
+    }
     
     // Assume these methods are in main code, these are ways SQL can fail
     private void executeSql() {
