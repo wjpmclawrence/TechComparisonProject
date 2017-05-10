@@ -23,7 +23,7 @@ public class AndroidAppTests {
     // These instance variables need to be replaced by the actual variables in other classes when code is written
     private String connectionString;
     private int lowerBoundForNoOfCharsInConnString = 10; //Assign here recommended no. chars for case
-    private Thread sut;
+    private Thread sut; //sut = system under test
     
     /**
      * @param args the command line arguments
@@ -37,6 +37,21 @@ public class AndroidAppTests {
     {
         sut = new Thread(new ServerThread());
         sut.start();
+        connectionString = "Insert here a connection string";
+    }
+    
+    
+    // I am not sure yet clear how to test these yet.
+    @Test
+    public void httpRequestTest()
+    {
+        
+    }
+    
+    @Test
+    public void httpResponseTest()
+    {
+        
     }
     
     @Test
@@ -73,12 +88,17 @@ public class AndroidAppTests {
             executeSql();
             printToTables();
             
+            boolean throwException = false;
+            //Set above to true if throw SQLException
             //Either of these may throw SQL Exception if you implement it wrongly, throw SQLException to demonstrate this example
-            throw new SQLException();
+            if(throwException)
+            {
+                throw new SQLException();
+            }
         }
         catch(SQLException e)
         {
-            fail();
+            fail("SQLException thrown, isConnectionSuccessful() test fails");
         }
     }
     
@@ -90,10 +110,10 @@ public class AndroidAppTests {
     
     // Assume these methods are in main code, these are ways SQL can fail
     private void executeSql() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private void printToTables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
