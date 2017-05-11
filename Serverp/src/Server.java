@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -50,12 +51,13 @@ public class Server
 
 	
 	/*
-	 * Server starts up and listens for connections, if the server is running
-	 * then auto close
+	 * Server starts up and listens for connections, if the server is 
+	 * running then auto close
 	 */
 	private static void SetUpConnections()
 	{
-		System.out.println("Debug: server is running, waiting for connections");
+		System.out.println("Debug: server is running, waiting for "
+														+ "connections");
 		try
 		{
 			sS = new ServerSocket(PORT);
@@ -71,7 +73,8 @@ public class Server
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is already running");
+			JOptionPane.showMessageDialog(frame, "instance of a server is "
+														+ "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
@@ -84,7 +87,7 @@ public class Server
 	/*
 	 * Runnable class to handle instances of clients that are connected
 	 */
-	private static class ServerThread implements Runnable
+	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
 

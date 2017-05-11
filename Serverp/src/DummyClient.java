@@ -47,7 +47,8 @@ public class DummyClient
 		{
 			e.printStackTrace();
 
-			JOptionPane.showMessageDialog(frame, "Cannot establish connection to server, cliet will now exit ");
+			JOptionPane.showMessageDialog(frame, "Cannot establish "
+					+ "connection to server, cliet will now exit ");
 			System.exit(0);
 			try
 			{
