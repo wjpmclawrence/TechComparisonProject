@@ -1,4 +1,6 @@
 import java.awt.EventQueue;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -7,6 +9,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.net.ServerSocketFactory;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -58,7 +64,7 @@ public class Server
 	
 	/*
 	 * Server starts up and listens for connections, if the server is 
-	 * running then auto close
+	 * running then auto close 
 	 */
 	private static void SetUpConnections()
 	{
@@ -66,10 +72,11 @@ public class Server
 														+ "connections");
 		try
 		{
-			sS = new ServerSocket(PORT);
+			
+			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
+			sS = factory.createServerSocket(PORT);
 			while (serverRunning)
 			{
-				System.out.println("client has connected to server");
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread(socket);
 				// clients.add(rc);
@@ -87,6 +94,22 @@ public class Server
 
 			e.printStackTrace();
 
+		}
+	}
+	
+	/*
+	 * Write
+	 */
+	private void WriteToCLient(ArrayList<Object> list, Socket socket){
+		
+		try
+		{
+			PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+			writer.println(list);
+
+		} catch (Exception E)
+		{
+			E.printStackTrace();
 		}
 	}
 	
@@ -117,6 +140,10 @@ public class Server
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
+		
+		//test array list 
+		
+		
 
 		ServerThread(Socket socket)
 		{
@@ -127,6 +154,8 @@ public class Server
 		public void run()
 		{
 			textArea.append("Debug : client connected to server \n");
+			
+			
 		}
 		
 		/*
@@ -135,6 +164,9 @@ public class Server
 		private void CloseConnection(){
 			
 		}
+		
+		
+		
 
 	}
 
@@ -158,6 +190,10 @@ public class Server
 		resumeServer.setVisible(false);
 		frame.getContentPane().add(resumeServer);
 		
+		
+		/*
+		 * resume server button 
+		 */
 		resumeServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -165,7 +201,9 @@ public class Server
 			}
 		});
 		
-		
+		/*
+		 * pause server button
+		 */
 		pauseServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
