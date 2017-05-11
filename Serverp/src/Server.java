@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -6,7 +5,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 
 public class Server
@@ -50,18 +48,20 @@ public class Server
 		initialize();
 	}
 
+	
 	/*
 	 * Server starts up and listens for connections, if the server is running
 	 * then auto close
 	 */
 	private static void SetUpConnections()
 	{
+		System.out.println("Debug: server is running, waiting for connections");
 		try
 		{
 			sS = new ServerSocket(PORT);
 			while (serverRunning)
 			{
-				System.out.println("Debug: server is running, waiting for connections");
+				System.out.println("client has connected to server");
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread(socket);
 				// clients.add(rc);
@@ -82,7 +82,7 @@ public class Server
 	}
 
 	/*
-	 * Runaable class to handle instances of clients that are connected
+	 * Runnable class to handle instances of clients that are connected
 	 */
 	private static class ServerThread implements Runnable
 	{
@@ -96,13 +96,13 @@ public class Server
 		@Override
 		public void run()
 		{
-
+			textArea.append("Debug : client connected to server \n");
 		}
 
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialise the contents of the frame.
 	 */
 	private void initialize()
 	{
@@ -110,9 +110,8 @@ public class Server
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
 		textArea = new JTextArea();
-		textArea.setBounds(46, 27, 370, 207);
+		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
 	}
 }
