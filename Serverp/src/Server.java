@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -12,8 +12,7 @@ import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 
 public class Server
 {
@@ -102,8 +101,8 @@ public class Server
 		
 		try
 		{
-			PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-			writer.println(list);
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeObject(list);
 
 		} catch (Exception E)
 		{
@@ -111,27 +110,7 @@ public class Server
 		}
 	}
 	
-	/*
-	 * Pauses listening for connections
-	 */
-	private void PauseServer(){
-		
-		serverRunning = false;
-		textArea.append("Debug : server has been paused connection \n");
-		resumeServer.setVisible(true);
-		pauseServer.setVisible(false);
-	}
 	
-	/*
-	 * Resumes listening to connections 
-	 */
-	private void ResumeServer(){
-		
-		serverRunning = true;
-		resumeServer.setVisible(false);
-		pauseServer.setVisible(true);
-		textArea.append("Debug : connections resumed \n");
-	}
 	/*
 	 * Runnable class to handle instances of clients that are connected
 	 */
@@ -192,34 +171,12 @@ public class Server
 		textArea = new JTextArea();
 		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
-		pauseServer = new JButton("Pause");
-		pauseServer.setBounds(309, 246, 117, 29);
-		frame.getContentPane().add(pauseServer);
-		resumeServer = new JButton("Resume");
-		resumeServer.setBounds(309, 246, 117, 29);
-		resumeServer.setVisible(false);
-		frame.getContentPane().add(resumeServer);
+		
 		
 		
 		/*
 		 * resume server button 
 		 */
-		resumeServer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				ResumeServer();
-			}
-		});
-		
-		/*
-		 * pause server button
-		 */
-		pauseServer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				PauseServer();
-				
-			}
-		});
+	
 	}
 }
