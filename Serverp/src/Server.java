@@ -1,5 +1,5 @@
 import java.awt.EventQueue;
-import java.io.ObjectOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -155,14 +153,26 @@ public class Server
 		{
 			textArea.append("Debug : client connected to server \n");
 			
-			
+			CloseConnection();
 		}
 		
 		/*
-		 * CLoses the Connections once the data is sent 
+		 * CLoses the client socket (removes connection)
+		 * removes this thread from server thread.
 		 */
 		private void CloseConnection(){
-			
+			try
+			{
+				socket.close();
+				textArea.append("Client Disconnected \n ");
+				clients.remove(this);
+			} catch (NullPointerException E ){
+				textArea.append("thread removed\n ");
+			}catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
