@@ -35,7 +35,7 @@ public class DummyClient
 	}
 
 	/*
-	 * connects tot he server, if server not present closes automatically. 
+	 * connects to the server, if server not present closes automatically. 
 	 */
 	private static void ConnectToServer() {
 		try

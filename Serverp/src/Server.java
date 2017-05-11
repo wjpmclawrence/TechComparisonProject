@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Server
 {
@@ -16,6 +19,8 @@ public class Server
 	private static JFrame frame;
 	private static boolean serverRunning = true;
 	private static JTextArea textArea;
+	private JButton pauseServer; 
+	private JButton resumeServer;
 
 	/**
 	 * Launch the application.
@@ -47,6 +52,7 @@ public class Server
 	public Server()
 	{
 		initialize();
+		
 	}
 
 	
@@ -83,7 +89,24 @@ public class Server
 
 		}
 	}
-
+	
+	/*
+	 * Pauses listening for connections
+	 */
+	private void PauseServer(){
+		
+		serverRunning = false;
+		textArea.append("Debug : server has been paused connection \n");
+	}
+	
+	/*
+	 * Resumes listening to connections 
+	 */
+	private void ResumeServer(){
+		
+		serverRunning = true;
+		textArea.append("Debug : connections resumed \n");
+	}
 	/*
 	 * Runnable class to handle instances of clients that are connected
 	 */
@@ -101,6 +124,13 @@ public class Server
 		{
 			textArea.append("Debug : client connected to server \n");
 		}
+		
+		/*
+		 * CLoses the Connections once the data is sent 
+		 */
+		private void CloseConnection(){
+			
+		}
 
 	}
 
@@ -116,5 +146,27 @@ public class Server
 		textArea = new JTextArea();
 		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
+		pauseServer = new JButton("Pause");
+		pauseServer.setBounds(198, 246, 117, 29);
+		frame.getContentPane().add(pauseServer);
+		resumeServer = new JButton("Resume");
+		resumeServer.setBounds(309, 246, 117, 29);
+		frame.getContentPane().add(resumeServer);
+		
+		resumeServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ResumeServer();
+			}
+		});
+		
+		
+		pauseServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				PauseServer();
+				
+			}
+		});
 	}
 }
