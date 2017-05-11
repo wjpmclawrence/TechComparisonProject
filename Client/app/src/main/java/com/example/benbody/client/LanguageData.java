@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 // class to store the data for each language comparison
+    // Will probably be replaced by Language class from server team now
 class LanguageData implements Serializable {
 
 
