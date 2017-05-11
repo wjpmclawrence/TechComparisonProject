@@ -97,6 +97,8 @@ public class Server
 		
 		serverRunning = false;
 		textArea.append("Debug : server has been paused connection \n");
+		resumeServer.setVisible(true);
+		pauseServer.setVisible(false);
 	}
 	
 	/*
@@ -105,6 +107,8 @@ public class Server
 	private void ResumeServer(){
 		
 		serverRunning = true;
+		resumeServer.setVisible(false);
+		pauseServer.setVisible(true);
 		textArea.append("Debug : connections resumed \n");
 	}
 	/*
@@ -147,10 +151,11 @@ public class Server
 		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
 		pauseServer = new JButton("Pause");
-		pauseServer.setBounds(198, 246, 117, 29);
+		pauseServer.setBounds(309, 246, 117, 29);
 		frame.getContentPane().add(pauseServer);
 		resumeServer = new JButton("Resume");
 		resumeServer.setBounds(309, 246, 117, 29);
+		resumeServer.setVisible(false);
 		frame.getContentPane().add(resumeServer);
 		
 		resumeServer.addActionListener(new ActionListener() {
