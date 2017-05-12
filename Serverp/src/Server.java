@@ -1,6 +1,8 @@
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -11,9 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.swing.JButton;
-
-
+/*
+ * @author Yasiru Dahanayake
+ */
 public class Server
 {
 	private static ArrayList<ServerThread> clients;
@@ -22,8 +24,9 @@ public class Server
 	private static JFrame frame;
 	private static boolean serverRunning = true;
 	private static JTextArea textArea;
-	private JButton pauseServer; 
-	private JButton resumeServer;
+	private static ObjectOutputStream oos;
+	private static BufferedReader frmClient;
+	private static PrintWriter pw;
 
 	/**
 	 * Launch the application.
@@ -55,21 +58,19 @@ public class Server
 	public Server()
 	{
 		initialize();
-		
+
 	}
 
-	
 	/*
-	 * Server starts up and listens for connections, if the server is 
-	 * running then auto close 
+	 * Server starts up and listens for connections, if the server is running
+	 * then auto close
 	 */
 	private static void SetUpConnections()
 	{
-		System.out.println("Debug: server is running, waiting for "
-														+ "connections");
+		System.out.println("Debug: server is running, waiting for " + "connections");
 		try
 		{
-			
+
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
 			while (serverRunning)
@@ -83,8 +84,8 @@ public class Server
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is "
-														+ "already running");
+			JOptionPane.showMessageDialog(frame, "instance of a server is " 
+											+ "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
@@ -93,15 +94,34 @@ public class Server
 
 		}
 	}
-	
+
 	/*
-	 * Write
+	 * Writes a String to a client from the server 
 	 */
-	private void WriteToCLient(ArrayList<Object> list, Socket socket){
+	private static void WriteToCLient(String string, Socket socket){
 		
 		try
 		{
-			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			pw = new PrintWriter(socket.getOutputStream(),true);
+			pw.println(string);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	/*
+	 * Writes a arrayList of OBJECTS to client 
+	 */
+	private static void WriteToCLient(ArrayList<Object> list, Socket socket)
+	{
+
+		try
+		{
+			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.writeObject(list);
 
 		} catch (Exception E)
@@ -109,7 +129,27 @@ public class Server
 			E.printStackTrace();
 		}
 	}
-	
+	/*
+	 * CLoses the client socket (removes connection) removes this thread
+	 * from server thread.
+	 */
+	private static void CloseConnection(Socket socket,ServerThread thread)
+	{
+		try
+		{
+			socket.close();
+			textArea.append("Client Disconnected \n ");
+			clients.remove(thread);
+		} catch (NullPointerException E)
+		{
+			textArea.append("thread removed\n ");
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	
 	/*
 	 * Runnable class to handle instances of clients that are connected
@@ -117,10 +157,8 @@ public class Server
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
-		
-		//test array list 
-		
-		
+
+		// test array list
 
 		ServerThread(Socket socket)
 		{
@@ -132,29 +170,11 @@ public class Server
 		{
 			textArea.append("Debug : client connected to server \n");
 			
-			CloseConnection();
+			WriteToCLient("testing", this.socket);
+			
+			//CloseConnection(this.socket,this);
 		}
-		
-		/*
-		 * CLoses the client socket (removes connection)
-		 * removes this thread from server thread.
-		 */
-		private void CloseConnection(){
-			try
-			{
-				socket.close();
-				textArea.append("Client Disconnected \n ");
-				clients.remove(this);
-			} catch (NullPointerException E ){
-				textArea.append("thread removed\n ");
-			}catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
+
 		
 
 	}
@@ -171,12 +191,10 @@ public class Server
 		textArea = new JTextArea();
 		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
-		
-		
-		
+
 		/*
-		 * resume server button 
+		 * resume server button
 		 */
-	
+
 	}
 }
