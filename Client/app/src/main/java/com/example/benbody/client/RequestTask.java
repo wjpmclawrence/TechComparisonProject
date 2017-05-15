@@ -3,6 +3,7 @@ package com.example.benbody.client;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BenBody on 11/05/2017.
@@ -15,7 +16,7 @@ public class RequestTask extends AsyncTask<String, String, ArrayList>
     @Override // Executes before doInBackground in UI thread
     protected void onPreExecute()
     {
-        // set up a loading graphic in UI
+        // TODO set up a loading graphic in UI
     }
 
 
@@ -29,6 +30,26 @@ public class RequestTask extends AsyncTask<String, String, ArrayList>
     @Override // executes after doInBackground to update the UI
     protected void onPostExecute(ArrayList result)
     {
-        // take result, format it, and display in UI
+        // TODO Remove loading graphic
+        if(result == null); // display error message
+        else// take result, format it, and display in UI
+        {
+            switch ((String) result.get(0))
+            {
+                case "menuArray" :
+                    List menu = result.subList(1, result.size());
+                    // TODO cache menu list and save to dat file
+                    // TODO display "list updated"
+                case "versionOk" :
+                    // TODO load menu from dat file into the display method
+                    break;
+                case "subMenu" :
+                    List submenu = result.subList(1, result.size());
+                    // TODO use FormattedArrayAdapter to display list
+                    break;
+                default:
+                    // Error has occured
+            }
+        }
     }
 }

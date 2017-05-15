@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,12 +16,12 @@ import java.util.ArrayList;
 public class FormattedArrayAdaptor<T> extends ArrayAdapter<T>
 {
     private Context context;
-    private ArrayList<T> values;
+    private List<T> values;
 
 
 
     // constructor
-    public FormattedArrayAdaptor(Context context, int resource, ArrayList<T> values)
+    public FormattedArrayAdaptor(Context context, int resource, List<T> values)
     {
         super(context, resource, (T[]) values.toArray());
         this.context = context;
@@ -31,6 +31,8 @@ public class FormattedArrayAdaptor<T> extends ArrayAdapter<T>
     @Override // called to determine how each element in the list will be displayed
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        // TODO develop XML file to define individual list elements
+        // TODO display Language objects in the list format
         return null;
     }
 

@@ -23,6 +23,7 @@ public class TCPClient
     public TCPClient()
     {
         //set up socket & streams
+        // TODO implement proper security
         SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
         try
         {
