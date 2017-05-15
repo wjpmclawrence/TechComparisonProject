@@ -3,6 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
+
+
+
+
+/*
+Start up the project and add the above jar file to the library folder
+next connect to the your own my sql server and create a database call "mydb"
+next you must right click and select execute command on the tables folder of mydb
+copy and paste the file "SQL COMMANDS" into the command window
+bobs your uncle it should run
+*/
 package databasetest;
 
 import java.sql.Array;
@@ -85,7 +98,11 @@ public class DatabaseTest {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
-        String Language = "java";
+        String Language = "hi";
+        if (Language == null){
+            System.out.println("No Language Entered");
+            System.exit(0);
+        }
 
         try {
             //Connect to database
@@ -190,7 +207,7 @@ public class DatabaseTest {
         }
 
         if (Wrong == Array.length) {
-            System.out.println("NOT A VALID LANGUAGE NAME");
+            System.out.println(Lang + " IS NOT A VALID LANGUAGE NAME");
         } else {
 
             //PERFORM Comparison
