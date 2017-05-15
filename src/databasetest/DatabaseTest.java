@@ -243,6 +243,8 @@ public class DatabaseTest {
                     }
 
                 }
+                
+                //Percentage multiplier
                 PercentageMatch = PercentageMatch*0.8;
                 int R = 18;
 
