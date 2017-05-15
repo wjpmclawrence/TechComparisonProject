@@ -85,7 +85,7 @@ public class DatabaseTest {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
-        String Language = "Java";
+        String Language = "C";
 
         try {
             //Connect to database
@@ -192,11 +192,11 @@ public class DatabaseTest {
         if (Wrong == Array.length) {
             System.out.println("NOT A VALID LANGUAGE NAME");
         } else {
-
-            //PERFORM COmparison
+            System.out.println(Array[0].length + "   " + ChosenLang.length);
+            //PERFORM Comparison
             for (int x = 0; x < Array.length; x++) {
                 PercentageMatch = 0;
-                
+                System.out.print("\n");
                 //remove chosen language
                 if (x == LANG) {
                     x++;
@@ -206,26 +206,30 @@ public class DatabaseTest {
                 }
 
                 for (int y = 0; y < Array[x].length; y++) {
+                    System.out.println(x + "    " + y + "   " + ChosenLang[y] + "    " + Array[x][y]);
+                    if (y <= 12) {
+                        if (Array[x][y].equalsIgnoreCase(ChosenLang[y])) {
+                            if (y >= 9 && y <= 12) {
+                                if (ChosenLang[y].equalsIgnoreCase("0")) {
 
-                    if (ChosenLang[y].equalsIgnoreCase(Array[x][y])) {
-                        if (y >= 9 && y <= 12) {
-                            if (ChosenLang[y].equalsIgnoreCase("0")) {
+                                } else {
+                                    PercentageMatch = PercentageMatch + Syntax;
+                                }
 
-                            }
-                            PercentageMatch = PercentageMatch + Syntax;
-
-                        } else {
-
-                            if (y >= 2 && y <= 8) {
+                            } else if (y >= 2 && y <= 8) {
                                 PercentageMatch = PercentageMatch + Para;
 
                             }
                         }
-                    }
-                }
 
+                    }
+
+                }
+                if (PercentageMatch >= 80) {
+                    PercentageMatch = 80;
+                }
                 int R = 18;
-                
+
                 //Order Percentages
                 while (PercentageMatch >= TopPerce[R]) {
                     if (R < 18) {
