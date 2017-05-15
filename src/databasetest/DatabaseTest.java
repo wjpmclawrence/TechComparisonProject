@@ -207,7 +207,7 @@ public class DatabaseTest {
         }
 
         if (Wrong == Array.length) {
-            System.out.println(Lang + " IS NOT A VALID LANGUAGE NAME");
+            System.out.println("'" + Lang.toUpperCase() + "' IS NOT A VALID LANGUAGE NAME");
         } else {
 
             //PERFORM Comparison
