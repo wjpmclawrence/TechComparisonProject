@@ -71,102 +71,114 @@ public class DatabaseTest {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws ClassNotFoundException {
+        Connect();
+    }
+
+    public static void Connect() throws ClassNotFoundException {
         //Database Info
-        String host = "jdbc:derby://localhost:1527/Languages";
-        String Uname = "Connor";
+        String host = "jdbc:mysql://localhost:3306/mydb";
+        String Uname = "root";
         String Pword = "password";
 
+        //load driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        //Serached Language
+        String Language = "Java";
+
+        try {
+            //Connect to database
+            Connection con = DriverManager.getConnection(host, Uname, Pword);
+
+            //Create statement
+            Statement stmt = con.createStatement();
+
+            //call Load CLass
+            load(Language, stmt);
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+    }
+
+    public static void load(String CheckLanguage, Statement stmt) throws SQLException {
+        //initailise variables
         String[][] CompArray;
-        CompArray = new String[20][15];
+        CompArray = new String[21][15];
         int X = 0;
 
         String Test = "*";
         String Condition = "";
 
-        String SQL = "SELECT " + Test + " FROM APP.LANGUAGES " + Condition;
+        String SQL = "SELECT " + Test + " FROM mydb.languages " + Condition;
 
-        try {
+        //Execute Query on statement
+        ResultSet rs = stmt.executeQuery(SQL);
 
-            Connection con = DriverManager.getConnection(host, Uname, Pword);
+        while (rs.next()) {
+            //Load Array
+            String ID = rs.getString("ID");
+            CompArray[X][0] = ID;
+            String Name = rs.getString("Name");
+            CompArray[X][1] = Name;
+            String Imp = rs.getString("Imperative");
+            CompArray[X][2] = Imp;
+            String OOri = rs.getString("Object-Oriented");
+            CompArray[X][3] = OOri;
+            String Func = rs.getString("Functional");
+            CompArray[X][4] = Func;
+            String Proc = rs.getString("Procedural");
+            CompArray[X][5] = Proc;
+            String Gene = rs.getString("Generic");
+            CompArray[X][6] = Gene;
+            String Refl = rs.getString("Reflective");
+            CompArray[X][7] = Refl;
+            String EDri = rs.getString("Event-Driven");
+            CompArray[X][8] = EDri;
+            String Forl = rs.getString("For Loop");
+            CompArray[X][9] = Forl;
+            String Whil = rs.getString("While Loop");
+            CompArray[X][10] = Whil;
+            String Arry = rs.getString("Arrays");
+            CompArray[X][11] = Arry;
+            String Oper = rs.getString("Operators");
+            CompArray[X][12] = Oper;
+            String Uses = rs.getString("Uses");
+            CompArray[X][13] = Uses;
+            String Para = rs.getString("Paradigms");
+            CompArray[X][14] = Para;
 
-            Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-
-                String ID = rs.getString("ID");
-                CompArray[X][0] = ID;
-                String Name = rs.getString("Name");
-                CompArray[X][1] = Name;
-                String Imp = rs.getString("Imperative");
-                CompArray[X][2] = Imp;
-                String OOri = rs.getString("ObjectOriented");
-                CompArray[X][3] = OOri;
-                String Func = rs.getString("Funtional");
-                CompArray[X][4] = Func;
-                String Proc = rs.getString("Procedural");
-                CompArray[X][5] = Proc;
-                String Gene = rs.getString("Generic");
-                CompArray[X][6] = Gene;
-                String Refl = rs.getString("Reflective");
-                CompArray[X][7] = Refl;
-                String EDri = rs.getString("EventDriven");
-                CompArray[X][8] = EDri;
-                String Forl = rs.getString("ForLoop");
-                CompArray[X][9] = Forl;
-                String Whil = rs.getString("WhileLoop");
-                CompArray[X][10] = Whil;
-                String Arry = rs.getString("Arrays");
-                CompArray[X][11] = Arry;
-                String Oper = rs.getString("Operators");
-                CompArray[X][12] = Oper;
-                String Uses = rs.getString("Uses");
-                CompArray[X][13] = Uses;
-                String Para = rs.getString("Paradigms");
-                CompArray[X][14] = Para;
-
-                String Gap = "  ";
-
-                /*String Data = rs.getString(Test);
-                        
-                
-                String Data = (ID + Gap + Name + Gap + Imp + Gap + OOri + Gap + Func 
-                        + Gap + Proc + Gap + Gene + Gap + Refl + Gap + EDri 
-                        + Gap + Forl + Gap + Whil + Gap + Arry + Gap + Oper 
-                        + Gap + Uses + Gap + Para);
-                
-                System.out.println(Data);*/
-                X++;
-            }
-            String LanguageCheck = "Assembly language";
-            Compare(CompArray, LanguageCheck);
-            /*for (int j = 0; j < 20; j++) {
-                for (int k = 0; k < 15; k++) {
-
-                    System.out.print(CompArray[j][k] + " ");
-                }
-                System.out.print("\n");
-            }*/
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
+            X++;
         }
 
+        //call Compare
+        Compare(CompArray, CheckLanguage);
     }
 
     public static void Compare(String[][] Array, String Lang) {
+        //initialise Variables
         double PercentageMatch;
         String[] ChosenLang;
-        String LearnTime;
         ChosenLang = new String[15];
         int LANG = 0;
+
+        String[] TopPercentage;
+        double[] TopPerce;
+
+        TopPercentage = new String[Array.length - 1];
+        TopPerce = new double[Array.length - 1];
+
+        for (int populate = 0; populate < 19; populate++) {
+            TopPercentage[populate] = "null";
+            TopPerce[populate] = 0;
+        }
 
         double Para = 7.1428;
         double Syntax = 12.5;
         int Wrong = 0;
 
+        //Check for Language chosen and prepare to remove from comparison
         for (int j = 0; j < Array.length; j++) {
             if (Lang.equalsIgnoreCase(Array[j][1])) {
                 System.arraycopy(Array[j], 0, ChosenLang, 0, 15);
@@ -176,49 +188,66 @@ public class DatabaseTest {
                 Wrong++;
             }
         }
-        //System.out.printf("%d   %d \n\n", Array.length, Array[0].length);
-        if (Wrong == 20) {
+
+        if (Wrong == Array.length) {
             System.out.println("NOT A VALID LANGUAGE NAME");
         } else {
 
+            //PERFORM COmparison
             for (int x = 0; x < Array.length; x++) {
                 PercentageMatch = 0;
+                
+                //remove chosen language
                 if (x == LANG) {
                     x++;
                 }
-                //System.out.print(Array[x][1] + "   ");
+                if (x == Array.length) {
+                    break;
+                }
+
                 for (int y = 0; y < Array[x].length; y++) {
+
                     if (ChosenLang[y].equalsIgnoreCase(Array[x][y])) {
-                        if (y >= 2 && y <= 8) {
-                            PercentageMatch = PercentageMatch + Para;
-                            //System.out.printf("%.5f", PercentageMatch);
-                            //System.out.print("%    ");
-                        } else if (y >= 9 && y <= 12) {
+                        if (y >= 9 && y <= 12) {
+                            if (ChosenLang[y].equalsIgnoreCase("0")) {
+
+                            }
                             PercentageMatch = PercentageMatch + Syntax;
-                            //System.out.printf("%.5f", PercentageMatch);
-                            //System.out.print("%    ");
+
+                        } else {
+
+                            if (y >= 2 && y <= 8) {
+                                PercentageMatch = PercentageMatch + Para;
+
+                            }
                         }
                     }
                 }
-                if (PercentageMatch >= 85 && PercentageMatch < 100) {
-                    LearnTime = "1 Week";
 
-                } else if (PercentageMatch >= 65 && PercentageMatch < 85) {
-                    LearnTime = "2 Week";
+                int R = 18;
+                
+                //Order Percentages
+                while (PercentageMatch >= TopPerce[R]) {
+                    if (R < 18) {
+                        TopPercentage[R + 1] = TopPercentage[R];
+                        TopPerce[R + 1] = TopPerce[R];
+                    }
 
-                } else if (PercentageMatch >= 50 && PercentageMatch < 65) {
-                    LearnTime = "3 Week";
+                    if (PercentageMatch >= TopPerce[R]) {
+                        TopPercentage[R] = Array[x][1];
+                        TopPerce[R] = PercentageMatch;
+                    }
 
-                } else if (PercentageMatch >= 35 && PercentageMatch < 50) {
-                    LearnTime = "1 Month ";
-
-                } else {
-                    LearnTime = "2 Month +";
+                    if (R == 0) {
+                        break;
+                    }
+                    R--;
                 }
 
-                System.out.printf(Array[x][1] + "      %.0f", PercentageMatch);
-                System.out.print("%     " + LearnTime);
-                System.out.print("\n\n");
+            }
+            for (int p = 0; p < 19; p++) {
+                System.out.printf(TopPercentage[p] + " has a similarity of %.0f", TopPerce[p]);
+                System.out.print("%\n");
             }
         }
     }
