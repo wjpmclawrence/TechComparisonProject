@@ -5,15 +5,16 @@
  */
 
 
-
-
-
-
 /*
 Start up the project and add the above jar file to the library folder
-next connect to the your own my sql server and create a database call "mydb"
-next you must right click and select execute command on the tables folder of mydb
-copy and paste the file "SQL COMMANDS" into the command window
+Next connect to the your own my sql server and create a database call "mydb"
+Next you must right click and select execute command on the tables folder of mydb
+Copy and paste the contents of the file "LanguageDatabaseSQLCommands" into the command window to create the window
+
+set Uname on line 92 to the username of your SQL server
+set Pword on line 93 to the password of your SQL server
+
+
 bobs your uncle it should run
 */
 package databasetest;
