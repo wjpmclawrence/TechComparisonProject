@@ -53,6 +53,9 @@ public class DummyClient
 	{
 		try
 		{
+			// using a self singed certificate
+			// password is capita123
+			System.setProperty("javax.net.ssl.trustStore", "ca.store");
 			SocketFactory factory = SSLSocketFactory.getDefault();
 			socket = factory.createSocket("127.0.0.1", 1234);
 			ReadFromServer();

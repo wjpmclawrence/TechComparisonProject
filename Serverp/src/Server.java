@@ -70,7 +70,10 @@ public class Server
 		System.out.println("Debug: server is running, waiting for " + "connections");
 		try
 		{
-
+			// using a self singed certificate
+			// password is capita123
+			System.setProperty("javax.net.ssl.keyStore", "ca.store");
+			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
 			while (serverRunning)
