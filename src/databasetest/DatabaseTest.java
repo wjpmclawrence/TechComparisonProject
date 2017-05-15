@@ -85,7 +85,7 @@ public class DatabaseTest {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
-        String Language = "C";
+        String Language = "java";
 
         try {
             //Connect to database
@@ -169,7 +169,7 @@ public class DatabaseTest {
         TopPercentage = new String[Array.length - 1];
         TopPerce = new double[Array.length - 1];
 
-        for (int populate = 0; populate < 19; populate++) {
+        for (int populate = 0; populate < (Array.length-1); populate++) {
             TopPercentage[populate] = "null";
             TopPerce[populate] = 0;
         }
@@ -192,11 +192,11 @@ public class DatabaseTest {
         if (Wrong == Array.length) {
             System.out.println("NOT A VALID LANGUAGE NAME");
         } else {
-            System.out.println(Array[0].length + "   " + ChosenLang.length);
+
             //PERFORM Comparison
             for (int x = 0; x < Array.length; x++) {
                 PercentageMatch = 0;
-                System.out.print("\n");
+
                 //remove chosen language
                 if (x == LANG) {
                     x++;
@@ -206,7 +206,7 @@ public class DatabaseTest {
                 }
 
                 for (int y = 0; y < Array[x].length; y++) {
-                    System.out.println(x + "    " + y + "   " + ChosenLang[y] + "    " + Array[x][y]);
+
                     if (y <= 12) {
                         if (Array[x][y].equalsIgnoreCase(ChosenLang[y])) {
                             if (y >= 9 && y <= 12) {
@@ -225,14 +225,12 @@ public class DatabaseTest {
                     }
 
                 }
-                if (PercentageMatch >= 80) {
-                    PercentageMatch = 80;
-                }
+                PercentageMatch = PercentageMatch*0.8;
                 int R = 18;
 
                 //Order Percentages
                 while (PercentageMatch >= TopPerce[R]) {
-                    if (R < 18) {
+                    if (R < (Array.length-1)) {
                         TopPercentage[R + 1] = TopPercentage[R];
                         TopPerce[R + 1] = TopPerce[R];
                     }
@@ -249,7 +247,7 @@ public class DatabaseTest {
                 }
 
             }
-            for (int p = 0; p < 19; p++) {
+            for (int p = 0; p < (Array.length-1); p++) {
                 System.out.printf(TopPercentage[p] + " has a similarity of %.0f", TopPerce[p]);
                 System.out.print("%\n");
             }
