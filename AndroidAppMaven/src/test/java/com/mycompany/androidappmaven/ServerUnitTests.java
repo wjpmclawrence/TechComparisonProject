@@ -1,3 +1,5 @@
+package com.mycompany.androidappmaven;
+
 import java.sql.SQLException;
 import junit.framework.Assert;
 import static junit.framework.Assert.assertEquals;
@@ -18,7 +20,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author matth
  */
-public class AndroidAppTests {
+public class ServerUnitTests {
 
     // These instance variables need to be replaced by the actual variables in other classes when code is written
     private String connectionString;
