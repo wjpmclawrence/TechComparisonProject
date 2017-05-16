@@ -1,11 +1,19 @@
 package com.mycompany.androidappmaven;
 
+import com.example.benbody.client.TCPClient;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import junit.framework.Assert;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,12 +27,16 @@ import org.junit.Test;
  */
 public class ClientUnitTests {
     private ArrayList request;
+    private TCPClient tCPClient;
+    private Socket socket;
     
     @Before
     public void setUp()
     {
         String requestString = null;
         request = request(requestString);
+        tCPClient = mock(TCPClient.class);
+        socket = tCPClient.getSocket();
     }
     
     @Test
@@ -37,9 +49,23 @@ public class ClientUnitTests {
     }
     
     @Test
-    public void clientConnectionToServer()
+    public void testObjectOutputStream() throws IOException
     {
-        
+        final ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        when(socket.getOutputStream()).thenReturn(objectOutputStream);
+    }
+    
+    @Test
+    public void clientConnectionToServer()
+    {        
+        assertEquals(socket.isConnected(), true);
+    }
+    
+    @Test
+    public void checkStreamsHaveClosed()
+    {
+        assertEquals(socket.isInputShutdown(), true);
+        assertEquals(socket.isOutputShutdown(), true);
     }
     
     @After
