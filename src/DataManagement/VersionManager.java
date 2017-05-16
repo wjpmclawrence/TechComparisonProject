@@ -2,14 +2,14 @@ package DataManagement;
 
 public class VersionManager
 {
-	private int versionNum = 0;
+	private static int versionNum = 0;
 	
-	public int getVersion()
+	public static int getVersion ()
 	{
 		return versionNum;
 	}
 	
-	public void updateVersion()
+	public static void updateVersion ()
 	{
 		versionNum++;
 	}
