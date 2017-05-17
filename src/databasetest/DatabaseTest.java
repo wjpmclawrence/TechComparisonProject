@@ -97,7 +97,7 @@ public class DatabaseTest {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
-        String Language = "java";
+        String Language = "assembly language";
         if (Language == null) {
             System.out.println("No Language Entered");
             System.exit(0);
@@ -142,37 +142,21 @@ public class DatabaseTest {
 
         while (rs.next()) {
             //Load Array
-            String ID = rs.getString("ID");
-            CompArray[X][0] = ID;
-            String Name = rs.getString("Name");
-            CompArray[X][1] = Name;
-            String Imp = rs.getString("Imperative");
-            CompArray[X][2] = Imp;
-            String OOri = rs.getString("Object-Oriented");
-            CompArray[X][3] = OOri;
-            String Func = rs.getString("Functional");
-            CompArray[X][4] = Func;
-            String Proc = rs.getString("Procedural");
-            CompArray[X][5] = Proc;
-            String Gene = rs.getString("Generic");
-            CompArray[X][6] = Gene;
-            String Refl = rs.getString("Reflective");
-            CompArray[X][7] = Refl;
-            String EDri = rs.getString("Event-Driven");
-            CompArray[X][8] = EDri;
-            String Forl = rs.getString("For Loop");
-            CompArray[X][9] = Forl;
-            String Whil = rs.getString("While Loop");
-            CompArray[X][10] = Whil;
-            String Arry = rs.getString("Arrays");
-            CompArray[X][11] = Arry;
-            String Oper = rs.getString("Operators");
-            CompArray[X][12] = Oper;
-            String Uses = rs.getString("Uses");
-            CompArray[X][13] = Uses;
-            String Para = rs.getString("Paradigms");
-            CompArray[X][14] = Para;
-
+            CompArray[X][0] = rs.getString("ID");
+            CompArray[X][1] = rs.getString("Name");
+            CompArray[X][2] = rs.getString("Imperative");
+            CompArray[X][3] = rs.getString("Object-Oriented");
+            CompArray[X][4] = rs.getString("Functional");
+            CompArray[X][5] = rs.getString("Procedural");
+            CompArray[X][6] = rs.getString("Generic");
+            CompArray[X][7] = rs.getString("Reflective");
+            CompArray[X][8] = rs.getString("Event-Driven");
+            CompArray[X][9] = rs.getString("For Loop");
+            CompArray[X][10] = rs.getString("While Loop");
+            CompArray[X][11] = rs.getString("Arrays");
+            CompArray[X][12] = rs.getString("Operators");
+            CompArray[X][13] = rs.getString("Uses");
+            CompArray[X][14] = rs.getString("Paradigms");
             X++;
         }
 
