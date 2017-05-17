@@ -3,6 +3,7 @@ package com.example.benbody.client;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //AsyncTask used to perform connection on separate thread to GUI
-    private class RequestTask extends AsyncTask<String, String, ArrayList>
+    private class RequestTask extends AsyncTask<String, String, ArrayList<Object>>
     {
 
         @Override // Executes before doInBackground in UI thread
@@ -50,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         @Override // operates in separate thread
-        protected ArrayList doInBackground(String... params)
+        protected ArrayList<Object> doInBackground(String... params)
         {
             // obtains the list from the TCP client
             return  getClient().request(params[0]);
         }
 
         @Override // executes after doInBackground to update the UI
-        protected void onPostExecute(ArrayList result)
+        protected void onPostExecute(ArrayList<Object> result)
         {
             // TODO Remove loading graphic
             if(result == null); // display error message
@@ -66,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 File languages = null;
                 switch ((String) result.get(0))
                 {
-                    case "menuArray" :
+                    case "menu_list" :
                         //Saves the list to a .dat file
-                        List<String> menu = result.subList(1, result.size()); //take a list of all options
+                        List<Object> menu = result.subList(1, result.size()); //take a list of all options
                         languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
                         {
                             FileWriter writer = new FileWriter(languages);
-                            for (String s: menu) //writes all the options separated by |
+                            for (Object s: menu) //writes all the options separated by |
                                 writer.write(s + "|");
                             writer.close();
                         }
@@ -81,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
                         {
                             //TODO Exception Handling
                         }
-                        // TODO display "list updated"
-                    case "versionOk" :
-                        // loads menu from dat file
+                        // Toast used to display "languages updated"
+                        Toast.makeText(MainActivity.this, "languages updated", Toast.LENGTH_SHORT).show();
+                    case "version_ok" :
+                        // loads menu from .dat file
                         if (languages == null) // in case of version OK
                             languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         displayOptions(); //calls method to display the options
                         break;
-                    case "subMenu" :
-                        List submenu = result.subList(1, result.size());
+                    case "sub_menu_list" :
+                        List<Object> submenu = result.subList(1, result.size());
                         displayResults(submenu);
                         break;
                     default:

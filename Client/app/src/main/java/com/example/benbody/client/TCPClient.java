@@ -19,6 +19,8 @@ public class TCPClient
     private ObjectOutputStream out;
     private static final String SERVERIP = ""; //These could potentially be read from file, or hard coded
     private static final int SERVERPORT = 1234; //or found in some other method
+    private static final String KEYSTOREPATH = "absolute path to your JKS keystore file";
+    private static final String KEYSTOREPASS = "addpasswordhere"; //
 
     public TCPClient()
     {
@@ -38,15 +40,15 @@ public class TCPClient
     }
 
     //used by Request Task to request data from the server
-    public ArrayList request(String request)
+    public ArrayList<Object> request(String request)
     {
-        ArrayList result = null;
+        ArrayList<Object> result = null;
         try
         {
             // send request to server
             out.writeUTF(request);
             // receive response
-            result = (ArrayList) in.readObject();
+            result = (ArrayList<Object>) in.readObject();
         }
         catch (IOException e)
         {
