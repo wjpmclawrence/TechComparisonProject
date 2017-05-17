@@ -12,3 +12,5 @@
 hs_err_pid*
 /AndroidAppTests/nbproject/private/
 /AndroidAppTests/build/
+/AndroidAppMaven/nbproject/
+/AndroidAppMaven/target/
