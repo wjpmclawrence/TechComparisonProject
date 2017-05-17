@@ -3,12 +3,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -63,12 +66,13 @@ public class Server
 	}
 
 	/*
-	 * Server starts up and listens for connections, if the server is running
-	 * then auto close
+	 * Uses self signed certificate "ca.store" to authenticate a handshake
+	 * Server starts up and listens for connections, if an instance of the
+	 * server is already running notify and close the current instance.
 	 */
 	private static void SetUpConnections()
 	{
-		System.out.println("Debug: server is running, waiting for " + "connections");
+		
 		try
 		{
 			// using a self singed certificate
@@ -80,11 +84,13 @@ public class Server
 
 			while (serverRunning)
 			{
+				
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread(socket);
 				// clients.add(rc);
 				Thread tr = new Thread(rc);
 				tr.start();
+				textArea.append("DEBUG: Client Connected \n");
 			}
 
 		} catch (BindException e)
@@ -100,9 +106,9 @@ public class Server
 	}
 
 	/*
-	 * Writes a String to a client from the server
+	 * Writes a String to a client through socket socket
 	 */
-	private static void WriteToCLient(String string, Socket socket)
+	private static void writeToCLient(String string, Socket socket)
 	{
 
 		try
@@ -118,15 +124,15 @@ public class Server
 	}
 
 	/*
-	 * Writes a arrayList of OBJECTS to client
+	 * Writes an object to client through connected socket
 	 */
-	private static void WriteToCLient(ArrayList<Object> list, Socket socket)
+	private static void writeToCLient(Object obj, Socket socket)
 	{
 
 		try
 		{
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.writeObject(list);
+			oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
+			oos.writeObject(obj);
 
 		} catch (Exception E)
 		{
@@ -135,10 +141,31 @@ public class Server
 	}
 
 	/*
+	 * Writes an ArrayList of objects to the client through socket
+	 */
+	private static void writeToClient(ArrayList<Object> list, Socket socket)
+	{
+		try
+		{
+			oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
+			for (Object o : list)
+			{
+				oos.writeObject(o);
+			}
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		textArea.append("DEBUG: Objects sent to client \n");
+	}
+
+	/*
 	 * CLoses the client socket (removes connection) removes this thread from
 	 * server thread.
 	 */
-	private static void CloseConnection(Socket socket, ServerThread thread)
+	private static void closeConnection(Socket socket, ServerThread thread)
 	{
 		try
 		{
@@ -156,13 +183,15 @@ public class Server
 	}
 
 	/*
-	 * Runnable class to handle instances of clients that are connected
+	 * Runnable class to handle instances of clients that are connected test
+	 * method handle requests to for testing with dummy client.
+	 * 
 	 */
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
-		String request, rqt1, rqt2, rqt3, rqt4; // types of requests
-		BufferedReader fromClient;
+		String rqt1, rqt2, rqt3, rqt4; // test objects
+		ArrayList<Object> testarray = new ArrayList<Object>(Arrays.asList(rqt1, rqt2, rqt3));
 
 		// test array list
 
@@ -176,49 +205,9 @@ public class Server
 		@Override
 		public void run()
 		{
-			try
-			{
 
-				fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				if (request != null)
-				{
-					handleRequests();
-				}else 
-				{
-					WriteToCLient("DEBUG: from server", this.socket);
-				}
-				
-				
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-		/*
-		 * while the client is connected listen to any requests
-		 */
-		private void handleRequests()
-		{
-
-			if (request.equals(rqt1))
-			{
-
-			} else if (request.equals(rqt2))
-			{
-
-			} else if (request.equals(rqt2))
-			{
-
-			} else if (request.equals(rqt3))
-			{
-
-			} else if (request.equals(rqt4))
-			{
-
-			}
+			// test client write
+			writeToCLient(testarray, this.socket);
 
 		}
 
