@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Created by BenBody on 11/05/2017.
  */
-
+// Changed to nested class inside MainActivity
+/*
 //AsyncTask used to perform connection on separate thread to GUI
 public class RequestTask extends AsyncTask<String, String, ArrayList>
 {
@@ -37,7 +38,8 @@ public class RequestTask extends AsyncTask<String, String, ArrayList>
             switch ((String) result.get(0))
             {
                 case "menuArray" :
-                    List menu = result.subList(1, result.size());
+                    List<String> menu = result.subList(1, result.size());
+
                     // TODO cache menu list and save to dat file
                     // TODO display "list updated"
                 case "versionOk" :
@@ -53,3 +55,4 @@ public class RequestTask extends AsyncTask<String, String, ArrayList>
         }
     }
 }
+*/
