@@ -18,11 +18,11 @@ public class Language
 	private String	trainingTime;	// Amount of time it would take to be trained based on similarity
 	private int		similarity;		// Similarity to the language this is being compared to
 	
-	Language ( String name, String trainingTime, int similarity )
+	Language( String name, int similarity, String trainingTime )
 	{
-		this.name = name;
-		this.trainingTime = trainingTime;
-		this.similarity = similarity;
+		this.name			= name;
+		this.similarity		= similarity;
+		this.trainingTime	= trainingTime;
 	}
 	
 	

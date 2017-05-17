@@ -25,6 +25,7 @@ public class RequestManager
 		}
 		else
 		{
+			list.add( "menu_list" );
 			throw new UnsupportedOperationException( "Not Yet Implemented" );
 		}
 		
@@ -57,7 +58,7 @@ public class RequestManager
 	@SuppressWarnings ( "unchecked" )
 	public static List<Object> requestMade ( String request )
 	{
-		String[] tmp = request.split( "|" );
+		String[] tmp = request.split( "~" );
 		List<Object> returnList = new ArrayList();
 		
 		try
