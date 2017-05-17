@@ -41,7 +41,6 @@ public class DummyClient
 		});
 
 		ConnectToServer();
-	
 
 	}
 
@@ -87,22 +86,22 @@ public class DummyClient
 	}
 
 	/*
-	// while the stream is open print out whatever
-	s// is coming from the server
+	 * // while the stream is open print out whatever s// is coming from the
+	 * server
 	 */
 	private static void ReadFromServer()
 	{
-		String message = null;
+		String response = null;
 		try
 		{
-			
+
 			fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			while ((message = fromServer.readLine()) != null)
+			while ((response = fromServer.readLine()) != null)
 			{
 				System.out.println("DEBUG 1");
-				System.out.println(message);
-				textArea.setText(message);
-				
+				System.out.println(response);
+				textArea.setText(response);
+
 			}
 		} catch (IOException e)
 		{
@@ -112,7 +111,6 @@ public class DummyClient
 
 	}
 
-	
 	/**
 	 * Initialize the contents of the frame.
 	 */

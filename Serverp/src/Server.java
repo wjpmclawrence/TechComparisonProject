@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+
 /*
  * @author Yasiru Dahanayake
  */
@@ -25,7 +27,6 @@ public class Server
 	private static boolean serverRunning = true;
 	private static JTextArea textArea;
 	private static ObjectOutputStream oos;
-	private static BufferedReader frmClient;
 	private static PrintWriter pw;
 
 	/**
@@ -76,6 +77,7 @@ public class Server
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
+
 			while (serverRunning)
 			{
 				Socket socket = sS.accept();
@@ -87,8 +89,7 @@ public class Server
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is " 
-											+ "already running");
+			JOptionPane.showMessageDialog(frame, "instance of a server is " + "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
@@ -99,25 +100,25 @@ public class Server
 	}
 
 	/*
-	 * Writes a String to a client from the server 
+	 * Writes a String to a client from the server
 	 */
-	private static void WriteToCLient(String string, Socket socket){
-		
+	private static void WriteToCLient(String string, Socket socket)
+	{
+
 		try
 		{
-			pw = new PrintWriter(socket.getOutputStream(),true);
+			pw = new PrintWriter(socket.getOutputStream(), true);
 			pw.println(string);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
+
 	/*
-	 * Writes a arrayList of OBJECTS to client 
+	 * Writes a arrayList of OBJECTS to client
 	 */
 	private static void WriteToCLient(ArrayList<Object> list, Socket socket)
 	{
@@ -132,11 +133,12 @@ public class Server
 			E.printStackTrace();
 		}
 	}
+
 	/*
-	 * CLoses the client socket (removes connection) removes this thread
-	 * from server thread.
+	 * CLoses the client socket (removes connection) removes this thread from
+	 * server thread.
 	 */
-	private static void CloseConnection(Socket socket,ServerThread thread)
+	private static void CloseConnection(Socket socket, ServerThread thread)
 	{
 		try
 		{
@@ -153,32 +155,72 @@ public class Server
 		}
 	}
 
-	
 	/*
 	 * Runnable class to handle instances of clients that are connected
 	 */
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
+		String request, rqt1, rqt2, rqt3, rqt4; // types of requests
+		BufferedReader fromClient;
 
 		// test array list
 
 		ServerThread(Socket socket)
 		{
+
 			this.socket = socket;
+
 		}
 
 		@Override
 		public void run()
 		{
-			textArea.append("Debug : client connected to server \n");
-			
-			WriteToCLient("testing", this.socket);
-			
-			//CloseConnection(this.socket,this);
+			try
+			{
+
+				fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				if (request != null)
+				{
+					handleRequests();
+				}else 
+				{
+					WriteToCLient("DEBUG: from server", this.socket);
+				}
+				
+				
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
-		
+		/*
+		 * while the client is connected listen to any requests
+		 */
+		private void handleRequests()
+		{
+
+			if (request.equals(rqt1))
+			{
+
+			} else if (request.equals(rqt2))
+			{
+
+			} else if (request.equals(rqt2))
+			{
+
+			} else if (request.equals(rqt3))
+			{
+
+			} else if (request.equals(rqt4))
+			{
+
+			}
+
+		}
 
 	}
 
