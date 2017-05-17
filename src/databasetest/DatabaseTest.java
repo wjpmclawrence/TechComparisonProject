@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-/*
+ /*
 Start up the project and add the above jar file to the library folder
 Next connect to the your own my sql server and create a database call "mydb"
 Next you must right click and select execute command on the tables folder of mydb
@@ -16,7 +14,7 @@ set Pword on line 93 to the password of your SQL server
 
 
 bobs your uncle it should run
-*/
+ */
 package databasetest;
 
 import java.sql.Array;
@@ -99,8 +97,8 @@ public class DatabaseTest {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
-        String Language = "hi";
-        if (Language == null){
+        String Language = "java";
+        if (Language == null) {
             System.out.println("No Language Entered");
             System.exit(0);
         }
@@ -123,9 +121,6 @@ public class DatabaseTest {
     public static void load(String CheckLanguage, Statement stmt) throws SQLException {
         //initailise variables
         String[][] CompArray;
-        CompArray = new String[21][15];
-        int X = 0;
-
         String Test = "*";
         String Condition = "";
 
@@ -133,7 +128,18 @@ public class DatabaseTest {
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(SQL);
-
+        
+        int DatabaseSize = 0;
+        int ColumnNum = 15;
+        
+        if (rs.last()){
+            DatabaseSize = rs.getRow();
+            rs.beforeFirst();
+        }
+        
+        CompArray = new String[DatabaseSize][ColumnNum];
+        int X = 0;
+        
         while (rs.next()) {
             //Load Array
             String ID = rs.getString("ID");
@@ -187,7 +193,7 @@ public class DatabaseTest {
         TopPercentage = new String[Array.length - 1];
         TopPerce = new double[Array.length - 1];
 
-        for (int populate = 0; populate < (Array.length-1); populate++) {
+        for (int populate = 0; populate < (Array.length - 1); populate++) {
             TopPercentage[populate] = "null";
             TopPerce[populate] = 0;
         }
@@ -243,14 +249,14 @@ public class DatabaseTest {
                     }
 
                 }
-                
+
                 //Percentage multiplier
-                PercentageMatch = PercentageMatch*0.8;
+                PercentageMatch = PercentageMatch * 0.8;
                 int R = 18;
 
                 //Order Percentages
                 while (PercentageMatch >= TopPerce[R]) {
-                    if (R < (Array.length-1)) {
+                    if (R < (Array.length - 1)) {
                         TopPercentage[R + 1] = TopPercentage[R];
                         TopPerce[R + 1] = TopPerce[R];
                     }
@@ -267,7 +273,7 @@ public class DatabaseTest {
                 }
 
             }
-            for (int p = 0; p < (Array.length-1); p++) {
+            for (int p = 0; p < (Array.length - 1); p++) {
                 System.out.printf(TopPercentage[p] + " has a similarity of %.0f", TopPerce[p]);
                 System.out.print("%\n");
             }
