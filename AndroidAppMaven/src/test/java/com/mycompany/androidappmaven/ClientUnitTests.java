@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import junit.framework.Assert;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
@@ -42,10 +43,7 @@ public class ClientUnitTests {
     @Test
     public void clientReceivesResponseAfterSendingRequestToServer()
     {
-        if(request == null)
-        {
-            fail("Client doesn't retrieve a response from server");
-        }
+        assertNotNull(doInBackground());
     }
     
     @Test
@@ -77,5 +75,9 @@ public class ClientUnitTests {
     public ArrayList request(String request)
     {
         return null;
+    }
+
+    private Object doInBackground() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
