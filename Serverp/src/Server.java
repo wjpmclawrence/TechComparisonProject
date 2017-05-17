@@ -72,7 +72,7 @@ public class Server
 	 */
 	private static void SetUpConnections()
 	{
-		
+
 		try
 		{
 			// using a self singed certificate
@@ -84,7 +84,7 @@ public class Server
 
 			while (serverRunning)
 			{
-				
+
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread(socket);
 				// clients.add(rc);
@@ -108,57 +108,39 @@ public class Server
 	/*
 	 * Writes a String to a client through socket socket
 	 */
-	private static void writeToCLient(String string, Socket socket)
+	private static void writeToCLient(String string, Socket socket) throws IOException
 	{
 
-		try
-		{
-			pw = new PrintWriter(socket.getOutputStream(), true);
-			pw.println(string);
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		pw = new PrintWriter(socket.getOutputStream(), true);
+		pw.println(string);
 
 	}
 
 	/*
 	 * Writes an object to client through connected socket
 	 */
-	private static void writeToCLient(Object obj, Socket socket)
+	private static void writeToCLient(Object obj, Socket socket) throws IOException
 	{
 
-		try
-		{
-			oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
-			oos.writeObject(obj);
+		oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
+		oos.writeObject(obj);
 
-		} catch (Exception E)
-		{
-			E.printStackTrace();
-		}
 	}
 
 	/*
 	 * Writes an ArrayList of objects to the client through socket
 	 */
-	private static void writeToClient(ArrayList<Object> list, Socket socket)
+	private static void writeToClient(ArrayList<Object> list, Socket socket) throws IOException
 	{
-		try
+
+		oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
+		for (Object o : list)
 		{
-			oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
-			for (Object o : list)
-			{
-				oos.writeObject(o);
-			}
-			
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			oos.writeObject(o);
 		}
+		oos.close();
 		textArea.append("DEBUG: Objects sent to client \n");
+		System.out.println("DEBUG: Objects sent to client \n");
 	}
 
 	/*
@@ -191,6 +173,7 @@ public class Server
 	{
 		Socket socket;
 		String rqt1, rqt2, rqt3, rqt4; // test objects
+		
 		ArrayList<Object> testarray = new ArrayList<Object>(Arrays.asList(rqt1, rqt2, rqt3));
 
 		// test array list
@@ -207,7 +190,16 @@ public class Server
 		{
 
 			// test client write
-			writeToCLient(testarray, this.socket);
+			try
+			{
+				writeToCLient(testarray, this.socket);
+				
+
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 

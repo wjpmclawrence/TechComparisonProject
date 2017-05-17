@@ -146,8 +146,8 @@ public class DummyClient implements Serializable
 
 				for (Object o : ts)
 				{
-					
-					textArea.append(o +"\n");
+
+					textArea.append("DEBUG: Objects recieved:  " + o + "\n");
 				}
 			}
 		} catch (IOException | ClassNotFoundException e)
