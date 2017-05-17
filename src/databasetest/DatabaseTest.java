@@ -87,14 +87,11 @@ public class DatabaseTest {
         Connect();
     }
 
-    public static void Connect() throws ClassNotFoundException {
+    public static void Connect() {
         //Database Info
         String host = "jdbc:mysql://localhost:3306/mydb";
         String Uname = "root";
         String Pword = "password";
-
-        //load driver
-        Class.forName("com.mysql.jdbc.Driver");
 
         //Serached Language
         String Language = "assembly language";
@@ -104,6 +101,9 @@ public class DatabaseTest {
         }
 
         try {
+            //load driver
+            Class.forName("com.mysql.jdbc.Driver");
+
             //Connect to database
             Connection con = DriverManager.getConnection(host, Uname, Pword);
 
@@ -113,7 +113,7 @@ public class DatabaseTest {
             //call Load CLass
             load(Language, stmt);
 
-        } catch (SQLException err) {
+        } catch (SQLException | ClassNotFoundException err) {
             System.out.println(err.getMessage());
         }
     }
