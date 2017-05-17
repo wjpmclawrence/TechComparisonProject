@@ -128,18 +128,18 @@ public class DatabaseTest {
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(SQL);
-        
+
         int DatabaseSize = 0;
         int ColumnNum = 15;
-        
-        if (rs.last()){
+
+        if (rs.last()) {
             DatabaseSize = rs.getRow();
             rs.beforeFirst();
         }
-        
+
         CompArray = new String[DatabaseSize][ColumnNum];
         int X = 0;
-        
+
         while (rs.next()) {
             //Load Array
             String ID = rs.getString("ID");
@@ -184,7 +184,7 @@ public class DatabaseTest {
         //initialise Variables
         double PercentageMatch;
         String[] ChosenLang;
-        ChosenLang = new String[15];
+        ChosenLang = new String[Array[0].length];
         int LANG = 0;
 
         String[] TopPercentage;
@@ -252,11 +252,12 @@ public class DatabaseTest {
 
                 //Percentage multiplier
                 PercentageMatch = PercentageMatch * 0.8;
-                int R = 18;
+
+                int R = (TopPerce.length - 1);
 
                 //Order Percentages
                 while (PercentageMatch >= TopPerce[R]) {
-                    if (R < (Array.length - 1)) {
+                    if (R < (TopPerce.length - 1)) {
                         TopPercentage[R + 1] = TopPercentage[R];
                         TopPerce[R + 1] = TopPerce[R];
                     }
