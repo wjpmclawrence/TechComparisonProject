@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LANGUAGESFILEPATH = "languages.dat";
     private static final String VERSIONNOFILEPATH = "versionno.dat";
+    private static final String VERSIONREQUEST = "version";
+    private static final String REQUEST = "request";
+    private static final String DELIMITER = "~";
     private TCPClient client;
     private List<String> options;
 
@@ -26,8 +29,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        client = new TCPClient(this);
+        startup();
         setContentView(R.layout.activity_main);
+    }
+
+    // startup method for things that need executing as soon as app starts
+    private void startup()
+    {
+        //creates client
+        client = new TCPClient(this);
+
+        //uses requesttask to request from the server
+        RequestTask requestTask = new RequestTask();
+        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
     }
 
     private void displayOptions()
@@ -114,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
                         try
                         {
                             FileWriter writer = new FileWriter(languages);
-                            for (Object s: menu) //writes all the options separated by ~
-                                writer.write(s + "~");
+                            for (Object s: menu) //writes all the options separated by delimiter
+                                writer.write(s + DELIMITER);
                             writer.close();
                         }
                         catch (IOException e)
@@ -130,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
                         {
-                            Scanner reader = new Scanner(languages).useDelimiter("~");
+                            Scanner reader = new Scanner(languages).useDelimiter(DELIMITER);
                             //while there is more input
                             while (reader.hasNext())
                             {
