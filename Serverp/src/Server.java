@@ -71,6 +71,8 @@ public class Server
 	 * Server starts up and listens for connections, if an instance of the
 	 * server is already running notify and close the current instance.
 	 */
+	
+	
 	private static void SetUpConnections()
 	{
 
@@ -125,6 +127,7 @@ public class Server
 
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		textArea.append("DEBUG: Objects sent to client \n");
+		oos.writeObject(list);
 	}
 
 	/*
