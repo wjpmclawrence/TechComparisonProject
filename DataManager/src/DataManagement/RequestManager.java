@@ -71,8 +71,8 @@ public class RequestManager
 				
 				case "request":
 					returnList = getSubMenu( tmp[1] );
-					Collections.sort( (List<Language>) (Object) returnList, (Comparator<Language>) ( l1, l2 ) -> Integer
-							.compare( l1.getSimilarity(), l2.getSimilarity() ) );
+					/*Collections.sort( (List<Language>) (Object) returnList, (Comparator<Language>) ( l1, l2 ) -> Integer
+							.compare( l1.getSimilarity(), l2.getSimilarity() ) );*/
 					returnList.add( 0, "sub_menu_list" );
 					break;
 			}

@@ -100,6 +100,10 @@ public class VersionManager
 		}
 	}
 	
+	
+	/**
+	 * FOR DEBUGGING PURPOSES ONLY. REMOVE BEFORE RELEASE
+	 */
 	public static void removeFile ()
 	{
 		try
