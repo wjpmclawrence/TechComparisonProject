@@ -71,8 +71,6 @@ public class Server
 	 * Server starts up and listens for connections, if an instance of the
 	 * server is already running notify and close the current instance.
 	 */
-	
-	
 	private static void SetUpConnections()
 	{
 
@@ -108,16 +106,6 @@ public class Server
 		}
 	}
 
-	/*
-	 * Writes a String to a client through socket socket
-	 */
-	private static void writeToCLient(String string, Socket socket) throws IOException
-	{
-
-		pw = new PrintWriter(socket.getOutputStream(), true);
-		pw.println(string);
-
-	}
 
 	/*
 	 * Writes an ArrayList of objects to the client through socket
