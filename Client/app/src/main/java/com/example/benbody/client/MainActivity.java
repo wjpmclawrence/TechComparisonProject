@@ -8,14 +8,14 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String LANGUAGESFILEPATH = "languages.dat";
-    private final TCPClient client = new TCPClient();
+    private static final String VERSIONNOFILEPATH = "versionno.dat";
+    private TCPClient client;
     private List<String> options;
 
     public TCPClient getClient()
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        client = new TCPClient(this);
         setContentView(R.layout.activity_main);
     }
 
@@ -39,8 +40,45 @@ public class MainActivity extends AppCompatActivity {
         //TODO code to format and display results using FormattedArrayAdapter
     }
 
+    private void setVersionNo(int versionNo)
+    {
+        try
+        {
+            File version = new File(this.getFilesDir(), VERSIONNOFILEPATH);
+            FileWriter writer = new FileWriter(version);
+            writer.write(Integer.toString(versionNo));
+            writer.close();
+        }
+        catch(IOException e)
+        {
+            //TODO Exception handling
+            e.printStackTrace();
+        }
+    }
+
+    private int getVersionNo()
+    {
+        File version = new File(this.getFilesDir(), VERSIONNOFILEPATH);
+        if(version.exists()) // if there is a version on record
+        {
+            try
+            {
+                Scanner in = new Scanner(version);
+                if(in.hasNextInt())
+                    return in.nextInt();
+                in.close();
+            }
+            catch(IOException e)
+            {
+                //TODO Exception Handling
+                e.printStackTrace();
+            }
+        }
+        return 0; //if unable to find version on file, default to 0
+    }
+
     //AsyncTask used to perform connection on separate thread to GUI
-    private class RequestTask extends AsyncTask<String, String, ArrayList<Object>>
+    private class RequestTask extends AsyncTask<String, String, List<Object>>
     {
 
         @Override // Executes before doInBackground in UI thread
@@ -51,14 +89,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         @Override // operates in separate thread
-        protected ArrayList<Object> doInBackground(String... params)
+        protected List<Object> doInBackground(String... params)
         {
             // obtains the list from the TCP client
             return  getClient().request(params[0]);
         }
 
         @Override // executes after doInBackground to update the UI
-        protected void onPostExecute(ArrayList<Object> result)
+        protected void onPostExecute(List<Object> result)
         {
             // TODO Remove loading graphic
             if(result == null); // display error message
@@ -68,14 +106,16 @@ public class MainActivity extends AppCompatActivity {
                 switch ((String) result.get(0))
                 {
                     case "menu_list" :
+                        // 2nd item in the list will be the version no.
+                        setVersionNo((Integer) result.get(1));
                         //Saves the list to a .dat file
-                        List<Object> menu = result.subList(1, result.size()); //take a list of all options
+                        List<Object> menu = result.subList(2, result.size()); //take a list of all options
                         languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
                         {
                             FileWriter writer = new FileWriter(languages);
-                            for (Object s: menu) //writes all the options separated by |
-                                writer.write(s + "|");
+                            for (Object s: menu) //writes all the options separated by ~
+                                writer.write(s + "~");
                             writer.close();
                         }
                         catch (IOException e)
@@ -90,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                             languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
                         {
-                            Scanner reader = new Scanner(languages).useDelimiter("|");
+                            Scanner reader = new Scanner(languages).useDelimiter("~");
                             //while there is more input
                             while (reader.hasNext())
                             {
