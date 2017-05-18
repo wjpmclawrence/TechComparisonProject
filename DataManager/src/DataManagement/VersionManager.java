@@ -1,5 +1,7 @@
 package DataManagement;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +40,9 @@ public class VersionManager
 		}
 		
 		// Attempt to read from the version file and return its contents
-		try ( InputStream in = Files.newInputStream( path ) )
+		try ( BufferedReader in = Files.newBufferedReader( path ) )
 		{
-			return new InputStreamReader( in ).read();
+			return in.read();
 		}
 		catch ( NoSuchFileException e )
 		{
@@ -84,7 +86,7 @@ public class VersionManager
 			version++;
 			
 			// Create/update the version number file
-			OutputStream out = Files.newOutputStream( path );
+			BufferedWriter out = Files.newBufferedWriter( path );
 			out.write( version );
 			out.close();
 		}
@@ -95,6 +97,18 @@ public class VersionManager
 		catch ( IOException e )
 		{
 			System.out.println( "Failed to Overwrite File" );
+		}
+	}
+	
+	public static void removeFile ()
+	{
+		try
+		{
+			Files.deleteIfExists( path );
+		}
+		catch ( IOException e )
+		{
+			System.out.println( "An error occurred when deleting file" );
 		}
 	}
 }
