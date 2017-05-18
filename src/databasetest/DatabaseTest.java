@@ -159,7 +159,6 @@ public class DatabaseTest {
             CompArray[X][14] = rs.getString("Paradigms");
             X++;
         }
-
         //call Compare
         Compare(CompArray, CheckLanguage);
     }
