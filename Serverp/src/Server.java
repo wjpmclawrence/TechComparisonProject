@@ -1,13 +1,26 @@
 import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.SSLServerSocketFactory;
 
+/*
+ * @author Yasiru Dahanayake
+ */
 public class Server
 {
 	private static ArrayList<ServerThread> clients;
@@ -16,6 +29,8 @@ public class Server
 	private static JFrame frame;
 	private static boolean serverRunning = true;
 	private static JTextArea textArea;
+	private static ObjectOutputStream oos;
+	private static PrintWriter pw;
 
 	/**
 	 * Launch the application.
@@ -47,34 +62,40 @@ public class Server
 	public Server()
 	{
 		initialize();
+
 	}
 
-	
 	/*
-	 * Server starts up and listens for connections, if the server is 
-	 * running then auto close
+	 * Uses self signed certificate "ca.store" to authenticate a handshake
+	 * Server starts up and listens for connections, if an instance of the
+	 * server is already running notify and close the current instance.
 	 */
 	private static void SetUpConnections()
 	{
-		System.out.println("Debug: server is running, waiting for "
-														+ "connections");
+
 		try
 		{
-			sS = new ServerSocket(PORT);
+			// using a self singed certificate
+			// password is capita123
+			System.setProperty("javax.net.ssl.keyStore", "ca.store");
+			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
+			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
+			sS = factory.createServerSocket(PORT);
+
 			while (serverRunning)
 			{
-				System.out.println("client has connected to server");
+
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread(socket);
 				// clients.add(rc);
 				Thread tr = new Thread(rc);
 				tr.start();
+				textArea.append("DEBUG: Client Connected \n");
 			}
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is "
-														+ "already running");
+			JOptionPane.showMessageDialog(frame, "instance of a server is " + "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
@@ -85,21 +106,92 @@ public class Server
 	}
 
 	/*
-	 * Runnable class to handle instances of clients that are connected
+	 * Writes a String to a client through socket socket
+	 */
+	private static void writeToCLient(String string, Socket socket) throws IOException
+	{
+
+		pw = new PrintWriter(socket.getOutputStream(), true);
+		pw.println(string);
+
+	}
+
+	
+
+	/*
+	 * Writes an ArrayList of objects to the client through socket
+	 */
+	private static void writeToClient(ArrayList<Object> list, Socket socket) throws IOException
+	{
+
+		oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
+		for (Object o : list)
+		{
+			oos.writeObject(o);
+		}
+		oos.close();
+		textArea.append("DEBUG: Objects sent to client \n");
+		System.out.println("DEBUG: Objects sent to client \n");
+	}
+
+	/*
+	 * CLoses the client socket (removes connection) removes this thread from
+	 * server thread.
+	 */
+	private static void closeConnection(Socket socket, ServerThread thread)
+	{
+		try
+		{
+			socket.close();
+			textArea.append("Client Disconnected \n ");
+			clients.remove(thread);
+		} catch (NullPointerException E)
+		{
+			textArea.append("thread removed\n ");
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * Runnable class to handle instances of clients that are connected test
+	 * method handle requests to for testing with dummy client.
+	 * 
 	 */
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
+		String rqt1, rqt2, rqt3, rqt4; // test objects
+		
+		ArrayList<Object> testarray = new ArrayList<Object>(Arrays.asList(rqt1, rqt2, rqt3));
+
+		// test array list
 
 		ServerThread(Socket socket)
 		{
+
 			this.socket = socket;
+
 		}
 
 		@Override
 		public void run()
 		{
-			textArea.append("Debug : client connected to server \n");
+
+			// test client write
+			try
+			{
+				writeToClient(testarray, this.socket);
+				
+
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
 	}
@@ -116,5 +208,10 @@ public class Server
 		textArea = new JTextArea();
 		textArea.setBounds(35, 27, 381, 207);
 		frame.getContentPane().add(textArea);
+
+		/*
+		 * resume server button
+		 */
+
 	}
 }
