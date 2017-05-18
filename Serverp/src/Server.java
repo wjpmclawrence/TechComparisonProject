@@ -116,16 +116,7 @@ public class Server
 
 	}
 
-	/*
-	 * Writes an object to client through connected socket
-	 */
-	private static void writeToCLient(Object obj, Socket socket) throws IOException
-	{
-
-		oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
-		oos.writeObject(obj);
-
-	}
+	
 
 	/*
 	 * Writes an ArrayList of objects to the client through socket
@@ -192,7 +183,7 @@ public class Server
 			// test client write
 			try
 			{
-				writeToCLient(testarray, this.socket);
+				writeToClient(testarray, this.socket);
 				
 
 			} catch (IOException e)
