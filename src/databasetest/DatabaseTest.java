@@ -93,13 +93,6 @@ public class DatabaseTest {
         String Uname = "root";
         String Pword = "password";
 
-        //Serached Language
-        String Language = "assembly language";
-        if (Language == null) {
-            System.out.println("No Language Entered");
-            System.exit(0);
-        }
-
         try {
             //load driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -109,25 +102,30 @@ public class DatabaseTest {
 
             //Create statement
             Statement stmt = con.createStatement();
-
+            
+            //create empty table
+            String dummy = "CREATE TABLE `percentages` (`Dummy` varchar(69))";
+            
+            stmt.executeUpdate(dummy);
+            
             //call Load CLass
-            load(Language, stmt);
+            load(stmt, con);
 
         } catch (SQLException | ClassNotFoundException err) {
             System.out.println(err.getMessage());
         }
     }
 
-    public static void load(String CheckLanguage, Statement stmt) throws SQLException {
+    public static void load(Statement stmt, Connection con) throws SQLException {
         //initailise variables
         String[][] CompArray;
         String Test = "*";
         String Condition = "";
 
-        String SQL = "SELECT " + Test + " FROM mydb.languages " + Condition;
+        String Get = "SELECT " + Test + " FROM mydb.languages " + Condition;
 
         //Execute Query on statement
-        ResultSet rs = stmt.executeQuery(SQL);
+        ResultSet rs = stmt.executeQuery(Get);
 
         int DatabaseSize = 0;
         int ColumnNum = 15;
@@ -159,46 +157,49 @@ public class DatabaseTest {
             CompArray[X][14] = rs.getString("Paradigms");
             X++;
         }
+        //create percentages 
+        Create(CompArray, con);
         //call Compare
-        Compare(CompArray, CheckLanguage);
+        Compare(CompArray, con);
     }
 
-    public static void Compare(String[][] Array, String Lang) {
+    public static void Compare(String[][] Array, Connection con) {
         //initialise Variables
         double PercentageMatch;
         String[] ChosenLang;
         ChosenLang = new String[Array[0].length];
         int LANG = 0;
 
-        String[] TopPercentage;
-        double[] TopPerce;
+        
 
-        TopPercentage = new String[Array.length - 1];
-        TopPerce = new double[Array.length - 1];
+        String[] TopPercentageName;
+        double[] TopPercentageValue;
+
+        TopPercentageName = new String[Array.length];
+        TopPercentageValue = new double[Array.length];
 
         for (int populate = 0; populate < (Array.length - 1); populate++) {
-            TopPercentage[populate] = "null";
-            TopPerce[populate] = 0;
+            TopPercentageName[populate] = "null";
+            TopPercentageValue[populate] = 0;
         }
 
         double Para = 7.1428;
         double Syntax = 12.5;
         int Wrong = 0;
+        int Start = Integer.parseInt(Array[0][0]);
 
-        //Check for Language chosen and prepare to remove from comparison
-        for (int j = 0; j < Array.length; j++) {
-            if (Lang.equalsIgnoreCase(Array[j][1])) {
-                System.arraycopy(Array[j], 0, ChosenLang, 0, 15);
-                LANG = j;
-                break;
-            } else {
-                Wrong++;
+        //Check for Language chosen and prepare to remove from comparison7
+        for (int Z = 0; Z < Array.length; Z++) {
+            String check = "" + (Z+Start) + "";
+            for (int j = 0; j < Array.length; j++) {
+                if (check.equalsIgnoreCase(Array[j][0])) {
+                    System.arraycopy(Array[j], 0, ChosenLang, 0, 15);
+                    LANG = j;
+                    break;
+                } else {
+                    Wrong++;
+                }
             }
-        }
-
-        if (Wrong == Array.length) {
-            System.out.println("'" + Lang.toUpperCase() + "' IS NOT A VALID LANGUAGE NAME");
-        } else {
 
             //PERFORM Comparison
             for (int x = 0; x < Array.length; x++) {
@@ -206,6 +207,8 @@ public class DatabaseTest {
 
                 //remove chosen language
                 if (x == LANG) {
+                    TopPercentageName[x] = Array[x][1];
+                    TopPercentageValue[x] = 100;
                     x++;
                 }
                 if (x == Array.length) {
@@ -236,32 +239,52 @@ public class DatabaseTest {
                 //Percentage multiplier
                 PercentageMatch = PercentageMatch * 0.8;
 
-                int R = (TopPerce.length - 1);
-
-                //Order Percentages
-                while (PercentageMatch >= TopPerce[R]) {
-                    if (R < (TopPerce.length - 1)) {
-                        TopPercentage[R + 1] = TopPercentage[R];
-                        TopPerce[R + 1] = TopPerce[R];
-                    }
-
-                    if (PercentageMatch >= TopPerce[R]) {
-                        TopPercentage[R] = Array[x][1];
-                        TopPerce[R] = PercentageMatch;
-                    }
-
-                    if (R == 0) {
-                        break;
-                    }
-                    R--;
-                }
+                TopPercentageName[x] = Array[x][1];
+                TopPercentageValue[x] = PercentageMatch;
 
             }
-            for (int p = 0; p < (Array.length - 1); p++) {
-                System.out.printf(TopPercentage[p] + " has a similarity of %.0f", TopPerce[p]);
-                System.out.print("%\n");
-            }
+
+            insert(Array[Z][1], TopPercentageValue, con);
         }
+
     }
 
+    public static void Create(String[][] Name, Connection con) {
+        String Rows = "`Name` varchar(45)";
+        for (int row = 0; row < Name.length; row++) {
+            Rows = Rows + ", `" + Name[row][1] + "` tinyint(4)";
+        }
+
+        try {
+            Statement stmt = con.createStatement();
+
+            stmt.executeUpdate("DROP TABLE `percentages`");
+
+            String construct = "CREATE TABLE `percentages` (" + Rows + ")";
+            
+            stmt.executeUpdate(construct);
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+
+    }
+
+    public static void insert(String Name, double[] Percentage, Connection con) {
+        String Values = "'" + Name + "'";
+        for (int row = 0; row < Percentage.length; row++) {
+            double StringValue = Percentage[row];
+            Values = Values + ", " + StringValue;
+        }
+
+        try {
+            Statement stmt = con.createStatement();
+
+            String insert = "INSERT INTO `percentages` VALUES (" + Values + ")";
+            stmt.executeUpdate(insert);
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+    }
 }
