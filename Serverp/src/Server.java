@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -116,22 +117,14 @@ public class Server
 
 	}
 
-	
-
 	/*
 	 * Writes an ArrayList of objects to the client through socket
 	 */
-	private static void writeToClient(ArrayList<Object> list, Socket socket) throws IOException
+	private static void writeToClient(List<Object> list, Socket socket) throws IOException
 	{
 
-		oos = new ObjectOutputStream(new PrintStream(socket.getOutputStream()));
-		for (Object o : list)
-		{
-			oos.writeObject(o);
-		}
-		oos.close();
+		oos = new ObjectOutputStream(socket.getOutputStream());
 		textArea.append("DEBUG: Objects sent to client \n");
-		System.out.println("DEBUG: Objects sent to client \n");
 	}
 
 	/*
@@ -163,11 +156,6 @@ public class Server
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
-		String rqt1, rqt2, rqt3, rqt4; // test objects
-		
-		ArrayList<Object> testarray = new ArrayList<Object>(Arrays.asList(rqt1, rqt2, rqt3));
-
-		// test array list
 
 		ServerThread(Socket socket)
 		{
@@ -179,18 +167,6 @@ public class Server
 		@Override
 		public void run()
 		{
-
-			// test client write
-			try
-			{
-				writeToClient(testarray, this.socket);
-				
-
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 		}
 
