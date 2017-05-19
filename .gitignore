@@ -10,5 +10,9 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 DataManager/.project
 Serverp/.project
+=======
+DataManager/src/Tests/
+>>>>>>> 78f1c8511a4a6bb311fa551a7f390054997aa200
