@@ -1,7 +1,6 @@
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -13,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.swing.JScrollPane;
 
 /*
  * @author Yasiru Dahanayake
@@ -25,8 +25,8 @@ public class Server
 	private static JFrame frame;
 	private static boolean serverRunning = true;
 	private static JTextArea textArea;
+	private static JScrollPane scrollPane;
 	private static ObjectOutputStream oos;
-	private static PrintWriter pw;
 
 	/**
 	 * Launch the application.
@@ -48,7 +48,10 @@ public class Server
 			}
 		});
 
-		SetUpConnections();
+		while (serverRunning){
+			SetUpConnections();
+		}
+		
 
 	}
 
@@ -77,8 +80,8 @@ public class Server
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
-
-			while (serverRunning)
+			textArea.append("Server running and listening for connections... \n");
+			while (true)
 			{
 
 				Socket socket = sS.accept();
@@ -101,7 +104,6 @@ public class Server
 		}
 	}
 
-
 	/*
 	 * Writes an ArrayList of objects to the client through socket
 	 */
@@ -117,16 +119,16 @@ public class Server
 	 * CLoses the client socket (removes connection) removes this thread from
 	 * server thread.
 	 */
-	private static void closeConnection(Socket socket, ServerThread thread)
+	private static void closeConnection(Socket socket, ServerThread thread) 
 	{
 		try
 		{
 			socket.close();
-			textArea.append("Client Disconnected \n ");
 			clients.remove(thread);
+			textArea.append("Client Disconnected, thread removed \n ");
 		} catch (NullPointerException E)
 		{
-			textArea.append("thread removed\n ");
+
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -167,9 +169,15 @@ public class Server
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setTitle("Server");
+		frame.setResizable(false);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(27, 21, 400, 235);
+		frame.getContentPane().add(scrollPane);
 		textArea = new JTextArea();
-		textArea.setBounds(35, 27, 381, 207);
-		frame.getContentPane().add(textArea);
+		textArea.setEditable(false);
+		scrollPane.setViewportView(textArea);
 
 		/*
 		 * resume server button
