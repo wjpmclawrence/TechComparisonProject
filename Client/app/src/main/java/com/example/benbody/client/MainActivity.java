@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startup();
         setContentView(R.layout.activity_main);
+        startup();
     }
 
     // startup method for things that need executing as soon as app starts
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO code to display options
     }
 
-    private void displayResults(List results)
+    private void displayResults(List<?> results)
     {
         //TODO code to format and display results using FormattedArrayAdapter
     }
@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         catch (IOException e)
                         {
                             //TODO Exception Handling
+                            e.printStackTrace();
                         }
                         // Toast used to display "languages updated"
                         Toast.makeText(MainActivity.this, "languages updated", Toast.LENGTH_SHORT).show();
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         catch(IOException e)
                         {
                             //TODO Exception Handling
+                            e.printStackTrace();
                         }
                         displayOptions(); //calls method to display the options
                         break;

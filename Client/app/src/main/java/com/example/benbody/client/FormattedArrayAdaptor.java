@@ -13,17 +13,17 @@ import java.util.List;
  */
 
 // Class which will format the data to be put into the list
-public class FormattedArrayAdaptor<T> extends ArrayAdapter<T>
+public class FormattedArrayAdaptor<Language> extends ArrayAdapter<Language>
 {
     private Context context;
-    private List<T> values;
+    private List<Language> values;
 
 
 
     // constructor
-    public FormattedArrayAdaptor(Context context, int resource, List<T> values)
+    public FormattedArrayAdaptor(Context context, int resource, List<Language> values)
     {
-        super(context, resource, (T[]) values.toArray());
+        super(context, resource, (Language[]) values.toArray());
         this.context = context;
         this.values = values;
     }
