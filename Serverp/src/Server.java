@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -27,6 +28,8 @@ public class Server
 	private static JTextArea textArea;
 	private static JScrollPane scrollPane;
 	private static ObjectOutputStream oos;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -76,7 +79,10 @@ public class Server
 		{
 			// using a self singed certificate
 			// password is capita123
-			System.setProperty("javax.net.ssl.keyStore", "ca.store");
+			//String trustStore =  Server.class.getResource("Resources").getPath();
+			
+			//System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
+			System.setProperty("javax.net.ssl.keyStore","ca.store");
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
@@ -98,7 +104,7 @@ public class Server
 			System.exit(0);
 		} catch (Exception e)
 		{
-
+			textArea.append(e.getMessage()+"\n");
 			e.printStackTrace();
 
 		}
