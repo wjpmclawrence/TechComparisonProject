@@ -74,6 +74,6 @@ public class Language implements Comparable<Language>
 	@Override
 	public String toString()
 	{
-		return name + "	:	" + similarity;
+		return name + "	:	" + similarity + "%";
 	}
 }
