@@ -16,6 +16,17 @@ public class RequestManager
 {
 	private static Tests.DBInterface database = null;
 	
+	/**
+	 * Checks if the provided version number matches the servers version number
+	 * <p>
+	 * Compares the provided version number to the servers version number. If they
+	 * match, the version_ok message is returned. If not, the current list of languages is obtained
+	 * and returned.
+	 * 
+	 * @param clientVer
+	 *            The clients version number, provided as part of the request
+	 * @return Returns either a one element list with the OK message, or the current language list
+	 */
 	@SuppressWarnings ( { "unchecked", "rawtypes" } )
 	private static List<Object> checkVersion ( int clientVer )
 	{
@@ -37,6 +48,20 @@ public class RequestManager
 		return list;
 	}
 	
+	/**
+	 * Obtains a list of languages with their similarity to the provided language
+	 * <p>
+	 * Checks that that provided language exists in the database. If it does, the
+	 * list of languages is obtained from the database with their similarity to
+	 * the provided language, and put into a list.
+	 * <p>
+	 * This list is then sorted by similarity in descending order and returned. If
+	 * the language is not present in the database, an error message is returned.
+	 * 
+	 * @param langName
+	 *            The provided language, to which the other languages should be compared
+	 * @return Returns a list of Languages, sorted in descending order by similarity
+	 */
 	@SuppressWarnings ( { "unchecked", "rawtypes" } )
 	private static List<Object> getSubMenu ( String langName )
 	{
@@ -86,10 +111,6 @@ public class RequestManager
 	 * an Object List has been built, containing both the response tag and any
 	 * appropriate data, it is returned to the client interface so it can be
 	 * sent to the client.
-	 * <p>
-	 * STILL IN DEVELOPMENT... Currently the method will throw not implemented
-	 * exceptions when a sub menu is requested, or if the version number is out
-	 * of date.
 	 * 
 	 * @param request
 	 *            The string that was received from the client
