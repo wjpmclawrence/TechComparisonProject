@@ -23,13 +23,8 @@ public class Server
 	private static ArrayList<ServerThread> clients;
 	private static ServerSocket sS;
 	private static final int PORT = 1234;
-	private static JFrame frame;
 	private static boolean serverRunning = true;
-	private static JTextArea textArea;
-	private static JScrollPane scrollPane;
 	private static ObjectOutputStream oos;
-	
-	
 
 	/**
 	 * Launch the application.
@@ -42,8 +37,8 @@ public class Server
 			{
 				try
 				{
-					Server window = new Server();
-					window.frame.setVisible(true);
+					GUI gui = new GUI();
+
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -51,10 +46,10 @@ public class Server
 			}
 		});
 
-		while (serverRunning){
+		while (serverRunning)
+		{
 			SetUpConnections();
 		}
-		
 
 	}
 
@@ -63,7 +58,6 @@ public class Server
 	 */
 	public Server()
 	{
-		initialize();
 
 	}
 
@@ -79,14 +73,15 @@ public class Server
 		{
 			// using a self singed certificate
 			// password is capita123
-			//String trustStore =  Server.class.getResource("Resources").getPath();
-			
-			//System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
-			System.setProperty("javax.net.ssl.keyStore","ca.store");
+			// String trustStore =
+			// Server.class.getResource("Resources").getPath();
+
+			// System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
+			System.setProperty("javax.net.ssl.keyStore", "ca.store");
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
-			textArea.append("Server running and listening for connections... \n");
+			GUI.getTextArea().append("Server running and listening for connections... \n");
 			while (true)
 			{
 
@@ -95,16 +90,16 @@ public class Server
 				// clients.add(rc);
 				Thread tr = new Thread(rc);
 				tr.start();
-				textArea.append("DEBUG: Client Connected \n");
+				GUI.getTextArea().append("DEBUG: Client Connected \n");
 			}
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is " + "already running");
+			JOptionPane.showMessageDialog(GUI.getsInterface(), "instance of a server is " + "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
-			textArea.append(e.getMessage()+"\n");
+			GUI.getTextArea().append(e.getMessage() + "\n");
 			e.printStackTrace();
 
 		}
@@ -117,7 +112,7 @@ public class Server
 	{
 
 		oos = new ObjectOutputStream(socket.getOutputStream());
-		textArea.append("DEBUG: Objects sent to client \n");
+		GUI.getTextArea().append("DEBUG: Objects sent to client \n");
 		oos.writeObject(list);
 	}
 
@@ -125,13 +120,13 @@ public class Server
 	 * CLoses the client socket (removes connection) removes this thread from
 	 * server thread.
 	 */
-	private static void closeConnection(Socket socket, ServerThread thread) 
+	private static void closeConnection(Socket socket, ServerThread thread)
 	{
 		try
 		{
 			socket.close();
 			clients.remove(thread);
-			textArea.append("Client Disconnected, thread removed \n ");
+			GUI.getTextArea().append("Client Disconnected, thread removed \n ");
 		} catch (NullPointerException E)
 		{
 
@@ -166,28 +161,4 @@ public class Server
 
 	}
 
-	/**
-	 * Initialise the contents of the frame.
-	 */
-	private void initialize()
-	{
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setTitle("Server");
-		frame.setResizable(false);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 21, 400, 235);
-		frame.getContentPane().add(scrollPane);
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrollPane.setViewportView(textArea);
-
-		/*
-		 * resume server button
-		 */
-
-	}
 }
