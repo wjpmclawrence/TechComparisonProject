@@ -37,7 +37,7 @@ public class Server
 			{
 				try
 				{
-					GUI gui = new GUI();
+					ServerGUI gui = new ServerGUI();
 
 				} catch (Exception e)
 				{
@@ -81,7 +81,7 @@ public class Server
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
-			GUI.getTextArea().append("Server running and listening for connections... \n");
+			ServerGUI.getTextArea().append("Server running and listening for connections... \n");
 			while (true)
 			{
 
@@ -90,16 +90,16 @@ public class Server
 				// clients.add(rc);
 				Thread tr = new Thread(rc);
 				tr.start();
-				GUI.getTextArea().append("DEBUG: Client Connected \n");
+				ServerGUI.getTextArea().append("DEBUG: Client Connected \n");
 			}
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(GUI.getsInterface(), "instance of a server is " + "already running");
+			JOptionPane.showMessageDialog(ServerGUI.getsInterface(), "instance of a server is " + "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
-			GUI.getTextArea().append(e.getMessage() + "\n");
+			ServerGUI.getTextArea().append(e.getMessage() + "\n");
 			e.printStackTrace();
 
 		}
@@ -112,7 +112,7 @@ public class Server
 	{
 
 		oos = new ObjectOutputStream(socket.getOutputStream());
-		GUI.getTextArea().append("DEBUG: Objects sent to client \n");
+		ServerGUI.getTextArea().append("DEBUG: Objects sent to client \n");
 		oos.writeObject(list);
 	}
 
@@ -126,7 +126,7 @@ public class Server
 		{
 			socket.close();
 			clients.remove(thread);
-			GUI.getTextArea().append("Client Disconnected, thread removed \n ");
+			ServerGUI.getTextArea().append("Client Disconnected, thread removed \n ");
 		} catch (NullPointerException E)
 		{
 

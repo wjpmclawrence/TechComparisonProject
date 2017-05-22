@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class GUI
+public class ServerGUI
 {
 	private static JFrame sInterface;
 	private static JScrollPane scrollPane;
@@ -23,7 +23,7 @@ public class GUI
 		return sInterface;
 	}
 
-	public GUI()
+	public ServerGUI()
 	{
 
 		initialize();
@@ -38,7 +38,6 @@ public class GUI
 		sInterface.getContentPane().setLayout(null);
 		sInterface.setTitle("Server");
 		sInterface.setResizable(false);
-
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 21, 400, 235);
 		sInterface.getContentPane().add(scrollPane);
