@@ -7,13 +7,12 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.util.List;
 
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 /**
  * Created by BenBody on 11/05/2017.
@@ -40,12 +39,12 @@ public class TCPClient
             InputStream keyin = context.getResources().openRawResource(R.raw.capitastore);
             ks.load(keyin, KEYSTOREPASS.toCharArray());
             keyin.close();
-            // creates a KeyManagerFactory and adds the keystore
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(ks, KEYSTOREPASS.toCharArray());
-            // creates an SSLContext and adds the KeyManager
+            // creates a TrustManagerFactory and adds the keystore
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(ks);
+            // creates an SSLContext and adds the KeyManager & trustmanager
             SSLContext sslctx = SSLContext.getInstance("TLS");
-            sslctx.init(keyManagerFactory.getKeyManagers(), null, null);
+            sslctx.init(null, trustManagerFactory.getTrustManagers(), null);
             // uses the SSLContext to initialise the SSLSocketFactory
             SSLSocketFactory sf = sslctx.getSocketFactory();
             // uses the SSLSocketFactory to create the socket
@@ -53,6 +52,9 @@ public class TCPClient
             socket = (SSLSocket) sf.createSocket(SERVERIP, SERVERPORT);
             if (socket.isConnected())
                 System.out.println("socket connected");
+            // TODO code currently blocks indefinitely on the next line
+            // this is due to the handshake not working.
+            // May be issue on server side (server I've been testing with currently doesn't do anything)
             System.out.println("creating Output Stream");
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush(); // sends the header so that it doesn't block
