@@ -47,11 +47,13 @@ public class RequestManager
 		
 		for ( int i = 0; i < array.length; i++ )
 		{
-			returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
+			if ( !array[i][0].equals( langName ) )
+			{
+				returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
+			}
 		}
 		
-		Collections.sort( (List<Language>) (Object) returnList/*,
-				(Comparator<Language>) ( l1, l2 ) -> l1.compareTo( l2 )*/ );
+		Collections.sort( (List<Language>) (Object) returnList );
 		returnList.add( 0, "sub_menu_list" );
 		
 		return returnList;

@@ -12,7 +12,12 @@ public class RequestTester
 	
 	public static void main ( String[] args0 )
 	{
-		sendReq();
+		sendReq( "C++" );
+		sendReq( "C#" );
+		sendReq( "HTML" );
+		sendReq( "Java" );
+		sendReq( "JavaScript" );
+		sendReq( "Python" );
 	}
 	
 	public static void sendReq ()
@@ -22,12 +27,19 @@ public class RequestTester
 		
 		for ( Object i : list )
 		{
-			System.out.println( i.toString() );
+			System.out.println( i );
 		}
 	}
 	
-	public void sendReq ( String lang )
+	public static void sendReq ( String lang )
 	{
-		System.out.println( RequestManager.requestMade( "request~" + lang ) );
+		List<Object> list = RequestManager.requestMade( "request~" + lang );
+		
+		for ( Object i : list )
+		{
+			System.out.println( i );
+		}
+		
+		System.out.println();
 	}
 }
