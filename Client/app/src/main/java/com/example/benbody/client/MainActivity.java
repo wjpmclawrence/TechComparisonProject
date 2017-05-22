@@ -29,19 +29,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate Called");
         setContentView(R.layout.activity_main);
         startup();
     }
 
     // startup method for things that need executing as soon as app starts
+    // Functionality moved to Startuptask
     private void startup()
     {
-        //creates client
-        client = new TCPClient(this);
-
-        //uses requesttask to request from the server
-        RequestTask requestTask = new RequestTask();
-        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
+      StartupTask startupTask = new StartupTask();
+        startupTask.execute("");
     }
 
     private void displayOptions()
@@ -89,6 +87,34 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return 0; //if unable to find version on file, default to 0
+    }
+
+    // AsyncTask used as creating TCPClient requires network operations, which are not allowed on the main thread
+    private class StartupTask extends AsyncTask<String, String, TCPClient>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            // TODO Loading Graphic
+        }
+
+        @Override // operates in background thread
+        protected TCPClient doInBackground(String... params)
+        {
+            return new TCPClient(MainActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(TCPClient result)
+        {
+            //TODO Remove Loading graphic
+            //assigns client
+            client = result;
+
+            //uses RequestTask to request from the server
+            RequestTask requestTask = new RequestTask();
+            requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
+        }
     }
 
     //AsyncTask used to perform connection on separate thread to GUI
