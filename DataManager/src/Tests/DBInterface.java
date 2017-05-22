@@ -6,7 +6,7 @@ public class DBInterface
 {
 	private String[][] array = new String[6][];
 	
-	DBInterface()
+	public DBInterface()
 	{
 		for ( int i = 0; i < 6; i++ )
 		{

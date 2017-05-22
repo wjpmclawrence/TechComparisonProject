@@ -1,6 +1,7 @@
 package DataManagement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -15,6 +16,9 @@ import Utils.Language;
  */
 public class RequestManager
 {
+	private static Tests.DBInterface database = null;
+	
+	@SuppressWarnings ( { "unchecked", "rawtypes" } )
 	private static List<Object> checkVersion ( int clientVer )
 	{
 		List<Object> list = new ArrayList();
@@ -25,16 +29,32 @@ public class RequestManager
 		}
 		else
 		{
-			list.add( "menu_list" );
-			throw new UnsupportedOperationException( "Not Yet Implemented" );
+			list.addAll( Arrays.asList( database.request() ) );
+			Collections.sort( (List<String>) (Object) list );
+			
+			list.add( 0, "menu_list" );
+			list.add( 1, VersionManager.getVersion() );
 		}
 		
 		return list;
 	}
 	
+	@SuppressWarnings ( { "unchecked", "rawtypes" } )
 	private static List<Object> getSubMenu ( String langName )
 	{
-		throw new UnsupportedOperationException( "Not Yet Implemented" );
+		List<Object> returnList = new ArrayList();
+		String[][] array = database.request( langName );
+		
+		for ( int i = 0; i < array.length; i++ )
+		{
+			returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
+		}
+		
+		Collections.sort( (List<Language>) (Object) returnList/*,
+				(Comparator<Language>) ( l1, l2 ) -> l1.compareTo( l2 )*/ );
+		returnList.add( 0, "sub_menu_list" );
+		
+		return returnList;
 	}
 	
 	/**
@@ -61,6 +81,11 @@ public class RequestManager
 		String[] tmp = request.split( "~" );
 		List<Object> returnList = new ArrayList();
 		
+		if ( database == null )
+		{
+			database = new Tests.DBInterface();
+		}
+		
 		try
 		{
 			switch ( tmp[0] )
@@ -71,9 +96,6 @@ public class RequestManager
 				
 				case "request":
 					returnList = getSubMenu( tmp[1] );
-					/*Collections.sort( (List<Language>) (Object) returnList, (Comparator<Language>) ( l1, l2 ) -> Integer
-							.compare( l1.getSimilarity(), l2.getSimilarity() ) );*/
-					returnList.add( 0, "sub_menu_list" );
 					break;
 			}
 		}

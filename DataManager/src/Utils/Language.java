@@ -12,17 +12,23 @@ package Utils;
  * 		*	similarity:		How similar this language is to the specified language
  *
  */
-public class Language
+public class Language implements Comparable<Language>
 {
 	private String	name;			// Name of this language
 	private String	trainingTime;	// Amount of time it would take to be trained based on similarity
 	private int		similarity;		// Similarity to the language this is being compared to
 	
-	Language( String name, int similarity, String trainingTime )
+	public Language( String name, int similarity, String trainingTime )
 	{
 		this.name			= name;
 		this.similarity		= similarity;
 		this.trainingTime	= trainingTime;
+	}
+	
+	public Language( String name, int similarity )
+	{
+		this.name			= name;
+		this.similarity		= similarity;
 	}
 	
 	
@@ -56,5 +62,18 @@ public class Language
 	public int getSimilarity ()
 	{
 		return similarity;
+	}
+
+
+	@Override
+	public int compareTo ( Language other )
+	{
+		return Integer.compare( other.getSimilarity(), similarity );
+	}
+	
+	@Override
+	public String toString()
+	{
+		return name + "		:		" + similarity;
 	}
 }
