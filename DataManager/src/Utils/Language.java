@@ -1,15 +1,17 @@
 package Utils;
 
 /**
+ * Holds data about the languages: name, training time, similarity.
+ * <p>
+ * Data Stored:
+ * <p>
+ * name: The name of the language
+ * <p>
+ * trainingTime: The amount of time it would take to train an individual on this language
+ * <p>
+ * similarity: How similar this language is to the specified language
  * 
  * @author Nathan Steer
- * 
- *         Class that holds data about the languages: name, training time, similarity.
- *         <p>
- *         Data Stored:
- *         * name: The name of the language
- *         * trainingTime: The amount of time it would take to train an individual on this language
- *         * similarity: How similar this language is to the specified language
  *
  */
 public class Language implements Comparable<Language>
