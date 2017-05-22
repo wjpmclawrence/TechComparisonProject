@@ -7,7 +7,6 @@ import java.util.List;
 
 import Utils.Language;
 
-
 /**
  * 
  * @author Nathan Steer
@@ -41,19 +40,39 @@ public class RequestManager
 	@SuppressWarnings ( { "unchecked", "rawtypes" } )
 	private static List<Object> getSubMenu ( String langName )
 	{
-		List<Object> returnList = new ArrayList();
-		String[][] array = database.request( langName );
+		boolean langAvail = false;
+		String[] tmp = database.request();
 		
-		for ( int i = 0; i < array.length; i++ )
+		for ( String i : tmp )
 		{
-			if ( !array[i][0].equals( langName ) )
+			if ( i.equalsIgnoreCase( langName ) )
 			{
-				returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
+				langAvail = true;
+				break;
 			}
 		}
 		
-		Collections.sort( (List<Language>) (Object) returnList );
-		returnList.add( 0, "sub_menu_list" );
+		List<Object> returnList = new ArrayList();
+		
+		if ( langAvail )
+		{
+			String[][] array = database.request( langName );
+			
+			for ( int i = 0; i < array.length; i++ )
+			{
+				if ( !array[i][0].equals( langName ) )
+				{
+					returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
+				}
+			}
+			
+			Collections.sort( (List<Language>) (Object) returnList );
+			returnList.add( 0, "sub_menu_list" );
+		}
+		else
+		{
+			returnList.add( "Language Unavailable" );
+		}
 		
 		return returnList;
 	}
@@ -72,37 +91,57 @@ public class RequestManager
 	 * exceptions when a sub menu is requested, or if the version number is out
 	 * of date.
 	 * 
-	 * @param request	The string that was received from the client
-	 * @return			A list containing both the tag and any necessary data for the client
+	 * @param request
+	 *            The string that was received from the client
+	 * @return A list containing both the tag and any necessary data for the client
 	 * 
 	 */
 	@SuppressWarnings ( "unchecked" )
 	public static List<Object> requestMade ( String request )
 	{
-		String[] tmp = request.split( "~" );
 		List<Object> returnList = new ArrayList();
 		
-		if ( database == null )
+		if ( request != null && request.contains( "~" ) )
 		{
-			database = new Tests.DBInterface();
-		}
-		
-		try
-		{
-			switch ( tmp[0] )
+			String[] tmp = request.split( "~" );
+			
+			if ( tmp.length > 1 )
 			{
-				case "version":
-					returnList = checkVersion( Integer.parseInt( tmp[1] ) );
-					break;
+				if ( database == null )
+				{
+					database = new Tests.DBInterface();
+				}
 				
-				case "request":
-					returnList = getSubMenu( tmp[1] );
-					break;
+				try
+				{
+					switch ( tmp[0].toLowerCase() )
+					{
+						case "version":
+							returnList = checkVersion( Integer.parseInt( tmp[1] ) );
+							break;
+						
+						case "request":
+							returnList = getSubMenu( tmp[1] );
+							break;
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					returnList.add( "Provided Version Is Not An int" );
+				}
+				catch ( UnsupportedOperationException e )
+				{
+					throw e;
+				}
+			}
+			else
+			{
+				returnList.add( "No Data Provided" );
 			}
 		}
-		catch ( UnsupportedOperationException e )
+		else
 		{
-			throw e;
+			returnList.add( "Request Not Recognised" );
 		}
 		
 		return returnList;
