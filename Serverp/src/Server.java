@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.BindException;
@@ -10,7 +12,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
-
 
 /*
  * @author Yasiru Dahanayake
@@ -135,6 +136,18 @@ public class Server
 	}
 
 	/*
+	 * reads in a string from the client
+	 */
+	private static String readStringFromClient(Socket socket) throws IOException
+	{
+		String message;
+
+		BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+		return message = fromClient.readLine();
+	}
+
+	/*
 	 * Runnable class to handle instances of clients that are connected test
 	 * method handle requests to for testing with dummy client.
 	 * 
@@ -142,6 +155,7 @@ public class Server
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
+		String frmClient;
 
 		ServerThread(Socket socket)
 		{
@@ -153,7 +167,26 @@ public class Server
 		@Override
 		public void run()
 		{
+			try
+			{
+				
+				while (true)
+				{
 
+					frmClient = readStringFromClient(this.socket);
+					ServerGUI.getTextArea().append(frmClient + "\n");
+					// is message is null then break out the loop 
+					if (frmClient == null)
+					{
+						break;
+					}
+
+				}
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
