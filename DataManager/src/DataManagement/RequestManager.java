@@ -38,7 +38,7 @@ public class RequestManager
 		}
 		else
 		{
-			list.addAll( Arrays.asList( database.request() ) );
+			list.addAll( Arrays.asList( database.version() ) );
 			Collections.sort( (List<String>) (Object) list );
 			
 			list.add( 0, "menu_list" );
@@ -66,7 +66,7 @@ public class RequestManager
 	private static List<Object> getSubMenu ( String langName )
 	{
 		boolean langAvail = false;
-		String[] tmp = database.request();
+		String[] tmp = database.version();
 		
 		for ( String i : tmp )
 		{
