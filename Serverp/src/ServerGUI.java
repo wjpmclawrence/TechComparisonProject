@@ -44,9 +44,7 @@ public class ServerGUI
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
-		/*
-		 * resume server button
-		 */
+		
 
 	}
 }
