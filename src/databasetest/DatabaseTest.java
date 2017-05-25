@@ -102,12 +102,12 @@ public class DatabaseTest {
 
             //Create statement
             Statement stmt = con.createStatement();
-            
+
             //create empty table
-            String dummy = "CREATE TABLE `percentages` (`Dummy` varchar(69))";
-            
+            String dummy = "CREATE TABLE IF NOT EXISTS `percentages` (`Dummy` varchar(69))";
+
             stmt.executeUpdate(dummy);
-            
+
             //call Load CLass
             load(stmt, con);
 
@@ -134,7 +134,8 @@ public class DatabaseTest {
             DatabaseSize = rs.getRow();
             rs.beforeFirst();
         }
-
+        
+                
         CompArray = new String[DatabaseSize][ColumnNum];
         int X = 0;
 
@@ -170,8 +171,6 @@ public class DatabaseTest {
         ChosenLang = new String[Array[0].length];
         int LANG = 0;
 
-        
-
         String[] TopPercentageName;
         double[] TopPercentageValue;
 
@@ -190,7 +189,7 @@ public class DatabaseTest {
 
         //Check for Language chosen and prepare to remove from comparison7
         for (int Z = 0; Z < Array.length; Z++) {
-            String check = "" + (Z+Start) + "";
+            String check = "" + (Z + Start) + "";
             for (int j = 0; j < Array.length; j++) {
                 if (check.equalsIgnoreCase(Array[j][0])) {
                     System.arraycopy(Array[j], 0, ChosenLang, 0, 15);
@@ -261,7 +260,7 @@ public class DatabaseTest {
             stmt.executeUpdate("DROP TABLE `percentages`");
 
             String construct = "CREATE TABLE `percentages` (" + Rows + ")";
-            
+
             stmt.executeUpdate(construct);
 
         } catch (SQLException err) {
