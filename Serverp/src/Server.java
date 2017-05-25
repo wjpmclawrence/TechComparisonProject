@@ -3,19 +3,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
@@ -27,11 +21,8 @@ public class Server
 	private static ArrayList<ServerThread> clients;
 	private static ServerSocket sS;
 	private static final int PORT = 1234;
-	private static JFrame frame;
 	private static boolean serverRunning = true;
-	private static JTextArea textArea;
 	private static ObjectOutputStream oos;
-	private static PrintWriter pw;
 
 	/**
 	 * Launch the application.
@@ -44,8 +35,8 @@ public class Server
 			{
 				try
 				{
-					Server window = new Server();
-					window.frame.setVisible(true);
+					ServerGUI gui = new ServerGUI();
+
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -53,7 +44,10 @@ public class Server
 			}
 		});
 
-		SetUpConnections();
+		while (serverRunning)
+		{
+			SetUpConnections();
+		}
 
 	}
 
@@ -62,7 +56,6 @@ public class Server
 	 */
 	public Server()
 	{
-		initialize();
 
 	}
 
@@ -78,12 +71,16 @@ public class Server
 		{
 			// using a self singed certificate
 			// password is capita123
+			// String trustStore =
+			// Server.class.getResource("Resources").getPath();
+
+			// System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
 			System.setProperty("javax.net.ssl.keyStore", "ca.store");
 			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
-
-			while (serverRunning)
+			ServerGUI.getTextArea().append("Server running and listening for connections... \n");
+			while (true)
 			{
 
 				Socket socket = sS.accept();
@@ -91,21 +88,20 @@ public class Server
 				// clients.add(rc);
 				Thread tr = new Thread(rc);
 				tr.start();
-				textArea.append("DEBUG: Client Connected \n");
+				ServerGUI.getTextArea().append("DEBUG: Client Connected \n");
 			}
 
 		} catch (BindException e)
 		{
-			JOptionPane.showMessageDialog(frame, "instance of a server is " + "already running");
+			JOptionPane.showMessageDialog(ServerGUI.getsInterface(), "instance of a server is " + "already running");
 			System.exit(0);
 		} catch (Exception e)
 		{
-
+			ServerGUI.getTextArea().append(e.getMessage() + "\n");
 			e.printStackTrace();
 
 		}
 	}
-
 
 	/*
 	 * Writes an ArrayList of objects to the client through socket
@@ -114,7 +110,7 @@ public class Server
 	{
 
 		oos = new ObjectOutputStream(socket.getOutputStream());
-		textArea.append("DEBUG: Objects sent to client \n");
+		ServerGUI.getTextArea().append("DEBUG: Objects sent to client \n");
 		oos.writeObject(list);
 	}
 
@@ -127,16 +123,28 @@ public class Server
 		try
 		{
 			socket.close();
-			textArea.append("Client Disconnected \n ");
 			clients.remove(thread);
+			ServerGUI.getTextArea().append("Client Disconnected, thread removed \n ");
 		} catch (NullPointerException E)
 		{
-			textArea.append("thread removed\n ");
+
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 * reads in a string from the client
+	 */
+	private static String readStringFromClient(Socket socket) throws IOException
+	{
+		String message;
+
+		BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+		return message = fromClient.readLine();
 	}
 
 	/*
@@ -147,6 +155,7 @@ public class Server
 	private static class ServerThread implements Runnable, Serializable
 	{
 		Socket socket;
+		String frmClient;
 
 		ServerThread(Socket socket)
 		{
@@ -158,27 +167,28 @@ public class Server
 		@Override
 		public void run()
 		{
+			try
+			{
+				
+				while (true)
+				{
 
+					frmClient = readStringFromClient(this.socket);
+					ServerGUI.getTextArea().append(frmClient + "\n");
+					// is message is null then break out the loop 
+					if (frmClient == null)
+					{
+						break;
+					}
+
+				}
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
 
-	/**
-	 * Initialise the contents of the frame.
-	 */
-	private void initialize()
-	{
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		textArea = new JTextArea();
-		textArea.setBounds(35, 27, 381, 207);
-		frame.getContentPane().add(textArea);
-
-		/*
-		 * resume server button
-		 */
-
-	}
 }
