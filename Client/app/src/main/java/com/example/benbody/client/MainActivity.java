@@ -1,6 +1,9 @@
 package com.example.benbody.client;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -8,6 +11,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
         catch(IOException e)
         {
-            //TODO Exception handling
+            Toast.makeText(this, "Problem updating version number", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -82,11 +86,60 @@ public class MainActivity extends AppCompatActivity {
             }
             catch(IOException e)
             {
-                //TODO Exception Handling
+                Toast.makeText(this, "No version number found", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
         return 0; //if unable to find version on file, default to 0
+    }
+
+    // displays a loading graphic on the UI
+    private void startLoading()
+    {
+        //TODO display loading graphic
+    }
+
+    // removes the loading graphic
+    private void stopLoading()
+    {
+        //TODO Remove loading graphic
+    }
+
+    // displays an error dialog in case the languages can't be loaded
+    private void errorMessageLanguages()
+    {
+        // class which builds a dialog message
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.languages_error)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // uses RequestTask to request from the server
+                        // forces a new list to be loaded by using 0 as version
+                        if (client.isSetUp())
+                        {
+                            RequestTask requestTask = new RequestTask();
+                            requestTask.execute(VERSIONREQUEST + DELIMITER + 0);
+                        }
+                        else; // error has occurred
+                    }
+                })
+                .setNegativeButton(R.string.cancel_shut_down, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // takes user back to the home screen
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+
     }
 
     // AsyncTask used as creating TCPClient requires network operations, which are not allowed on the main thread
@@ -95,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            // TODO Loading Graphic
+            startLoading();
         }
 
         @Override // operates in background thread
@@ -107,13 +160,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(TCPClient result)
         {
-            //TODO Remove Loading graphic
+            stopLoading();
             //assigns client
             client = result;
 
             //uses RequestTask to request from the server
-            RequestTask requestTask = new RequestTask();
-            requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
+            if (client.isSetUp())
+            {
+                RequestTask requestTask = new RequestTask();
+                requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
+            }
+            else; // error has occurred
         }
     }
 
@@ -124,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         @Override // Executes before doInBackground in UI thread
         protected void onPreExecute()
         {
-            // TODO set up a loading graphic in UI
+            startLoading();
         }
 
 
@@ -138,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
         @Override // executes after doInBackground to update the UI
         protected void onPostExecute(List<Object> result)
         {
-            // TODO Remove loading graphic
-            if(result == null); // display error message
+            stopLoading();
+            if(result == null); // TODO display error message & offer chance to retry
             else// take result, format it, and display in UI
             {
                 File languages = null;
@@ -149,26 +206,30 @@ public class MainActivity extends AppCompatActivity {
                         // 2nd item in the list will be the version no.
                         setVersionNo((Integer) result.get(1));
                         //Saves the list to a .dat file
-                        List<Object> menu = result.subList(2, result.size()); //take a list of all options
+                        List<String> menu = (List<String>) (Object) result.subList(2, result.size()); //take a list of all options
                         languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                        options = new ArrayList<>(menu); //
                         try
                         {
                             FileWriter writer = new FileWriter(languages);
-                            for (Object s: menu) //writes all the options separated by delimiter
+                            for (String s: menu) //writes all the options separated by delimiter
                                 writer.write(s + DELIMITER);
                             writer.close();
                         }
                         catch (IOException e)
                         {
-                            //TODO Exception Handling
+                            Toast.makeText(MainActivity.this,
+                                    "Problem caching languages", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                         // Toast used to display "languages updated"
                         Toast.makeText(MainActivity.this, "languages updated", Toast.LENGTH_SHORT).show();
+                        displayOptions(); //calls method to display the options
+                        break;
                     case "version_ok" :
                         // loads menu from .dat file
-                        if (languages == null) // in case of version OK
-                            languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                        options = new ArrayList<>();
+                        languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
                         try
                         {
                             Scanner reader = new Scanner(languages).useDelimiter(DELIMITER);
@@ -179,9 +240,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                             reader.close();
                         }
-                        catch(IOException e)
+                        catch (IOException e)
                         {
-                            //TODO Exception Handling
+                            errorMessageLanguages();
                             e.printStackTrace();
                         }
                         displayOptions(); //calls method to display the options

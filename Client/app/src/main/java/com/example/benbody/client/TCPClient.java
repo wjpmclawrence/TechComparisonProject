@@ -26,6 +26,14 @@ public class TCPClient
     private static final String SERVERIP = "192.168.1.83"; //These could potentially be read from file, or hard coded
     private static final int SERVERPORT = 1234; //or found in some other method
     private static final String KEYSTOREPASS = "capita123"; // same applies to this
+    private boolean isSetUp; // whether the client has been successfully set up
+
+
+    public boolean isSetUp()
+    {
+        return isSetUp;
+    }
+
 
     public TCPClient(Context context)
     {
@@ -40,7 +48,8 @@ public class TCPClient
             ks.load(keyin, KEYSTOREPASS.toCharArray());
             keyin.close();
             // creates a TrustManagerFactory and adds the keystore
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            TrustManagerFactory trustManagerFactory
+                    = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(ks);
             // creates an SSLContext and adds the KeyManager & trustmanager
             SSLContext sslctx = SSLContext.getInstance("TLS");
@@ -62,9 +71,11 @@ public class TCPClient
             System.out.println("creating input stream");
             in = new ObjectInputStream(socket.getInputStream());
             System.out.println("all streams created");
+            isSetUp = true;
         } catch (Exception e)
         {
             e.printStackTrace();
+            isSetUp = false;
         }
 
     }
