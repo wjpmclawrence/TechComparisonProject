@@ -84,28 +84,28 @@ public class DatabaseTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws ClassNotFoundException {
-        Connect();
+        //connect
+        connect();
     }
 
-    public static void Connect() {
+    public static void connect() {
         //Database Info
         String host = "jdbc:mysql://localhost:3306/mydb";
-        String Uname = "root";
-        String Pword = "password";
+        String uName = "root";
+        String pWord = "password";
 
         try {
             //load driver
             Class.forName("com.mysql.jdbc.Driver");
 
             //Connect to database
-            Connection con = DriverManager.getConnection(host, Uname, Pword);
+            Connection con = DriverManager.getConnection(host, uName, pWord);
 
             //Create statement
             Statement stmt = con.createStatement();
 
             //create empty table
             String dummy = "CREATE TABLE IF NOT EXISTS `percentages` (`Dummy` varchar(69))";
-
             stmt.executeUpdate(dummy);
 
             //call Load CLass
@@ -118,115 +118,127 @@ public class DatabaseTest {
 
     public static void load(Statement stmt, Connection con) throws SQLException {
         //initailise variables
-        String[][] CompArray;
-        String Test = "*";
-        String Condition = "";
-
-        String Get = "SELECT " + Test + " FROM mydb.languages " + Condition;
+        String[][] compArray;
+        String test = "*";
+        String condition = "";
+        
+        //Select statement to find variables
+        String Get = "SELECT " + test + " FROM mydb.languages " + condition;
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(Get);
 
-        int DatabaseSize = 0;
-        int ColumnNum = 15;
+        int databaseSize = 0;
+        int columnNum = 15;
 
+        //find last row
         if (rs.last()) {
-            DatabaseSize = rs.getRow();
+            databaseSize = rs.getRow();
             rs.beforeFirst();
         }
         
                 
-        CompArray = new String[DatabaseSize][ColumnNum];
-        int X = 0;
+        compArray = new String[databaseSize][columnNum];
+        int x = 0;
 
         while (rs.next()) {
             //Load Array
-            CompArray[X][0] = rs.getString("ID");
-            CompArray[X][1] = rs.getString("Name");
-            CompArray[X][2] = rs.getString("Imperative");
-            CompArray[X][3] = rs.getString("Object-Oriented");
-            CompArray[X][4] = rs.getString("Functional");
-            CompArray[X][5] = rs.getString("Procedural");
-            CompArray[X][6] = rs.getString("Generic");
-            CompArray[X][7] = rs.getString("Reflective");
-            CompArray[X][8] = rs.getString("Event-Driven");
-            CompArray[X][9] = rs.getString("For Loop");
-            CompArray[X][10] = rs.getString("While Loop");
-            CompArray[X][11] = rs.getString("Arrays");
-            CompArray[X][12] = rs.getString("Operators");
-            CompArray[X][13] = rs.getString("Uses");
-            CompArray[X][14] = rs.getString("Paradigms");
-            X++;
+            compArray[x][0] = rs.getString("ID");
+            compArray[x][1] = rs.getString("Name");
+            compArray[x][2] = rs.getString("Imperative");
+            compArray[x][3] = rs.getString("Object-Oriented");
+            compArray[x][4] = rs.getString("Functional");
+            compArray[x][5] = rs.getString("Procedural");
+            compArray[x][6] = rs.getString("Generic");
+            compArray[x][7] = rs.getString("Reflective");
+            compArray[x][8] = rs.getString("Event-Driven");
+            compArray[x][9] = rs.getString("For Loop");
+            compArray[x][10] = rs.getString("While Loop");
+            compArray[x][11] = rs.getString("Arrays");
+            compArray[x][12] = rs.getString("Operators");
+            compArray[x][13] = rs.getString("Uses");
+            compArray[x][14] = rs.getString("Paradigms");
+            x++;
         }
+        
         //create percentages 
-        Create(CompArray, con);
+        create(compArray, con);
+        
         //call Compare
-        Compare(CompArray, con);
+        compare(compArray, con);
     }
 
-    public static void Compare(String[][] Array, Connection con) {
+    public static void compare(String[][] compArray, Connection con) {
         //initialise Variables
-        double PercentageMatch;
-        String[] ChosenLang;
-        ChosenLang = new String[Array[0].length];
-        int LANG = 0;
+        double percentageMatch;
+        String[] chosenLang;
+        chosenLang = new String[compArray[0].length];
+        int language = 0;
 
-        String[] TopPercentageName;
-        double[] TopPercentageValue;
+        String[] topPercentageName;
+        double[] topPercentageValue;
 
-        TopPercentageName = new String[Array.length];
-        TopPercentageValue = new double[Array.length];
+        topPercentageName = new String[compArray.length];
+        topPercentageValue = new double[compArray.length];
 
-        for (int populate = 0; populate < (Array.length - 1); populate++) {
-            TopPercentageName[populate] = "null";
-            TopPercentageValue[populate] = 0;
+        //populate compArray
+        for (int populate = 0; populate < (compArray.length - 1); populate++) {
+            topPercentageName[populate] = "null";
+            topPercentageValue[populate] = 0;
         }
 
-        double Para = 7.1428;
-        double Syntax = 12.5;
-        int Wrong = 0;
-        int Start = Integer.parseInt(Array[0][0]);
+        //similarity values
+        double paradigm = 7.1428;
+        double syntax = 12.5;
+        
+        int wrong = 0;
+        int start = Integer.parseInt(compArray[0][0]);
 
         //Check for Language chosen and prepare to remove from comparison7
-        for (int Z = 0; Z < Array.length; Z++) {
-            String check = "" + (Z + Start) + "";
-            for (int j = 0; j < Array.length; j++) {
-                if (check.equalsIgnoreCase(Array[j][0])) {
-                    System.arraycopy(Array[j], 0, ChosenLang, 0, 15);
-                    LANG = j;
+        for (int Z = 0; Z < compArray.length; Z++) {
+            String check = "" + (Z + start) + "";
+            for (int j = 0; j < compArray.length; j++) {
+                if (check.equalsIgnoreCase(compArray[j][0])) {
+                    System.arraycopy(compArray[j], 0, chosenLang, 0, 15);
+                    language = j;
                     break;
                 } else {
-                    Wrong++;
+                    wrong++;
                 }
             }
 
             //PERFORM Comparison
-            for (int x = 0; x < Array.length; x++) {
-                PercentageMatch = 0;
+            for (int x = 0; x < compArray.length; x++) {
+                percentageMatch = 0;
 
                 //remove chosen language
-                if (x == LANG) {
-                    TopPercentageName[x] = Array[x][1];
-                    TopPercentageValue[x] = 100;
+                if (x == language) {
+                    topPercentageName[x] = compArray[x][1];
+                    topPercentageValue[x] = 100;
                     x++;
                 }
-                if (x == Array.length) {
+                if (x == compArray.length) {
                     break;
                 }
-
-                for (int y = 0; y < Array[x].length; y++) {
+                
+                //cycle through languages
+                for (int y = 0; y < compArray[x].length; y++) {
 
                     if (y <= 12) {
-                        if (Array[x][y].equalsIgnoreCase(ChosenLang[y])) {
+                        //cycle though variables
+                        if (compArray[x][y].equalsIgnoreCase(chosenLang[y])) {
                             if (y >= 9 && y <= 12) {
-                                if (ChosenLang[y].equalsIgnoreCase("0")) {
-
+                                //ignore 0 as it equals OTHER
+                                if (chosenLang[y].equalsIgnoreCase("0")) {
+                                
                                 } else {
-                                    PercentageMatch = PercentageMatch + Syntax;
+                                    //if match add 12.5
+                                    percentageMatch = percentageMatch + syntax;
                                 }
 
                             } else if (y >= 2 && y <= 8) {
-                                PercentageMatch = PercentageMatch + Para;
+                                //if match add 7.1428
+                                percentageMatch = percentageMatch + paradigm;
 
                             }
                         }
@@ -236,31 +248,35 @@ public class DatabaseTest {
                 }
 
                 //Percentage multiplier
-                PercentageMatch = PercentageMatch * 0.8;
-
-                TopPercentageName[x] = Array[x][1];
-                TopPercentageValue[x] = PercentageMatch;
+                percentageMatch = percentageMatch * 0.8;
+                
+                //load names and percentges into arrays
+                topPercentageName[x] = compArray[x][1];
+                topPercentageValue[x] = percentageMatch;
 
             }
-
-            insert(Array[Z][1], TopPercentageValue, con);
+            
+            //insert percentages into new table
+            insert(compArray[Z][1], topPercentageValue, con);
         }
 
     }
 
-    public static void Create(String[][] Name, Connection con) {
-        String Rows = "`Name` varchar(45)";
+    public static void create(String[][] Name, Connection con) {
+        String rows = "`Name` varchar(45)";
         for (int row = 0; row < Name.length; row++) {
-            Rows = Rows + ", `" + Name[row][1] + "` tinyint(4)";
+            //cycle through languages to get names for columns
+            rows = rows + ", `" + Name[row][1] + "` tinyint(4)";
         }
 
         try {
             Statement stmt = con.createStatement();
-
+            
+            //delete old table
             stmt.executeUpdate("DROP TABLE `percentages`");
 
-            String construct = "CREATE TABLE `percentages` (" + Rows + ")";
-
+            //create new table with all the languages as columns
+            String construct = "CREATE TABLE `percentages` (" + rows + ")";
             stmt.executeUpdate(construct);
 
         } catch (SQLException err) {
@@ -270,16 +286,18 @@ public class DatabaseTest {
     }
 
     public static void insert(String Name, double[] Percentage, Connection con) {
-        String Values = "'" + Name + "'";
+        String values = "'" + Name + "'";
         for (int row = 0; row < Percentage.length; row++) {
-            double StringValue = Percentage[row];
-            Values = Values + ", " + StringValue;
+            //cycle through languages and percentages to insert into table
+            double stringValue = Percentage[row];
+            values = values + ", " + stringValue;
         }
 
         try {
             Statement stmt = con.createStatement();
-
-            String insert = "INSERT INTO `percentages` VALUES (" + Values + ")";
+            
+            //insert row into percentages table
+            String insert = "INSERT INTO `percentages` VALUES (" + values + ")";
             stmt.executeUpdate(insert);
 
         } catch (SQLException err) {
