@@ -1,16 +1,21 @@
 import java.awt.EventQueue;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.net.ServerSocketFactory;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocketFactory;
 
 /*
@@ -74,10 +79,30 @@ public class Server
 			// String trustStore =
 			// Server.class.getResource("Resources").getPath();
 
+			KeyStore ks = KeyStore.getInstance("BKS");
+		    InputStream ksIs = new FileInputStream("capitastore.bks");
+		    try {
+		        ks.load(ksIs, "capita123".toCharArray());
+		    } finally {
+		        if (ksIs != null) {
+		            ksIs.close();
+		        }
+		    }
+
+		    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory
+		            .getDefaultAlgorithm());
+		    kmf.init(ks, "capita123".toCharArray());
+		    
+		 // creates an SSLContext and adds the KeyManager & TrustManager
+	           SSLContext sslctx = SSLContext.getInstance("TLS");
+	           sslctx.init(kmf.getKeyManagers(), null, null);
+	           // uses the SSLContext to initialise the SSLSocketFactory
+	        ServerSocketFactory factory = sslctx.getServerSocketFactory();
+		    
 			// System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
-			System.setProperty("javax.net.ssl.keyStore", "ca.store");
-			System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
-			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
+			//System.setProperty("javax.net.ssl.keyStore", "ca.store");
+			//System.setProperty("javax.net.ssl.keyStorePassword", "capita123");
+			//ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket(PORT);
 			ServerGUI.getTextArea().append("Server running and listening for connections... \n");
 			while (true)
@@ -97,7 +122,7 @@ public class Server
 			System.exit(0);
 		} catch (Exception e)
 		{
-			ServerGUI.getTextArea().append(e.getMessage() + "\n");
+			//ServerGUI.getTextArea().append(e.getMessage() + "\n");
 			e.printStackTrace();
 
 		}
