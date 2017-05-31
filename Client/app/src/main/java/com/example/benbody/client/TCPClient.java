@@ -23,7 +23,8 @@ public class TCPClient
     private SSLSocket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private static final String SERVERIP = "192.168.1.83"; //These could potentially be read from file, or hard coded
+    // URL must be changed to the correct URL for the computer the server is running on
+    private static final String SERVERIP = "192.168.1.196"; //These could potentially be read from file, or hard coded
     private static final int SERVERPORT = 1234; //or found in some other method
     private static final String KEYSTOREPASS = "capita123"; // same applies to this
     private boolean isSetUp; // whether the client has been successfully set up
@@ -51,7 +52,7 @@ public class TCPClient
             TrustManagerFactory trustManagerFactory
                     = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(ks);
-            // creates an SSLContext and adds the KeyManager & trustmanager
+            // creates an SSLContext and adds the TrustManager
             SSLContext sslctx = SSLContext.getInstance("TLS");
             sslctx.init(null, trustManagerFactory.getTrustManagers(), null);
             // uses the SSLContext to initialise the SSLSocketFactory
