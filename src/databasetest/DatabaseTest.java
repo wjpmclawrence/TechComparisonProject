@@ -123,10 +123,10 @@ public class DatabaseTest {
         String condition = "";
         
         //Select statement to find variables
-        String Get = "SELECT " + test + " FROM mydb.languages " + condition;
+        String get = "SELECT " + test + " FROM mydb.languages " + condition;
 
         //Execute Query on statement
-        ResultSet rs = stmt.executeQuery(Get);
+        ResultSet rs = stmt.executeQuery(get);
 
         int databaseSize = 0;
         int columnNum = 15;
