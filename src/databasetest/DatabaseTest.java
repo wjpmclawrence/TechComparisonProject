@@ -262,11 +262,11 @@ public class DatabaseTest {
 
     }
 
-    public static void create(String[][] Name, Connection con) {
+    public static void create(String[][] name, Connection con) {
         String rows = "`Name` varchar(45)";
-        for (int row = 0; row < Name.length; row++) {
+        for (int row = 0; row < name.length; row++) {
             //cycle through languages to get names for columns
-            rows = rows + ", `" + Name[row][1] + "` tinyint(4)";
+            rows = rows + ", `" + name[row][1] + "` tinyint(4)";
         }
 
         try {
@@ -285,11 +285,11 @@ public class DatabaseTest {
 
     }
 
-    public static void insert(String Name, double[] Percentage, Connection con) {
-        String values = "'" + Name + "'";
-        for (int row = 0; row < Percentage.length; row++) {
+    public static void insert(String name, double[] percentage, Connection con) {
+        String values = "'" + name + "'";
+        for (int row = 0; row < percentage.length; row++) {
             //cycle through languages and percentages to insert into table
-            double stringValue = Percentage[row];
+            double stringValue = percentage[row];
             values = values + ", " + stringValue;
         }
 
