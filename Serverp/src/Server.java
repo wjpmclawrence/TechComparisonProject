@@ -80,7 +80,7 @@ public class Server
 			// Server.class.getResource("Resources").getPath();
 
 			KeyStore ks = KeyStore.getInstance("BKS");
-		    InputStream ksIs = new FileInputStream("capitastore.bks");
+		    InputStream ksIs = new FileInputStream("/capitastore.bks");
 		    try {
 		        ks.load(ksIs, "capita123".toCharArray());
 		    } finally {
