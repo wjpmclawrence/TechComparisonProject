@@ -1,11 +1,19 @@
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,20 +25,22 @@ public class Converter {
     public static void main(String[] args) {
         try {
             //file path to the source WORD Document
-            String source = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\Connor Frain Capita CV.docx";
+            String source = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TEST.pdf";
+
+            //check for file extension
+            String extension = source.substring(source.length() - 3);
 
             //creates a text file if one does not exist, at the designated area
-            PrintWriter writer = new PrintWriter("C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION_" + extension + ".txt", "UTF-8");
 
             //set to the same flile path as above in the writer
-            String destination = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION.txt";
+            String destination = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION_" + extension + ".txt";
 
             //call conversion method
-            convertWordToText(source, destination);
+            convertWordToText(source, destination, extension);
 
             //performs comparison 9Not being tested
             //compareSkills(destination);
-            
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             System.out.println("Usage:java WordToTextConverter <word_file> <text_file>");
 
@@ -40,18 +50,79 @@ public class Converter {
 
     }
 
-    public static void convertWordToText(String src, String dest) {
+    public static void convertWordToText(String src, String dest, String ext) {
         try {
             //create file inputstream object to read data from file 
             FileInputStream fs = new FileInputStream(src);
-            //create document object to wrap the file inputstream object
-            XWPFDocument docx = new XWPFDocument(fs);
-            //create text extractor object to extract text from the document
-            XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
-            //create file writer object to write text to the output file
-            FileWriter fw = new FileWriter(dest);
-            //write text to the output file  
-            fw.write(extractor.getText());
+
+            //initialise filewriter
+            FileWriter fw = null;
+
+            if (ext.equalsIgnoreCase("ocx")) {
+
+                //create document object to wrap the file inputstream object
+                XWPFDocument docx = new XWPFDocument(fs);
+                //create text extractor object to extract text from the document
+                XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
+                //create file writer object to write text to the output file
+                fw = new FileWriter(dest);
+                System.out.println(extractor.getText());
+                //write text to the output file  
+                fw.write(extractor.getText());
+
+            }
+
+            if (ext.equalsIgnoreCase("doc")) {
+
+                //create buffer
+                StringBuffer buffer = new StringBuffer();
+                try {
+                    //read input stream
+                    InputStreamReader isr = new InputStreamReader(fs, "ASCII");
+                    Reader in = new BufferedReader(isr);
+                    int ch;
+                    while ((ch = in.read()) > -1) {
+                        buffer.append((char) ch);
+                    }
+                    in.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    //output to txt file
+                    FileOutputStream fos = new FileOutputStream(dest);
+                    Writer out = new OutputStreamWriter(fos, "ASCII");
+                    fw = new FileWriter(dest);
+                    System.out.println(buffer.toString());
+                    //write text to the output file  
+                    fw.write(buffer.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (ext.equalsIgnoreCase("pdf")) {
+
+                try {
+                    //creater pdfreader
+                    PdfReader reader = new PdfReader(src);
+                    //find amount of pages
+                    int n = reader.getNumberOfPages();
+                    for (int i = 1; i <= n; i++) {
+                        //Extracting the content from a particular page.
+                        String cv = PdfTextExtractor.getTextFromPage(reader, i); //create file writer object to write text to the output file
+                        fw = new FileWriter(dest);
+                        System.out.println(cv);
+                        //write text to the output file  
+                        fw.write(cv);
+                        //close reader
+                        reader.close();
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
             //clear data from memory
             fw.flush();
             //close inputstream and file writer
