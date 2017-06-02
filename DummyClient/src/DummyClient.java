@@ -223,6 +223,7 @@ public class DummyClient
 			public void actionPerformed ( ActionEvent e )
 			{
 				handleRequest( "version~" + txtVerInput.getText() );
+				txtVerInput.setText( "" );
 			}
 		} );
 		btnVerButt.setBounds( 25, 230, 120, 25 );
@@ -238,6 +239,7 @@ public class DummyClient
 			public void actionPerformed ( ActionEvent e )
 			{
 				handleRequest( "request~" + txtLangInput.getText() );
+				txtLangInput.setText( "" );
 			}
 		} );
 		btnLangButt.setBounds( 320, 230, 120, 25 );
