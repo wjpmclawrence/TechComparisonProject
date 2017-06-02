@@ -1,3 +1,4 @@
+package ClientInterface;
 import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +11,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+
+import DataManagement.RequestManager;
+
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
@@ -179,6 +183,10 @@ public class Server
 					if (frmClient == null)
 					{
 						break;
+					}
+					else
+					{
+						writeToClient( RequestManager.requestMade( frmClient ), socket );
 					}
 
 				}
