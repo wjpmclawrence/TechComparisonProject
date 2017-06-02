@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ServerSocketFactory;
@@ -17,16 +16,16 @@ import javax.swing.JOptionPane;
 
 import DataManagement.RequestManager;
 
-/*
+/**
  * @author Yasiru Dahanayake
+ * @author Nathan Steer
  */
 public class Server
 {
-	private static ArrayList<ServerThread>	clients;
-	private static ServerSocket				sS;
-	private static final int				PORT			= 1234;
-	private static boolean					serverRunning	= true;
-	private static ObjectOutputStream		oos;
+	private static ServerSocket			sS;
+	private static final int			PORT			= 1234;
+	private static boolean				serverRunning	= true;
+	private static ObjectOutputStream	oos;
 	
 	/**
 	 * Launch the application.
@@ -48,10 +47,7 @@ public class Server
 			}
 		} );
 		
-		while ( serverRunning )
-		{
-			SetUpConnections();
-		}
+		SetUpConnections();
 	}
 	
 	/**
@@ -62,7 +58,7 @@ public class Server
 		
 	}
 	
-	/*
+	/**
 	 * Uses self signed certificate "ca.store" to authenticate a handshake
 	 * Server starts up and listens for connections, if an instance of the
 	 * server is already running notify and close the current instance.
@@ -76,17 +72,15 @@ public class Server
 			// String trustStore =
 			// Server.class.getResource("Resources").getPath();
 			
-			// System.setProperty("javax.net.ssl.keyStore",Server.class.getResourceAsStream("/ca.store"));
 			System.setProperty( "javax.net.ssl.keyStore", "ca.store" );
 			System.setProperty( "javax.net.ssl.keyStorePassword", "capita123" );
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket( PORT );
 			ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
-			while ( true )
+			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread( socket );
-				// clients.add(rc);
 				Thread tr = new Thread( rc );
 				tr.start();
 				ServerGUI.getTextArea().append( "DEBUG: Client Connected \n" );
@@ -104,8 +98,8 @@ public class Server
 		}
 	}
 	
-	/*
-	 * Writes an ArrayList of objects to the client through socket
+	/**
+	 * Writes a List of objects to the client through socket
 	 */
 	private static void writeToClient ( List<Object> list, Socket socket ) throws IOException
 	{
@@ -114,30 +108,7 @@ public class Server
 		oos.writeObject( list );
 	}
 	
-	/*
-	 * CLoses the client socket (removes connection) removes this thread from
-	 * server thread.
-	 */
-	private static void closeConnection ( Socket socket, ServerThread thread )
-	{
-		try
-		{
-			socket.close();
-			clients.remove( thread );
-			ServerGUI.getTextArea().append( "Client Disconnected, thread removed \n " );
-		}
-		catch ( NullPointerException E )
-		{
-			
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/*
+	/**
 	 * reads in a string from the client
 	 */
 	private static String readStringFromClient ( Socket socket ) throws IOException
@@ -147,10 +118,12 @@ public class Server
 		return fromClient.readLine();
 	}
 	
-	/*
+	/**
 	 * Runnable class to handle instances of clients that are connected test
 	 * method handle requests to for testing with dummy client.
 	 * 
+	 * @author Yasiru Dahanayake
+	 * @author Nathan Steer
 	 */
 	private static class ServerThread implements Runnable
 	{
@@ -170,7 +143,8 @@ public class Server
 				frmClient = readStringFromClient( this.socket );
 				ServerGUI.getTextArea().append( frmClient + "\n" );
 				writeToClient( RequestManager.requestMade( frmClient ), socket );
-				closeConnection( socket, this );
+				socket.close();
+				ServerGUI.getTextArea().append( "Client Disconnected, thread removed \n " );
 			}
 			catch ( IOException e )
 			{

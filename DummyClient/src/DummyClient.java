@@ -18,8 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/*
+/**
  * @author Yasiru Dahanayake
+ * @author Nathan Steer
  */
 public class DummyClient
 {
@@ -53,7 +54,7 @@ public class DummyClient
 		} );
 	}
 	
-	/*
+	/**
 	 * Uses self signed certificate "ca.store" to authenticate a handshake with
 	 * the server. if server not present closes automatically. once connected
 	 * either read objects or strings from the socket Input stream
@@ -119,7 +120,7 @@ public class DummyClient
 		initialize();
 	}
 	
-	/*
+	/**
 	 * while there is data coming from stream, printline whatever strings that
 	 * are coming through
 	 */
@@ -145,7 +146,7 @@ public class DummyClient
 		}
 	}
 	
-	/*
+	/**
 	 * method reads Object/ objects from the socket input stream write each
 	 * object to the global ArrayList, displays each object in the ArrayList as
 	 * a debug on console.
