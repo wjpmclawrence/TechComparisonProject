@@ -22,11 +22,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class Converter {
 
-    public static void main(String[] args) {
+    public static void start (String source) {
         try {
-            //file path to the source WORD Document
-            String source = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TEST.pdf";
-
+            
             //check for file extension
             String extension = source.substring(source.length() - 3);
 
