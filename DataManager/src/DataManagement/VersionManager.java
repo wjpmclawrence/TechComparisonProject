@@ -20,7 +20,7 @@ import java.nio.file.Paths;
  */
 public class VersionManager
 {
-	private static Path path = Paths.get( "." + File.separator + "Files" + File.separator + "Version.dat" );
+	private static Path path = Paths.get( "." + File.separator + "Version.dat" );
 	
 	
 	/**
