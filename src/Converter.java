@@ -17,8 +17,13 @@ import java.io.Writer;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.poi.POITextExtractor;
+import org.apache.poi.extractor.ExtractorFactory;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.xmlbeans.XmlException;
 
 public class Converter {
 
@@ -71,32 +76,20 @@ public class Converter {
 
             if (ext.equalsIgnoreCase("doc")) {
 
-                //create buffer
-                StringBuffer buffer = new StringBuffer();
+                POITextExtractor extractor = null;
+                POIFSFileSystem fileSystem = new POIFSFileSystem(fs);
                 try {
-                    //read input stream
-                    InputStreamReader isr = new InputStreamReader(fs, "ASCII");
-                    Reader in = new BufferedReader(isr);
-                    int ch;
-                    while ((ch = in.read()) > -1) {
-                        buffer.append((char) ch);
-                    }
-                    in.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    extractor = ExtractorFactory.createExtractor(fileSystem);
+                } catch (OpenXML4JException ex) {
+                    Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (XmlException ex) {
+                    Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                try {
-                    //output to txt file
-                    FileOutputStream fos = new FileOutputStream(dest);
-                    Writer out = new OutputStreamWriter(fos, "ASCII");
-                    fw = new FileWriter(dest);
-
-                    //write text to the output file  
-                    fw.write(buffer.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String extractedText = extractor.getText();
+                fw = new FileWriter(dest);
+                //write text to the output file  
+                fw.write(extractedText);
+                
             }
 
             if (ext.equalsIgnoreCase("pdf")) {
