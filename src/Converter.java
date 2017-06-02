@@ -22,9 +22,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class Converter {
 
-    public static void start (String source) {
+    public static void start(String source) {
         try {
-            
+
             //check for file extension
             String extension = source.substring(source.length() - 3);
 
@@ -64,7 +64,6 @@ public class Converter {
                 XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
                 //create file writer object to write text to the output file
                 fw = new FileWriter(dest);
-                System.out.println(extractor.getText());
                 //write text to the output file  
                 fw.write(extractor.getText());
 
@@ -92,7 +91,7 @@ public class Converter {
                     FileOutputStream fos = new FileOutputStream(dest);
                     Writer out = new OutputStreamWriter(fos, "ASCII");
                     fw = new FileWriter(dest);
-                    System.out.println(buffer.toString());
+
                     //write text to the output file  
                     fw.write(buffer.toString());
                 } catch (IOException e) {
@@ -111,7 +110,6 @@ public class Converter {
                         //Extracting the content from a particular page.
                         String cv = PdfTextExtractor.getTextFromPage(reader, i); //create file writer object to write text to the output file
                         fw = new FileWriter(dest);
-                        System.out.println(cv);
                         //write text to the output file  
                         fw.write(cv);
                         //close reader
