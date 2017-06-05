@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import db_interface.DB_Interface;
+import DatabaseInterface.DB_Interface;
 import Utils.Language;
 
 /**
@@ -15,8 +15,6 @@ import Utils.Language;
  */
 public class RequestManager
 {
-	private static DB_Interface database = null;
-	
 	/**
 	 * Checks if the provided version number matches the servers version number
 	 * <p>
@@ -29,10 +27,10 @@ public class RequestManager
 	 * @return Returns either a one element list with the OK message, or the current language list
 	 * @throws Exception 
 	 */
-	@SuppressWarnings ( { "unchecked", "rawtypes" } )
+	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> checkVersion ( int clientVer ) throws Exception
 	{
-		List<Object> list = new ArrayList();
+		List<Object> list = new ArrayList<Object>();
 		
 		if ( clientVer == VersionManager.getVersion() )
 		{
@@ -40,7 +38,7 @@ public class RequestManager
 		}
 		else
 		{
-			list.addAll( Arrays.asList( database.version() ) );
+			list.addAll( Arrays.asList( DB_Interface.version() ) );
 			Collections.sort( (List<String>) (Object) list );
 			
 			list.add( 0, "menu_list" );
@@ -65,11 +63,11 @@ public class RequestManager
 	 * @return Returns a list of Languages, sorted in descending order by similarity
 	 * @throws Exception 
 	 */
-	@SuppressWarnings ( { "unchecked", "rawtypes" } )
+	@SuppressWarnings ( "unchecked" )
 	private static List<Object> getSubMenu ( String langName ) throws Exception
 	{
 		boolean langAvail = false;
-		String[] tmp = database.version();
+		String[] tmp = DB_Interface.version();
 		
 		for ( String i : tmp )
 		{
@@ -80,11 +78,11 @@ public class RequestManager
 			}
 		}
 		
-		List<Object> returnList = new ArrayList();
+		List<Object> returnList = new ArrayList<Object>();
 		
 		if ( langAvail )
 		{
-			String[][] array = database.request( langName );
+			String[][] array = DB_Interface.request( langName );
 			
 			for ( int i = 0; i < array.length; i++ )
 			{
@@ -120,10 +118,9 @@ public class RequestManager
 	 * @return A list containing both the tag and any necessary data for the client
 	 * 
 	 */
-	@SuppressWarnings ( "unchecked" )
 	public static List<Object> requestMade ( String request )
 	{
-		List<Object> returnList = new ArrayList();
+		List<Object> returnList = new ArrayList<Object>();
 		
 		if ( request != null && request.contains( "~" ) )
 		{
@@ -131,11 +128,6 @@ public class RequestManager
 			
 			if ( tmp.length > 1 )
 			{
-				if ( database == null )
-				{
-					database = new DB_Interface();
-				}
-				
 				try
 				{
 					switch ( tmp[0].toLowerCase() )
