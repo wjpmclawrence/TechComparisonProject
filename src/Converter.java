@@ -14,6 +14,11 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +30,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.xmlbeans.XmlException;
 
-public class Converter {
+public class Converter extends FileChooser{
 
     public static void start(String source) {
         try {
@@ -42,8 +47,9 @@ public class Converter {
             //call conversion method
             convertWordToText(source, destination, extension);
 
-            //performs comparison 9Not being tested
-            //compareSkills(destination);
+            //connect to the database
+            connectToDatabase(destination);
+
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             System.out.println("Usage:java WordToTextConverter <word_file> <text_file>");
 
@@ -125,39 +131,110 @@ public class Converter {
         }
     }
 
-    public static void compareSkills(String dest) {
+    public static void compareSkills(String dest, String[] compArray) {
         Scanner scanner = null;
         boolean skills = false;
-        boolean additionalInfo = false;
+        String[] wordString = {"one", "two", "three"};
+
         try {
             scanner = new Scanner(new File(dest));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         while (scanner.hasNextLine()) {
             Scanner scanner2 = new Scanner(scanner.nextLine());
             while (scanner2.hasNext()) {
                 String s = scanner2.next();
 
-                if (s.equalsIgnoreCase("skills") || s.equalsIgnoreCase("qualifications")) {
+                wordString[2] = wordString[1];
+                wordString[1] = wordString[0];
+                wordString[0] = s;
+
+                if (wordString[1].equalsIgnoreCase("novus") && wordString[0].equalsIgnoreCase("name:")) {
+                    System.out.println("");
+                    skills = false;
+                }
+
+                if (wordString[2].equalsIgnoreCase("qualifications") && wordString[1].equalsIgnoreCase("and") && wordString[0].equalsIgnoreCase("skills")) {
                     skills = true;
                 }
                 if (skills == true) {
                     if (s.endsWith(".") || s.endsWith(",")) {
                         s = s.substring(0, s.length() - 1);
                     }
-                    if (s.equalsIgnoreCase("java") || s.equalsIgnoreCase("oracle") || s.equalsIgnoreCase("ruby")) {
-                        System.out.println(s);
+                    for (int i = 0; i < compArray.length; i++) {
+                        if (s.equalsIgnoreCase(compArray[i])) {
+                            textarea.append(s + "\n");
+                            i = compArray.length;
+                        }
                     }
                 }
-                if (s.equalsIgnoreCase("Additional") || s.equalsIgnoreCase("interests") || s.equalsIgnoreCase("hobbies")) {
+                if (wordString[2].equalsIgnoreCase("interests") && wordString[1].equalsIgnoreCase("and") && wordString[0].equalsIgnoreCase("hobbies")) {
                     skills = false;
-                    additionalInfo = true;
-                }
-                if (additionalInfo == true) {
-                    System.out.print(s + " ");
                 }
             }
         }
+    }
+
+    public static void connectToDatabase(String destination) {
+        //Database Info
+        String host = "jdbc:mysql://localhost:3306/mydb";
+        String uName = "root";
+        String pWord = "password";
+        String[] compArray;
+
+        try {
+            //load driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //Connect to database
+            Connection con = DriverManager.getConnection(host, uName, pWord);
+
+            //Create statement
+            Statement stmt = con.createStatement();
+
+            //call Load Class
+            compArray = load(stmt, con);
+
+            //call comparison class
+            compareSkills(destination, compArray);
+
+        } catch (SQLException | ClassNotFoundException err) {
+            System.out.println(err.getMessage());
+
+        }
+
+    }
+
+    public static String[] load(Statement stmt, Connection con) throws SQLException {
+        //initailise variables
+        String[] compArray;
+        String test = "Name";
+        String condition = "";
+
+        //Select statement to find variables
+        String get = "SELECT " + test + " FROM mydb.languages " + condition;
+
+        //Execute Query on statement
+        ResultSet rs = stmt.executeQuery(get);
+
+        int databaseSize = 0;
+
+        //find last row
+        if (rs.last()) {
+            databaseSize = rs.getRow();
+            rs.beforeFirst();
+        }
+
+        compArray = new String[databaseSize];
+        int x = 0;
+
+        while (rs.next()) {
+            //Load Array
+            compArray[x] = rs.getString("Name");
+            x++;
+        }
+        return compArray;
     }
 }
