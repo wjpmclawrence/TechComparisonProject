@@ -34,10 +34,10 @@ public class Converter {
             String extension = source.substring(source.length() - 3);
 
             //creates a text file if one does not exist, at the designated area
-            PrintWriter writer = new PrintWriter("C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION_" + extension + ".txt", "UTF-8");
+            PrintWriter writer = new PrintWriter(source + ".txt", "UTF-8");
 
             //set to the same flile path as above in the writer
-            String destination = "C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION_" + extension + ".txt";
+            String destination = source + ".txt";
 
             //call conversion method
             convertWordToText(source, destination, extension);
@@ -75,10 +75,11 @@ public class Converter {
             }
 
             if (ext.equalsIgnoreCase("doc")) {
-
+                //initialise doc extractor
                 POITextExtractor extractor = null;
                 POIFSFileSystem fileSystem = new POIFSFileSystem(fs);
                 try {
+                    //extract text
                     extractor = ExtractorFactory.createExtractor(fileSystem);
                 } catch (OpenXML4JException ex) {
                     Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,10 +87,11 @@ public class Converter {
                     Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 String extractedText = extractor.getText();
+                //write text to the output file  
                 fw = new FileWriter(dest);
                 //write text to the output file  
                 fw.write(extractedText);
-                
+
             }
 
             if (ext.equalsIgnoreCase("pdf")) {

@@ -98,13 +98,10 @@ public class FileChooser extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             Converter.start(file.getAbsolutePath());
-            
-            //check for file extension
-            String extension = file.getAbsolutePath().substring(file.getAbsolutePath().length() - 3);
-            
+
             try {
                 // What to do with the file, e.g. display it in a TextArea
-                textarea.read(new FileReader("C:\\Users\\conno\\OneDrive\\Documents\\Capita\\CompareTheLanguage.com\\TESTCONVERSION_" + extension + ".txt"), null);
+                textarea.read(new FileReader(file.getAbsolutePath() + ".txt"), null);
             } catch (IOException ex) {
                 System.out.println("problem accessing file" + file.getAbsolutePath());
             }
