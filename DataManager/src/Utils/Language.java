@@ -1,5 +1,7 @@
 package Utils;
 
+import java.io.Serializable;
+
 /**
  * Holds data about the languages: name, training time, similarity.
  * <p>
@@ -14,11 +16,12 @@ package Utils;
  * @author Nathan Steer
  *
  */
-public class Language implements Comparable<Language>
+public class Language implements Comparable<Language>, Serializable
 {
-	private String	name;						// Name of this language
-	private String	trainingTime;		// Amount of time it would take to be trained based on similarity
-	private int		similarity;				// Similarity to the language this is being compared to
+	private static final long	serialVersionUID	= 1L;
+	private String				name;			// Name of this language
+	private String				trainingTime;	// Amount of time it would take to be trained based on similarity
+	private int					similarity;		// Similarity to the language this is being compared to
 	
 	public Language( String name, int similarity, String trainingTime )
 	{
