@@ -23,6 +23,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 /**
  *
@@ -121,23 +122,26 @@ public class DatabaseTest {
         String[][] compArray;
         String test = "*";
         String condition = "";
-        
+
         //Select statement to find variables
         String get = "SELECT " + test + " FROM mydb.languages " + condition;
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(get);
 
+        //get Meta Data
+        ResultSetMetaData rsmd = rs.getMetaData();
+
         int databaseSize = 0;
-        int columnNum = 15;
+
+        int columnNum = rsmd.getColumnCount();
 
         //find last row
         if (rs.last()) {
             databaseSize = rs.getRow();
             rs.beforeFirst();
         }
-        
-                
+
         compArray = new String[databaseSize][columnNum];
         int x = 0;
 
@@ -160,10 +164,10 @@ public class DatabaseTest {
             compArray[x][14] = rs.getString("Paradigms");
             x++;
         }
-        
+
         //create percentages 
         create(compArray, con);
-        
+
         //call Compare
         compare(compArray, con);
     }
@@ -190,7 +194,7 @@ public class DatabaseTest {
         //similarity values
         double paradigm = 7.1428;
         double syntax = 12.5;
-        
+
         int wrong = 0;
         int start = Integer.parseInt(compArray[0][0]);
 
@@ -220,7 +224,7 @@ public class DatabaseTest {
                 if (x == compArray.length) {
                     break;
                 }
-                
+
                 //cycle through languages
                 for (int y = 0; y < compArray[x].length; y++) {
 
@@ -230,7 +234,7 @@ public class DatabaseTest {
                             if (y >= 9 && y <= 12) {
                                 //ignore 0 as it equals OTHER
                                 if (chosenLang[y].equalsIgnoreCase("0")) {
-                                
+
                                 } else {
                                     //if match add 12.5
                                     percentageMatch = percentageMatch + syntax;
@@ -249,13 +253,13 @@ public class DatabaseTest {
 
                 //Percentage multiplier
                 percentageMatch = percentageMatch * 0.8;
-                
+
                 //load names and percentges into arrays
                 topPercentageName[x] = compArray[x][1];
                 topPercentageValue[x] = percentageMatch;
 
             }
-            
+
             //insert percentages into new table
             insert(compArray[Z][1], topPercentageValue, con);
         }
@@ -271,7 +275,7 @@ public class DatabaseTest {
 
         try {
             Statement stmt = con.createStatement();
-            
+
             //delete old table
             stmt.executeUpdate("DROP TABLE `percentages`");
 
@@ -295,7 +299,7 @@ public class DatabaseTest {
 
         try {
             Statement stmt = con.createStatement();
-            
+
             //insert row into percentages table
             String insert = "INSERT INTO `percentages` VALUES (" + values + ")";
             stmt.executeUpdate(insert);
