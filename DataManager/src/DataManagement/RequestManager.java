@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import db_interface.DB_Interface;
 import Utils.Language;
 
 /**
@@ -14,7 +15,7 @@ import Utils.Language;
  */
 public class RequestManager
 {
-	private static Tests.DBInterface database = null;
+	private static DB_Interface database = null;
 	
 	/**
 	 * Checks if the provided version number matches the servers version number
@@ -26,9 +27,10 @@ public class RequestManager
 	 * @param clientVer
 	 *            The clients version number, provided as part of the request
 	 * @return Returns either a one element list with the OK message, or the current language list
+	 * @throws Exception 
 	 */
 	@SuppressWarnings ( { "unchecked", "rawtypes" } )
-	private static List<Object> checkVersion ( int clientVer )
+	private static List<Object> checkVersion ( int clientVer ) throws Exception
 	{
 		List<Object> list = new ArrayList();
 		
@@ -61,9 +63,10 @@ public class RequestManager
 	 * @param langName
 	 *            The provided language, to which the other languages should be compared
 	 * @return Returns a list of Languages, sorted in descending order by similarity
+	 * @throws Exception 
 	 */
 	@SuppressWarnings ( { "unchecked", "rawtypes" } )
-	private static List<Object> getSubMenu ( String langName )
+	private static List<Object> getSubMenu ( String langName ) throws Exception
 	{
 		boolean langAvail = false;
 		String[] tmp = database.version();
@@ -130,7 +133,7 @@ public class RequestManager
 			{
 				if ( database == null )
 				{
-					database = new Tests.DBInterface();
+					database = new DB_Interface();
 				}
 				
 				try
@@ -153,6 +156,9 @@ public class RequestManager
 				catch ( UnsupportedOperationException e )
 				{
 					throw e;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			else
