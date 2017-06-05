@@ -2,7 +2,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 
+ * @author Sam Travers
+ *
+ */
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
@@ -22,6 +26,12 @@ public class DB_Interface {
 	}
 	
 	
+	/**
+	 * Called to initialise the DB connection. First creates a connection to the DB using
+	 * connection path, username and password. 
+	 * Then uses the connection to create a blank statement.   
+	 * @throws SQLException
+	 */
 	
 	private static void setup_connections() throws SQLException
 	{
@@ -34,7 +44,11 @@ public class DB_Interface {
 	}
 	
 	
-	
+	/**
+	 * Is called when Client needs to update to a new version/main menu.
+	 * @return 1 dimensional String array containing the main menu elements.
+	 * @throws Exception
+	 */
 	
 	public static String[] version() throws Exception
 	{
@@ -67,6 +81,13 @@ public class DB_Interface {
 	}
 	
 	
+	/**
+	 * Is called when Client makes a main menu selection. Responds with sub menu elements. 
+	 * @param language - The requested language as a String.
+	 * @return 2 dimensional String array containing the sub menu elements. First element references the language,
+	 * the second specifies the similarity percentage.
+	 * @throws SQLException
+	 */
 	
 	public static String[][] request(String language) throws SQLException
 	{
