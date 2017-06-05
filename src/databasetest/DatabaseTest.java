@@ -136,6 +136,14 @@ public class DatabaseTest {
 
         int columnNum = rsmd.getColumnCount();
 
+        ResultSetMetaData metaData = rs.getMetaData();
+        int count = metaData.getColumnCount(); //number of column
+        String columnName[] = new String[count];
+
+        for (int i = 1; i <= count; i++) {
+            columnName[i - 1] = metaData.getColumnLabel(i);
+        }
+
         //find last row
         if (rs.last()) {
             databaseSize = rs.getRow();
@@ -147,21 +155,11 @@ public class DatabaseTest {
 
         while (rs.next()) {
             //Load Array
-            compArray[x][0] = rs.getString("ID");
-            compArray[x][1] = rs.getString("Name");
-            compArray[x][2] = rs.getString("Imperative");
-            compArray[x][3] = rs.getString("Object-Oriented");
-            compArray[x][4] = rs.getString("Functional");
-            compArray[x][5] = rs.getString("Procedural");
-            compArray[x][6] = rs.getString("Generic");
-            compArray[x][7] = rs.getString("Reflective");
-            compArray[x][8] = rs.getString("Event-Driven");
-            compArray[x][9] = rs.getString("For Loop");
-            compArray[x][10] = rs.getString("While Loop");
-            compArray[x][11] = rs.getString("Arrays");
-            compArray[x][12] = rs.getString("Operators");
-            compArray[x][13] = rs.getString("Uses");
-            compArray[x][14] = rs.getString("Paradigms");
+            for (int y = 0; y < columnNum; y++){
+                compArray[x][y] = rs.getString(columnName[y]);
+                System.out.println(x + " " + y + " " + columnName[y] + "    " + rs.getString(columnName[y]));
+
+            }
             x++;
         }
 
@@ -169,10 +167,10 @@ public class DatabaseTest {
         create(compArray, con);
 
         //call Compare
-        compare(compArray, con);
+        compare(compArray, con, columnNum);
     }
 
-    public static void compare(String[][] compArray, Connection con) {
+    public static void compare(String[][] compArray, Connection con, int col) {
         //initialise Variables
         double percentageMatch;
         String[] chosenLang;
@@ -203,7 +201,7 @@ public class DatabaseTest {
             String check = "" + (Z + start) + "";
             for (int j = 0; j < compArray.length; j++) {
                 if (check.equalsIgnoreCase(compArray[j][0])) {
-                    System.arraycopy(compArray[j], 0, chosenLang, 0, 15);
+                    System.arraycopy(compArray[j], 0, chosenLang, 0, col);
                     language = j;
                     break;
                 } else {
@@ -224,9 +222,10 @@ public class DatabaseTest {
                 if (x == compArray.length) {
                     break;
                 }
-
+                System.out.println(compArray[x].length);
                 //cycle through languages
                 for (int y = 0; y < compArray[x].length; y++) {
+                    System.out.println(x + " " + y + "  " + compArray[x][y] + " " + chosenLang[y]);
 
                     if (y <= 12) {
                         //cycle though variables
