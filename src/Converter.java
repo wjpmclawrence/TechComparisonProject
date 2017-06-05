@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -30,7 +31,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.xmlbeans.XmlException;
 
-public class Converter extends FileChooser{
+public class Converter extends FileChooser {
 
     public static void start(String source) {
         try {
@@ -131,9 +132,10 @@ public class Converter extends FileChooser{
         }
     }
 
-    public static void compareSkills(String dest, String[] compArray) {
+    public static void compareSkills(String dest, String[] compArray, Statement stmt, Connection con) {
         Scanner scanner = null;
         boolean skills = false;
+        
         String[] wordString = {"one", "two", "three"};
 
         try {
@@ -166,7 +168,14 @@ public class Converter extends FileChooser{
                     for (int i = 0; i < compArray.length; i++) {
                         if (s.equalsIgnoreCase(compArray[i])) {
                             textarea.append(s + "\n");
-                            i = compArray.length;
+                            
+                                try {
+                                    percentage(s, stmt, con);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            
+                            break;
                         }
                     }
                 }
@@ -175,6 +184,46 @@ public class Converter extends FileChooser{
                 }
             }
         }
+    }
+
+    public static void percentage(String language, Statement stmt, Connection con) throws SQLException {
+        //initilaise
+        
+
+        String[] percArray;
+
+        String input = language.toLowerCase();
+
+        String output = input.substring(0, 1).toUpperCase() + input.substring(1);
+
+        //Select statement to find variables
+        String get = "SELECT * FROM mydb.percentages";
+
+        //Execute Query on statement
+        ResultSet rs = stmt.executeQuery(get);
+
+        ResultSetMetaData metaData = rs.getMetaData();
+        int count = metaData.getColumnCount(); //number of column
+        String columnName[] = new String[count];
+
+        for (int i = 1; i <= count; i++) {
+            columnName[i - 1] = metaData.getColumnLabel(i);
+        }
+
+        percArray = new String[count];
+        while (rs.next()) {
+            if (output.equalsIgnoreCase(rs.getString(columnName[0]))) {
+                for (int x = 1; x <= count; x++) {
+                    //Load Arrayd
+                    percArray[x] = rs.getString(columnName[x]);
+                    textarea.append(columnName[x] + ":" + percArray[x] + "\n");
+                }
+            }
+        }
+
+        textarea.append("\n");
+        
+       
     }
 
     public static void connectToDatabase(String destination) {
@@ -198,7 +247,7 @@ public class Converter extends FileChooser{
             compArray = load(stmt, con);
 
             //call comparison class
-            compareSkills(destination, compArray);
+            compareSkills(destination, compArray, stmt, con);
 
         } catch (SQLException | ClassNotFoundException err) {
             System.out.println(err.getMessage());

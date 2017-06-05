@@ -200,7 +200,7 @@ public class FileChooser extends javax.swing.JFrame {
     private void ResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResultsActionPerformed
         // TODO add your handling code here:
         for (int i = 0; i < count; i++) {
-            textarea.append("\n\n CV" + (i + 1) + "\n");
+            textarea.append("\n\n" + fileArray[i] + "\n");
             Converter.start(fileArray[i]);
         }
 
