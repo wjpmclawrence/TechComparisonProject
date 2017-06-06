@@ -1,19 +1,13 @@
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -53,7 +47,6 @@ public class Converter extends FileChooser {
 
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             System.out.println("Usage:java WordToTextConverter <word_file> <text_file>");
-
         } catch (FileNotFoundException | UnsupportedEncodingException ex) {
             Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,7 +128,7 @@ public class Converter extends FileChooser {
     public static void compareSkills(String dest, String[] compArray, Statement stmt, Connection con) {
         Scanner scanner = null;
         boolean skills = false;
-        
+
         String[] wordString = {"one", "two", "three"};
 
         try {
@@ -162,19 +155,17 @@ public class Converter extends FileChooser {
                     skills = true;
                 }
                 if (skills == true) {
-                    if (s.endsWith(".") || s.endsWith(",")) {
+                    if (s.endsWith(".") || s.endsWith(",") || s.endsWith("(") || s.endsWith(")")) {
                         s = s.substring(0, s.length() - 1);
                     }
                     for (int i = 0; i < compArray.length; i++) {
                         if (s.equalsIgnoreCase(compArray[i])) {
-                            textarea.append(s + "\n");
-                            
-                                try {
-                                    percentage(s, stmt, con);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            
+
+                            try {
+                                percentage(s, stmt, con);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             break;
                         }
                     }
@@ -188,8 +179,6 @@ public class Converter extends FileChooser {
 
     public static void percentage(String language, Statement stmt, Connection con) throws SQLException {
         //initilaise
-        
-
         String[] percArray;
 
         String input = language.toLowerCase();
@@ -211,19 +200,19 @@ public class Converter extends FileChooser {
         }
 
         percArray = new String[count];
+
         while (rs.next()) {
             if (output.equalsIgnoreCase(rs.getString(columnName[0]))) {
                 for (int x = 1; x <= count; x++) {
-                    //Load Arrayd
-                    percArray[x] = rs.getString(columnName[x]);
-                    textarea.append(columnName[x] + ":" + percArray[x] + "\n");
+                    //Load Array
+                    percArray[x - 1] = rs.getString(columnName[x - 1]);
+                    textarea.append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
                 }
             }
         }
 
         textarea.append("\n");
-        
-       
+
     }
 
     public static void connectToDatabase(String destination) {

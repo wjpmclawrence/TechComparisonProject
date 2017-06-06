@@ -299,7 +299,7 @@ public class FileChooser extends javax.swing.JFrame {
         public String getDescription() {
             // This description will be displayed in the dialog,
             // hard-coded = ugly, should be done via I18N
-            return "Text documents (*.txt)";
+            return "Text documents (*.PDF)(*.Docx)(*.Doc)(*.txt)";
         }
     }
 }
