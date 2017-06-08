@@ -78,6 +78,7 @@ public class Server
 			sS = factory.createServerSocket( PORT );*/
 			
 			sS = new ServerSocket(PORT);
+			
 			ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
 			while ( serverRunning )
 			{
