@@ -79,7 +79,7 @@ public class Server
 			
 			sS = new ServerSocket(PORT);
 			
-			ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
+			//ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
 			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
@@ -96,7 +96,7 @@ public class Server
 		}
 		catch ( Exception e )
 		{
-			ServerGUI.getTextArea().append( e.getMessage() + "\n" );
+			//ServerGUI.getTextArea().append( e.getMessage() + "\n" );
 			e.printStackTrace();
 		}
 	}
