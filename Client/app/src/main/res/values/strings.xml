@@ -3,4 +3,8 @@
     <string name="languages_error">Language List could not be loaded, would you like to load from server?</string>
     <string name="yes">Yes</string>
     <string name="cancel_shut_down">Cancel (will close app)</string>
+    <string name="language_update">Languages updated</string>
+    <string name="problem_version_no">Problem updating version number</string>
+    <string name="no_version_no">No version number found</string>
+    <string name="prob_cache_lang">Problem caching languages</string>
 </resources>

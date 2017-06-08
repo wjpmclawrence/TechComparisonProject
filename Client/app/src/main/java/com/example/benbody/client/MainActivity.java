@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
         catch(IOException e)
         {
-            Toast.makeText(this, "Problem updating version number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.problem_version_no, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
             catch(IOException e)
             {
-                Toast.makeText(this, "No version number found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.no_version_no, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -142,6 +142,75 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void dealWithResponse(List<Object> result)
+    {
+        System.out.println("dealing with response");
+        if(result == null || result.isEmpty() || !(result.get(0) instanceof String))
+        {
+            Toast.makeText(this, "Invalid Response from server", Toast.LENGTH_LONG).show(); // TODO offer chance to retry
+        }
+        else// take result, format it, and display in UI
+        {
+            File languages;
+            switch ((String) result.get(0))
+            {
+                case "menu_list" :
+                    // 2nd item in the list will be the version no.
+                    setVersionNo((Integer) result.get(1));
+                    //Saves the list to a .dat file
+                    List<String> menu = (List<String>) (Object) result.subList(2, result.size()); //take a list of all options
+                    languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                    options = new ArrayList<>(menu); //
+                    try
+                    {
+                        FileWriter writer = new FileWriter(languages);
+                        for (String s: menu) //writes all the options separated by delimiter
+                            writer.write(s + DELIMITER);
+                        writer.close();
+                    }
+                    catch (IOException e)
+                    {
+                        Toast.makeText(MainActivity.this,
+                                R.string.prob_cache_lang, Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                    // Toast used to display "languages updated"
+                    Toast.makeText(MainActivity.this, R.string.language_update, Toast.LENGTH_SHORT).show();
+                    displayOptions(); //calls method to display the options
+                    break;
+                case "version_ok" :
+                    // loads menu from .dat file
+                    options = new ArrayList<>();
+                    languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                    try
+                    {
+                        Scanner reader = new Scanner(languages).useDelimiter(DELIMITER);
+                        //while there is more input
+                        while (reader.hasNext())
+                        {
+                            options.add(reader.next()); //adds it to the option list
+                        }
+                        reader.close();
+                    }
+                    catch (IOException e)
+                    {
+                        errorMessageLanguages();
+                        e.printStackTrace();
+                    }
+                    displayOptions(); //calls method to display the options
+                    break;
+                case "sub_menu_list" :
+                    List<Object> submenu = result.subList(1, result.size());
+                    displayResults(submenu);
+                    break;
+                default:
+                    // Error has occurred
+            }
+        }
+    }
+
+
+
     // AsyncTask used as creating TCPClient requires network operations, which are not allowed on the main thread
     private class StartupTask extends AsyncTask<String, String, TCPClient>
     {
@@ -196,65 +265,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<Object> result)
         {
             stopLoading();
-            if(result == null); // TODO display error message & offer chance to retry
-            else// take result, format it, and display in UI
-            {
-                File languages = null;
-                switch ((String) result.get(0))
-                {
-                    case "menu_list" :
-                        // 2nd item in the list will be the version no.
-                        setVersionNo((Integer) result.get(1));
-                        //Saves the list to a .dat file
-                        List<String> menu = (List<String>) (Object) result.subList(2, result.size()); //take a list of all options
-                        languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
-                        options = new ArrayList<>(menu); //
-                        try
-                        {
-                            FileWriter writer = new FileWriter(languages);
-                            for (String s: menu) //writes all the options separated by delimiter
-                                writer.write(s + DELIMITER);
-                            writer.close();
-                        }
-                        catch (IOException e)
-                        {
-                            Toast.makeText(MainActivity.this,
-                                    "Problem caching languages", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                        // Toast used to display "languages updated"
-                        Toast.makeText(MainActivity.this, "languages updated", Toast.LENGTH_SHORT).show();
-                        displayOptions(); //calls method to display the options
-                        break;
-                    case "version_ok" :
-                        // loads menu from .dat file
-                        options = new ArrayList<>();
-                        languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
-                        try
-                        {
-                            Scanner reader = new Scanner(languages).useDelimiter(DELIMITER);
-                            //while there is more input
-                            while (reader.hasNext())
-                            {
-                                options.add(reader.next()); //adds it to the option list
-                            }
-                            reader.close();
-                        }
-                        catch (IOException e)
-                        {
-                            errorMessageLanguages();
-                            e.printStackTrace();
-                        }
-                        displayOptions(); //calls method to display the options
-                        break;
-                    case "sub_menu_list" :
-                        List<Object> submenu = result.subList(1, result.size());
-                        displayResults(submenu);
-                        break;
-                    default:
-                        // Error has occurred
-                }
-            }
+            dealWithResponse(result);
         }
     }
 
