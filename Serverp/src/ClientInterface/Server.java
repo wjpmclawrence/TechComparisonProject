@@ -10,8 +10,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.SSLServerSocketFactory;
 import javax.swing.JOptionPane;
 
 import DataManagement.RequestManager;
@@ -34,6 +32,7 @@ public class Server
 	{
 		EventQueue.invokeLater( new Runnable()
 		{
+			@SuppressWarnings ( "unused" )
 			public void run ()
 			{
 				try
