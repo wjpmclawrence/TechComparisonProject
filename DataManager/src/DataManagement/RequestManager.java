@@ -25,7 +25,7 @@ public class RequestManager
 	 * @param clientVer
 	 *            The clients version number, provided as part of the request
 	 * @return Returns either a one element list with the OK message, or the current language list
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> checkVersion ( int clientVer ) throws Exception
@@ -61,7 +61,7 @@ public class RequestManager
 	 * @param langName
 	 *            The provided language, to which the other languages should be compared
 	 * @return Returns a list of Languages, sorted in descending order by similarity
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> getSubMenu ( String langName ) throws Exception
@@ -139,6 +139,8 @@ public class RequestManager
 						case "request":
 							returnList = getSubMenu( tmp[1] );
 							break;
+						default:
+							returnList.add( "Request Not Recognised" );
 					}
 				}
 				catch ( NumberFormatException e )
@@ -148,7 +150,9 @@ public class RequestManager
 				catch ( UnsupportedOperationException e )
 				{
 					throw e;
-				} catch (Exception e) {
+				}
+				catch ( Exception e )
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
