@@ -72,14 +72,14 @@ public class Server
 			// String trustStore =
 			// Server.class.getResource("Resources").getPath();
 			
-			/*System.setProperty( "javax.net.ssl.keyStore", "ca.store" );
+			System.setProperty( "javax.net.ssl.keyStore", "keystoreformatt.jks" );
 			System.setProperty( "javax.net.ssl.keyStorePassword", "capita123" );
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
-			sS = factory.createServerSocket( PORT );*/
+			sS = factory.createServerSocket( PORT );
 			
-			sS = new ServerSocket(PORT);
+	
 			
-			//ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
+			ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
 			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
@@ -96,7 +96,7 @@ public class Server
 		}
 		catch ( Exception e )
 		{
-			//ServerGUI.getTextArea().append( e.getMessage() + "\n" );
+			ServerGUI.getTextArea().append( e.getMessage() + "\n" );
 			e.printStackTrace();
 		}
 	}
