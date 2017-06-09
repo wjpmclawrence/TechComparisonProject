@@ -72,7 +72,7 @@ public class Server
 			// String trustStore =
 			// Server.class.getResource("Resources").getPath();
 			
-			System.setProperty( "javax.net.ssl.keyStore", "keystoreformatt.jks" );
+			System.setProperty( "javax.net.ssl.keyStore", "keystore.jks" );
 			System.setProperty( "javax.net.ssl.keyStorePassword", "capita123" );
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 			sS = factory.createServerSocket( PORT );
