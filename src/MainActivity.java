@@ -1,4 +1,5 @@
 
+import java.awt.event.WindowListener;
 import javax.naming.Context;
 
 /*
@@ -11,7 +12,7 @@ import javax.naming.Context;
  *
  * @author matth
  */
-public class MainActivity {
+public class MainActivity{
     public static void main(String[] args)
     {
         TCPDesktop tcpDesktop = new TCPDesktop();

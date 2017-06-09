@@ -58,6 +58,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -124,19 +125,7 @@ public class TCPDesktop
             SSLSocketFactory sf = sslctx.getSocketFactory();
             // uses the SSLSocketFactory to create the socket
             System.out.println("creating socket");
-//            String[] suites = {
-//                    "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
-//                    "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
-//                    "TLS_DHE_RSA_WITH_AES_128_CBC_SHA256",
-//                    "TLS_RSA_WITH_AES_128_CBC_SHA",
-//                    "SSL_RSA_WITH_3DES_EDE_CBC_SHA",
-//                    "TLS_EMPTY_RENEGOTIATION_INFO_SCSV"
-//            };
             socket = (SSLSocket) sf.createSocket(SERVERIP, SERVERPORT);
-//            socket.setEnabledCipherSuites(suites);
-            for (String d : socket.getEnabledCipherSuites()){
-                System.out.println(d);
-            }
             if (socket.isConnected())
                 System.out.println("socket connected");
             // TODO code currently blocks indefinitely on the next line
@@ -149,8 +138,14 @@ public class TCPDesktop
             System.out.println("creating input stream");
             in = new ObjectInputStream(socket.getInputStream());
             System.out.println("all streams created");
+            socket.close();
             isSetUp = true;
-        } catch (Exception e)
+        } 
+        catch (SocketException se)
+        {
+            System.out.println("Client has been closed due to server terminating connection");
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
             isSetUp = false;
