@@ -106,12 +106,7 @@ public class TCPDesktop
             // Loads in the keystore from the resources
             System.out.println("starting setup");
             Security.addProvider(new BouncyCastleProvider());
-            CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
-            InputStream caInput = getResourceAsStream("capita.cer");
-            Certificate ca;
-            ca = cf.generateCertificate(caInput);
-            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
-            caInput = getResourceAsStream("keystore.bks");
+            InputStream caInput = getResourceAsStream("keystore.bks");
             KeyStore keyStore = KeyStore.getInstance("BKS");
             keyStore.load(caInput, KEYSTOREPASS.toCharArray());
             // creates a TrustManagerFactory and adds the keystore
