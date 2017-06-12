@@ -249,7 +249,7 @@ public class Converter extends FileChooser {
                     //Load Array
                     percArray[x - 1] = rs.getString(columnName[x - 1]);
                     //print percentages to text area
-                    textarea.append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
+                    textarea.append(columnName[x - 1] + " : " + percArray[x - 1] + "\n");
                 }
             }
         }
