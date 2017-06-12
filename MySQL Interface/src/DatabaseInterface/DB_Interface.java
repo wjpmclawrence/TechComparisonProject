@@ -12,7 +12,7 @@ import java.util.List;
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
-	static String db_connection = "jdbc:mysql://localhost:6800/languages?verifyServerCertificate=false&useSSL=true";		//languages/
+	static String db_connection = "jdbc:mysql://localhost:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
 	static String db_user = "root";
 	static String db_password = "whatpassword?";
 	static Connection myConn;
