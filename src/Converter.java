@@ -126,39 +126,69 @@ public class Converter extends FileChooser {
     }
 
     public static void compareSkills(String dest, String[] compArray, Statement stmt, Connection con) {
+        //initialise variables
         Scanner scanner = null;
         boolean skills = false;
+        String merge = null;
 
+        //start 3 word array
         String[] wordString = {"one", "two", "three"};
 
+        //open scanner
         try {
             scanner = new Scanner(new File(dest));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
+        //while there is still lines in the file
         while (scanner.hasNextLine()) {
+            //open second scanner
             Scanner scanner2 = new Scanner(scanner.nextLine());
+            //while ther are still words on the line
             while (scanner2.hasNext()) {
                 String s = scanner2.next();
+                merge = "";
 
+                //3 word array cycle
                 wordString[2] = wordString[1];
                 wordString[1] = wordString[0];
                 wordString[0] = s;
 
-                if (wordString[1].equalsIgnoreCase("novus") && wordString[0].equalsIgnoreCase("name:")) {
-                    System.out.println("");
-                    skills = false;
+                //set permutations of specific languages
+                if (wordString[1].equalsIgnoreCase("Visual") && wordString[0].equalsIgnoreCase("Basic")) {
+                    merge = wordString[1] + wordString[0];
+                }
+                if (wordString[1].equalsIgnoreCase("Assembly") && wordString[0].equalsIgnoreCase("Language")) {
+                    merge = wordString[1] + " " + wordString[0];
+                }
+                if (wordString[1].equalsIgnoreCase("Visual") && wordString[0].equalsIgnoreCase("Basic.net")) {
+                    merge = wordString[1] + wordString[0];
+                }
+                if (wordString[1].equalsIgnoreCase("Delphi/Object") && wordString[0].equalsIgnoreCase("Pascal")) {
+                    merge = wordString[1] + wordString[0];
+                }
+                if (wordString[1].equalsIgnoreCase("Object") && wordString[0].equalsIgnoreCase("Pascal")) {
+                    merge = "Delphi/Object-Pascal";
+                }
+                if (wordString[0].equalsIgnoreCase("Delphi")) {
+                    merge = "Delphi/Object-Pascal";
                 }
 
+                //check for start of skills setcion
                 if (wordString[2].equalsIgnoreCase("qualifications") && wordString[1].equalsIgnoreCase("and") && wordString[0].equalsIgnoreCase("skills")) {
                     skills = true;
                 }
+
+                //while in skills section search for known languages
                 if (skills == true) {
+                    //remove punctuation at the end of words
                     if (s.endsWith(".") || s.endsWith(",") || s.endsWith("(") || s.endsWith(")")) {
                         s = s.substring(0, s.length() - 1);
                     }
+                    //compare words to know languages to check for match
                     for (int i = 0; i < compArray.length; i++) {
+                        //if the languages match, go to percentages method
                         if (s.equalsIgnoreCase(compArray[i])) {
 
                             try {
@@ -168,8 +198,19 @@ public class Converter extends FileChooser {
                             }
                             break;
                         }
+                        //if permutation match then go to percentages method
+                        if (merge.equalsIgnoreCase(compArray[i])) {
+
+                            try {
+                                percentage(merge, stmt, con);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            break;
+                        }
                     }
                 }
+                //check for end of skills section
                 if (wordString[2].equalsIgnoreCase("interests") && wordString[1].equalsIgnoreCase("and") && wordString[0].equalsIgnoreCase("hobbies")) {
                     skills = false;
                 }
@@ -192,9 +233,10 @@ public class Converter extends FileChooser {
         ResultSet rs = stmt.executeQuery(get);
 
         ResultSetMetaData metaData = rs.getMetaData();
-        int count = metaData.getColumnCount(); //number of column
+        int count = metaData.getColumnCount(); //get number of columns
         String columnName[] = new String[count];
 
+        //get column names
         for (int i = 1; i <= count; i++) {
             columnName[i - 1] = metaData.getColumnLabel(i);
         }
@@ -206,6 +248,7 @@ public class Converter extends FileChooser {
                 for (int x = 1; x <= count; x++) {
                     //Load Array
                     percArray[x - 1] = rs.getString(columnName[x - 1]);
+                    //print percentages to text area
                     textarea.append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
                 }
             }

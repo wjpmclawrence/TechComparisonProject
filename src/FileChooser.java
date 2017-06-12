@@ -3,13 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author conno
@@ -160,7 +154,7 @@ public class FileChooser extends javax.swing.JFrame {
 
     private void JobFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JobFormActionPerformed
         // TODO add your handling code here:
-
+        //UNUSED AT THE MOMENT
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -182,8 +176,11 @@ public class FileChooser extends javax.swing.JFrame {
 
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            //get File
             File file = fileChooser.getSelectedFile();
+            //add file path to file path array
             fileArray[count] = file.getAbsolutePath();
+            //increase count
             count++;
             if (count == 10) {
                 Add_CV.setEnabled(false);
@@ -191,6 +188,7 @@ public class FileChooser extends javax.swing.JFrame {
         } else {
             System.out.println("File access cancelled by user.");
         }
+        //set components
         CV_count.setText("" + count + "");
         Remove_CV.setEnabled(true);
         Remove_ALL.setEnabled(true);
@@ -199,38 +197,39 @@ public class FileChooser extends javax.swing.JFrame {
 
     private void ResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResultsActionPerformed
         // TODO add your handling code here:
+        //send File path array through the converter
         for (int i = 0; i < count; i++) {
             textarea.append("\n\n" + fileArray[i] + "\n");
             Converter.start(fileArray[i]);
         }
 
-        /*try {
-                // What to do with the file, e.g. display it in a TextArea
-                textarea.read(new FileReader(file.getAbsolutePath() + ".txt"), null);
-            } catch (IOException ex) {
-                System.out.println("problem accessing file" + file.getAbsolutePath());
-            }*/
     }//GEN-LAST:event_ResultsActionPerformed
 
     private void Remove_CVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Remove_CVActionPerformed
         // TODO add your handling code here:
+        //set last file path array component to blank
         fileArray[count] = "";
+        //reduce count
         count = count - 1;
         if (count == 0) {
             Remove_CV.setEnabled(false);
             textarea.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
         }
+        //set components
         CV_count.setText("" + count + "");
     }//GEN-LAST:event_Remove_CVActionPerformed
 
     private void Remove_ALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Remove_ALLActionPerformed
         // TODO add your handling code here:
+        //remove all file path array components
         for (int i = 0; i < count; i++) {
             fileArray[i] = "";
         }
+        //set components
         Remove_CV.setEnabled(false);
         Remove_ALL.setEnabled(false);
         count = 0;
+        //reset writing on screen
         CV_count.setText("" + count + "");
         textarea.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
     }//GEN-LAST:event_Remove_ALLActionPerformed
@@ -265,7 +264,6 @@ public class FileChooser extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                int count = 1;
                 new FileChooser().setVisible(true);
             }
         });
