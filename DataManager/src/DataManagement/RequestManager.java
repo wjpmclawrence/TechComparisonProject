@@ -86,7 +86,7 @@ public class RequestManager
 			
 			for ( int i = 0; i < array.length; i++ )
 			{
-				if ( !array[i][0].equals( langName ) )
+				if ( !array[i][0].equalsIgnoreCase( langName ) )
 				{
 					returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
 				}
