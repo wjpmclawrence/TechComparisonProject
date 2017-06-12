@@ -24,7 +24,7 @@ public class TCPClient
     private ObjectInputStream in;
     private ObjectOutputStream out;
     // URL must be changed to the correct URL for the computer the server is running on
-    private static final String SERVERIP = "192.168.1.196"; //These could potentially be read from file, or hard coded
+    private static final String SERVERIP = "192.168.1.71"; //These could potentially be read from file, or hard coded
     private static final int SERVERPORT = 1234; //or found in some other method
     private static final String KEYSTOREPASS = "capita123"; // same applies to this
     private boolean isSetUp; // whether the client has been successfully set up
@@ -45,7 +45,7 @@ public class TCPClient
             // Loads in the keystore from the resources
             System.out.println("starting setup");
             KeyStore ks = KeyStore.getInstance("BKS");
-            InputStream keyin = context.getResources().openRawResource(R.raw.capitastore);
+            InputStream keyin = context.getResources().openRawResource(R.raw.keystoreformatt);
             ks.load(keyin, KEYSTOREPASS.toCharArray());
             keyin.close();
             // creates a TrustManagerFactory and adds the keystore
