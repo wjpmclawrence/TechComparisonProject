@@ -67,7 +67,7 @@ public class DummyClient
 			// using a self singed certificate
 			System.setProperty("javax.net.ssl.trustStore", "keystore.jks");
 			SocketFactory factory = SSLSocketFactory.getDefault();
-			socket = factory.createSocket( "127.0.0.1", 1234 );
+			socket = factory.createSocket( "192.168.1.124", 1234 );
 			
 		}
 		catch ( Exception e )
