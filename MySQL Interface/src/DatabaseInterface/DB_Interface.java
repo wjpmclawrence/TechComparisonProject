@@ -46,6 +46,32 @@ public class DB_Interface {
 	}
 	
 	
+	public static boolean langAvailable(String language) throws SQLException
+    {
+        boolean available = false;
+       
+        setup_connections();
+       
+        ResultSet rs = myStmt.executeQuery("SELECT * FROM language_percent "
+                + "WHERE Known_Language = '" + language + "'");
+       
+        while(rs.next())
+        {
+            String percent = rs.getString(language);
+           
+            if (percent.equals("100"))
+            {
+               
+                available = true;
+               
+            }
+           
+        }
+   
+        return available;
+    }
+	
+	
 	/**
 	 * Is called when Client needs to update to a new version/main menu.
 	 * @return 1 dimensional String array containing the main menu elements.
