@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
-                });
+                })
+                .show();
 
     }
 
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("dealing with response");
         if(result == null || result.isEmpty() || !(result.get(0) instanceof String))
         {
-            Toast.makeText(this, "Invalid Response from server", Toast.LENGTH_LONG).show(); // TODO offer chance to retry
+            Toast.makeText(this, R.string.invalid_response, Toast.LENGTH_LONG).show(); // TODO offer chance to retry
         }
         else// take result, format it, and display in UI
         {
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     displayResults(submenu);
                     break;
                 default:
-                    // Error has occurred
+                    Toast.makeText(this, R.string.invalid_response, Toast.LENGTH_LONG).show();
             }
         }
     }
