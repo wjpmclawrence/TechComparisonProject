@@ -25,7 +25,7 @@ public class RequestManager
 	 * @param clientVer
 	 *            The clients version number, provided as part of the request
 	 * @return Returns either a one element list with the OK message, or the current language list
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> checkVersion ( int clientVer ) throws Exception
@@ -61,22 +61,12 @@ public class RequestManager
 	 * @param langName
 	 *            The provided language, to which the other languages should be compared
 	 * @return Returns a list of Languages, sorted in descending order by similarity
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> getSubMenu ( String langName ) throws Exception
 	{
-		boolean langAvail = false;
-		String[] tmp = DB_Interface.version();
-		
-		for ( String i : tmp )
-		{
-			if ( i.equalsIgnoreCase( langName ) )
-			{
-				langAvail = true;
-				break;
-			}
-		}
+		boolean langAvail = DB_Interface.langAvailable( langName );
 		
 		List<Object> returnList = new ArrayList<Object>();
 		
@@ -148,8 +138,9 @@ public class RequestManager
 				catch ( UnsupportedOperationException e )
 				{
 					throw e;
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				}
+				catch ( Exception e )
+				{
 					e.printStackTrace();
 				}
 			}
