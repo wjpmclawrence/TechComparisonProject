@@ -119,12 +119,10 @@ public class MainActivity extends AppCompatActivity {
                     {
                         // uses RequestTask to request from the server
                         // forces a new list to be loaded by using 0 as version
-                        if (client.isSetUp())
-                        {
-                            RequestTask requestTask = new RequestTask();
-                            requestTask.execute(VERSIONREQUEST + DELIMITER + 0);
-                        }
-                        else; // error has occurred
+
+                        RequestTask requestTask = new RequestTask();
+                        requestTask.execute(VERSIONREQUEST + DELIMITER + 0);
+
                     }
                 })
                 .setNegativeButton(R.string.cancel_shut_down, new DialogInterface.OnClickListener()
@@ -234,12 +232,10 @@ public class MainActivity extends AppCompatActivity {
             client = result;
 
             //uses RequestTask to request from the server
-            if (client.isSetUp())
-            {
-                RequestTask requestTask = new RequestTask();
-                requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
-            }
-            else; // error has occurred
+
+            RequestTask requestTask = new RequestTask();
+            requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
+
         }
     }
 
