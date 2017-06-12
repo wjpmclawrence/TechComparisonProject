@@ -60,6 +60,7 @@ public class FileChooser extends javax.swing.JFrame {
 
         jLabel1.setText("CVs Loaded:");
 
+        FileMenu.setMnemonic('F');
         FileMenu.setText("File");
 
         JobForm.setText("Job Form");
@@ -71,6 +72,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(JobForm);
 
+        Add_CV.setMnemonic('A');
         Add_CV.setText("Add CV");
         Add_CV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,6 +99,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Remove_ALL);
 
+        Results.setMnemonic('R');
         Results.setText("Results");
         Results.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +108,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Results);
 
+        Exit.setMnemonic('E');
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
