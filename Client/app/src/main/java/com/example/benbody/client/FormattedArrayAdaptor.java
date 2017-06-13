@@ -35,28 +35,46 @@ public class FormattedArrayAdaptor extends ArrayAdapter<Language>
         this.values = values;
     }
 
+    // used to hold references to the Views
+    private static class ViewHolder
+    {
+        private TextView langName;
+        private TextView noWeeks;
+        private TextView percentage;
+        private ProgressBar percProgress;
+    }
+
     @Override // called to determine how each element in the list will be displayed
     public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
-        // inflater is used to inflate the layout XML file
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.list_layout, parent, false);
+        // if no view to convert
+        if (convertView == null)
+        {
+            // inflater is used to inflate the layout XML file
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.list_layout, parent, false);
+            // creates a view holder to hold references
+            ViewHolder viewHolder = new ViewHolder();
+            // assigns each of the elements of the layout to a variable
+            viewHolder.langName = (TextView) convertView.findViewById(R.id.langName);
+            viewHolder.noWeeks = (TextView) convertView.findViewById(R.id.noWeeks);
+            viewHolder.percentage = (TextView) convertView.findViewById(R.id.percentage);
+            viewHolder.percProgress = (ProgressBar) convertView.findViewById(R.id.percentageProgress);
+            // sets view holder as the tag
+            convertView.setTag(viewHolder);
+        }
 
-        // assigns each of the elements of the layout to a variable
-        TextView langName = (TextView) rowView.findViewById(R.id.langName);
-        TextView noWeeks = (TextView) rowView.findViewById(R.id.noWeeks);
-        TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
-        ProgressBar percProgress = (ProgressBar) rowView.findViewById(R.id.percentageProgress);
+        ViewHolder holder = (ViewHolder) convertView.getTag();
         // language at specific position
         Language lang = values.get(position);
         // sets each element of the layout to value from language
-        langName.setText(lang.getName());
-        noWeeks.setText(lang.getTrainingTime());
-        percentage.setText(String.format(Locale.ENGLISH, "%d%%",lang.getSimilarity()));
-        percProgress.setProgress(lang.getSimilarity());
+        holder.langName.setText(lang.getName());
+        holder.noWeeks.setText(lang.getTrainingTime());
+        holder.percentage.setText(String.format(Locale.ENGLISH, "%d%%",lang.getSimilarity()));
+        holder.percProgress.setProgress(lang.getSimilarity());
 
-        return rowView;
+        return convertView;
     }
 
 }
