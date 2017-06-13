@@ -14,7 +14,7 @@ import java.sql.Statement;
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
-	static String db_connection = "jdbc:mysql://localhost:6800/languages?verifyServerCertificate=false&useSSL=true";		//languages/
+	static String db_connection = "jdbc:mysql://localhost:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
 	static String db_user = "root";
 	static String db_password = "whatpassword?";
 	static Connection myConn;
@@ -46,6 +46,32 @@ public class DB_Interface {
 		myStmt = myConn.createStatement();
 	
 	}
+	
+	
+	public static boolean langAvailable(String language) throws SQLException
+    {
+        boolean available = false;
+       
+        setup_connections();
+       
+        ResultSet rs = myStmt.executeQuery("SELECT * FROM language_percent "
+                + "WHERE Known_Language = '" + language + "'");
+       
+        while(rs.next())
+        {
+            String percent = rs.getString(language);
+           
+            if (percent.equals("100"))
+            {
+               
+                available = true;
+               
+            }
+           
+        }
+   
+        return available;
+    }
 	
 	
 	/**

@@ -2,12 +2,16 @@ package ClientInterface;
 
 import java.awt.EventQueue;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -20,6 +24,9 @@ import DataManagement.RequestManager;
  */
 public class Server
 {
+	private static String				log				= "client_log.dat";
+	private static SimpleDateFormat		time;
+	
 	private static ServerSocket			sS;
 	private static final int			PORT			= 1234;
 	private static boolean				serverRunning	= true;
@@ -71,31 +78,56 @@ public class Server
 			// String trustStore =
 			// Server.class.getResource("Resources").getPath();
 			
-			/*System.setProperty( "javax.net.ssl.keyStore", "ca.store" );
+			System.setProperty( "javax.net.ssl.keyStore", "keystore.jks" );
 			System.setProperty( "javax.net.ssl.keyStorePassword", "capita123" );
 			ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
-			sS = factory.createServerSocket( PORT );*/
+			sS = factory.createServerSocket( PORT );
 			
-			sS = new ServerSocket(PORT);
+			time = new SimpleDateFormat( "dd/MM/yy HH:mm:ss" );
 			
-			ServerGUI.getTextArea().append( "Server running and listening for connections... \n" );
+			ServerGUI.getTextArea().append( "Server running and listening for connections...\n" );
 			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
 				ServerThread rc = new ServerThread( socket );
 				Thread tr = new Thread( rc );
 				tr.start();
-				ServerGUI.getTextArea().append( "DEBUG: Client Connected \n" );
+				ServerGUI.getTextArea()
+						.append( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
+				log( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
 			}
 		}
 		catch ( BindException e )
 		{
-			JOptionPane.showMessageDialog( ServerGUI.getsInterface(), "instance of a server is " + "already running" );
+			JOptionPane.showMessageDialog( ServerGUI.getsInterface(), "Instance of a server is already running" );
 			System.exit( 0 );
 		}
 		catch ( Exception e )
 		{
 			ServerGUI.getTextArea().append( e.getMessage() + "\n" );
+			e.printStackTrace();
+		}
+	}
+	
+	private static String timeStamp ()
+	{
+		return time.format( new Date() );
+	}
+	
+	/**
+	 * Writes supplied message to log
+	 */
+	private static void log ( String msg )
+	{
+		try
+		{
+			BufferedWriter writer = new BufferedWriter( new FileWriter( log, true ) );
+			writer.newLine();
+			writer.write( msg );
+			writer.close();
+		}
+		catch ( IOException e )
+		{
 			e.printStackTrace();
 		}
 	}
@@ -106,7 +138,9 @@ public class Server
 	private static void writeToClient ( List<Object> list, Socket socket ) throws IOException
 	{
 		oos = new ObjectOutputStream( socket.getOutputStream() );
-		ServerGUI.getTextArea().append( "DEBUG: Objects sent to client \n" );
+		ServerGUI.getTextArea()
+				.append( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
+		log( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
 		oos.writeObject( list );
 	}
 	
@@ -143,10 +177,13 @@ public class Server
 			try
 			{
 				frmClient = readStringFromClient( this.socket );
-				ServerGUI.getTextArea().append( frmClient + "\n" );
+				ServerGUI.getTextArea().append( timeStamp() + " " + frmClient + "\n" );
+				log( timeStamp() + " " + frmClient + "\n" );
 				writeToClient( RequestManager.requestMade( frmClient ), socket );
 				socket.close();
-				ServerGUI.getTextArea().append( "Client Disconnected, thread removed \n " );
+				ServerGUI.getTextArea().append(
+						timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
+				log( timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
 			}
 			catch ( IOException e )
 			{

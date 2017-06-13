@@ -67,17 +67,7 @@ public class RequestManager
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> getSubMenu ( String langName ) throws Exception
 	{
-		boolean langAvail = false;
-		String[] tmp = DB_Interface.version();
-		
-		for ( String i : tmp )
-		{
-			if ( i.equalsIgnoreCase( langName ) )
-			{
-				langAvail = true;
-				break;
-			}
-		}
+		boolean langAvail = DB_Interface.langAvailable( langName );
 		
 		List<Object> returnList = new ArrayList<Object>();
 		
@@ -87,7 +77,7 @@ public class RequestManager
 			
 			for ( int i = 0; i < array.length; i++ )
 			{
-				if ( !array[i][0].equals( langName ) )
+				if ( !array[i][0].equalsIgnoreCase( langName ) )
 				{
 					returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
 				}
@@ -156,7 +146,6 @@ public class RequestManager
 				}
 				catch ( Exception e )
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
