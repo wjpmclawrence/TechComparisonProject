@@ -30,7 +30,7 @@ public class FormattedArrayAdaptor extends ArrayAdapter<Language>
     // constructor
     public FormattedArrayAdaptor(Context context, int resource, List<Language> values)
     {
-        super(context, resource, (Language[]) values.toArray());
+        super(context, resource, values.toArray(new Language[values.size()]));
         this.context = context;
         this.values = values;
     }
