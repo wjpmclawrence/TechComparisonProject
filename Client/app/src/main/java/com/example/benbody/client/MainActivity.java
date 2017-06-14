@@ -56,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         //TODO code to format and display results using FormattedArrayAdapter
     }
 
+    private void request(int i)
+    {
+        String lang = options.get(i);
+
+        RequestTask requestTask = new RequestTask();
+        requestTask.execute(REQUEST + DELIMITER + lang);
+    }
+
     private void setVersionNo(int versionNo)
     {
         try
