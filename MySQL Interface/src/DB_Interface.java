@@ -1,6 +1,10 @@
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+package DatabaseInterface;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * 
@@ -10,7 +14,7 @@ import java.util.List;
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
-	static String db_connection = "jdbc:mysql://localhost:6800/languages?verifyServerCertificate=false&useSSL=true";		//languages/
+	static String db_connection = "jdbc:mysql://localhost:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
 	static String db_user = "root";
 	static String db_password = "whatpassword?";
 	static Connection myConn;
@@ -44,31 +48,40 @@ public class DB_Interface {
 	}
 	
 	
-	public static boolean lang_available(String language) throws SQLException
-	{
-		boolean available = false;
-		
-		setup_connections();
-		
-		ResultSet rs = myStmt.executeQuery("SELECT * FROM language_percent "
-				+ "WHERE Known_Language = '" + language + "'");
-		
-		while(rs.next())
-		{
-			String percent = rs.getString(language);
-			
-			if (percent.equals("100"))
-			{
-				
-				available = true;
-				
-			}
-			
-		}
+	/**
+	 * Is called to find the language that was called in the request
+	 * @return Boolean true/false depending if the the language matches the request
+	 * @throws SQLException
+	 */
+	public static boolean langAvailable(String language) throws SQLException
+    {
+		//assume language is not there until confirmed 
+        boolean available = false;
+       
+        setup_connections();
+       
+        //query row relative to client's language selection
+        ResultSet rs = myStmt.executeQuery("SELECT * FROM percentages "
+                + "WHERE Name = '" + language + "'");
+       
+        while(rs.next())
+        {
+        	//get language percentage
+            String percent = rs.getString(language);
+           
+            //if languages are the same (ie 100% match)
+            if (percent.equals("100"))
+            {
+               
+                available = true;
+               
+            }
+           
+        }
+        	
+        return available;
+    }
 	
-		return available;
-		
-	}
 	
 	/**
 	 * Is called when Client needs to update to a new version/main menu.
@@ -81,8 +94,8 @@ public class DB_Interface {
 		
 		setup_connections();
 		
-		
-		ResultSet rs = myStmt.executeQuery("SELECT * FROM language_percent");			//`Known_Language`
+		//query row relative to client's language selection
+		ResultSet rs = myStmt.executeQuery("SELECT * FROM percentages");			//`Name`
 		
 		int columnCount = rs.getMetaData().getColumnCount();
 		
@@ -95,8 +108,8 @@ public class DB_Interface {
 		int i = 0;
 		while(rs.next())
 		{
-					//pull all the row entries of Known_language
-					list[i] = rs.getString("Known_Language");
+					//pull all the row entries of Name
+					list[i] = rs.getString("Name");
 					i++;
 					//System.out.println(list[i]);
 					
@@ -121,33 +134,36 @@ public class DB_Interface {
 		setup_connections();
 		
 		//query row relative to client's language selection
-		ResultSet rs = myStmt.executeQuery("SELECT * FROM language_percent "
-				+ "WHERE Known_Language = '" + language + "'");
+		ResultSet rs = myStmt.executeQuery("SELECT * FROM percentages "
+				+ "WHERE Name = '" + language + "'");
 		
 		int columnCount = rs.getMetaData().getColumnCount();
 		
 		/*
-		 * -2 column count to omit the 1st column and start from 0 
+		 * -1 column count to omit the 1st column 
 		 * as column index starts at 1
 		*/
-		subMenu = new String[columnCount-2][2];
+		subMenu = new String[columnCount-1][2];
 		
 		//populate array
 		while(rs.next())
 		{
 			
-			//start at column 2 as 1 is primary key (Known_Language)
-			for (int i = 2; i<columnCount; i++)	
+			//column count -1 as 1st column is primary key (Name)
+			for (int i = 0; i<columnCount-1; i++)	
 			{
 				
-				//get column name in order of position in the table
-				String columnName = rs.getMetaData().getColumnLabel(i);					
+				/* get column name in order of position in the table
+				 * +2 to column label to omit the first column
+				 * and to override array index 0
+				 */
+				String columnName = rs.getMetaData().getColumnLabel(i+2);					
 				
 				//get row column name
-				subMenu[i-2][0] = columnName;
+				subMenu[i][0] = columnName;
 				
 				//get row data from particular column
-				subMenu[i-2][1] = rs.getString(i);
+				subMenu[i][1] = rs.getString(i+2);
 			
 			}
 			
