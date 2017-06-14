@@ -242,10 +242,9 @@ public class FileChooser extends javax.swing.JFrame {
         // TODO add your handling code here:
         //send File path array through the converter
         for (int i = 0; i < count; i++) {
-            infoText.append("\n\n" + fileArray[i] + "\n");
+            getInfoCv().append(fileArray[i]);
             Converter.start(fileArray[i]);
         }
-
     }//GEN-LAST:event_ResultsActionPerformed
 
     private void Remove_CVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Remove_CVActionPerformed
@@ -336,6 +335,11 @@ public class FileChooser extends javax.swing.JFrame {
     public static JTextArea getInfoCv()
     {
         return infoCv;
+    }
+    
+    public static void setInfoCv(JTextArea infoCv)
+    {
+        FileChooser.infoCv = infoCv;
     }
     
     class MyCustomFilter extends javax.swing.filechooser.FileFilter {

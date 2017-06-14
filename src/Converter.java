@@ -249,13 +249,12 @@ public class Converter extends FileChooser {
                     //Load Array
                     percArray[x - 1] = rs.getString(columnName[x - 1]);
                     //print percentages to text area
-                    getInfoCv().append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
+                    getInfoCv().append("\n" + columnName[x - 1] + ":" + percArray[x - 1]);
                 }
             }
         }
 
         getInfoCv().append("\n");
-
     }
 
     public static void connectToDatabase(String destination) {
