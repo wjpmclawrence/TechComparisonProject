@@ -23,7 +23,7 @@ public class TCPClient
 {
     private Context context; // context required to load keystore
     // URL must be changed to the correct URL for the computer the server is running on
-    private static final String SERVERIP = "192.168.1.71"; //These could potentially be read from file, or hard coded
+    private static final String SERVERIP = "192.168.1.160"; //These could potentially be read from file, or hard coded
     private static final int SERVERPORT = 1234; //or found in some other method
     private static final String KEYSTOREPASS = "capita123";
 

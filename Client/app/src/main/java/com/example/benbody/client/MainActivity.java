@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import utils.Language;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String DELIMITER = "~";
     private TCPClient client;
     private ClientGUI gui = new ClientGUI();
+    private Spinner spinner;
     private List<String> options;
 
     public TCPClient getClient()
@@ -38,7 +42,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         System.out.println("onCreate Called");
         setContentView(R.layout.activity_main);
+        // Spinner variables
+        spinner = (Spinner) findViewById(R.id.spinner);
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(this);
+
         startup();
+
     }
 
 
@@ -52,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
         // Capture the layout's TextView and set the string as its text
         //textView.setText("GET OFFA MAH LAWN");
-        gui.textView.setText(gui.GetInfo(item.toLowerCase()));
+       // gui.textView.setText(gui.GetInfo(item.toLowerCase()));
+        request(position);
 
     }
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -69,11 +80,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void displayOptions()
     {
         //TODO code to display options
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
     }
 
     private void displayResults(List<?> results)
     {
         //TODO code to format and display results using FormattedArrayAdapter
+
+        FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this, R.layout.list_layout, (List<Language>)(Object) results);
+    }
+
+    private void request(int i)
+    {
+        String lang = options.get(i);
+
+        RequestTask requestTask = new RequestTask();
+        requestTask.execute(REQUEST + DELIMITER + lang);
     }
 
     private void setVersionNo(int versionNo)

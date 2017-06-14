@@ -1,18 +1,19 @@
 package com.example.benbody.client;
 
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by BenBody on 14/06/2017.
+ * Created by William J P Mclawrence on 14/06/2017.
  */
 
 public class ClientGUI {
     private List<String> categories;
     private String info;
-    public TextView textView;
+    public ListView List;
 
     // Constructor
     ClientGUI()
