@@ -90,6 +90,7 @@ public class FileChooser extends javax.swing.JFrame {
         jSplitPane1.setDividerSize(30);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
+        infoText.setEditable(false);
         infoText.setColumns(20);
         infoText.setRows(5);
         infoText.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
@@ -109,12 +110,13 @@ public class FileChooser extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Language Comparison"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Language Comparison", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         cvPaste.setName("cvPaste"); // NOI18N
 
         infoCv.setColumns(20);
         infoCv.setRows(5);
+        infoCv.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         infoCv.setName("infoCv"); // NOI18N
         cvPaste.setViewportView(infoCv);
         infoCv.getAccessibleContext().setAccessibleDescription("");
@@ -124,14 +126,16 @@ public class FileChooser extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addComponent(cvPaste, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cvPaste, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cvPaste, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel3);
