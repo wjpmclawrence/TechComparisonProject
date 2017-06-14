@@ -279,7 +279,9 @@ public class Converter extends FileChooser {
 
             //call comparison class
             compareSkills(destination, compArray, stmt, con);
-
+            
+            // Confusing way to delete last character in CV string
+            getInfoCv().setText(getInfoCv().getText().substring(0, getInfoCv().getText().length() - 1));
         } catch (SQLException | ClassNotFoundException err) {
             System.out.println(err.getMessage());
 
