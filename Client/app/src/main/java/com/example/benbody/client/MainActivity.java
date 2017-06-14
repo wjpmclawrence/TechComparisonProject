@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String LANGUAGESFILEPATH = "languages.dat";
     private static final String VERSIONNOFILEPATH = "versionno.dat";
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String REQUEST = "request";
     private static final String DELIMITER = "~";
     private TCPClient client;
+    private ClientGUI gui = new ClientGUI();
     private List<String> options;
 
     public TCPClient getClient()
@@ -38,6 +41,23 @@ public class MainActivity extends AppCompatActivity {
         startup();
     }
 
+
+    // List selection functionality
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        // Capture the layout's TextView and set the string as its text
+        //textView.setText("GET OFFA MAH LAWN");
+        gui.textView.setText(gui.GetInfo(item.toLowerCase()));
+
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
     // startup method for things that need executing as soon as app starts
     // Functionality moved to Startuptask
     private void startup()
