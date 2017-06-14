@@ -227,7 +227,7 @@ public class Converter extends FileChooser {
         String output = input.substring(0, 1).toUpperCase() + input.substring(1);
 
         //Select statement to find variables
-        String get = "SELECT * FROM mydb.percentages";
+        String get = "SELECT * FROM percentages";
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(get);
@@ -249,20 +249,20 @@ public class Converter extends FileChooser {
                     //Load Array
                     percArray[x - 1] = rs.getString(columnName[x - 1]);
                     //print percentages to text area
-                    textarea.append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
+                    getInfoCv().append(columnName[x - 1] + ":" + percArray[x - 1] + "\n");
                 }
             }
         }
 
-        textarea.append("\n");
+        getInfoCv().append("\n");
 
     }
 
     public static void connectToDatabase(String destination) {
         //Database Info
-        String host = "jdbc:mysql://localhost:3306/mydb";
+        String host = "jdbc:mysql://192.168.1.124:3306/languages";
         String uName = "root";
-        String pWord = "password";
+        String pWord = "whatpassword?";
         String[] compArray;
 
         try {
@@ -295,7 +295,7 @@ public class Converter extends FileChooser {
         String condition = "";
 
         //Select statement to find variables
-        String get = "SELECT " + test + " FROM mydb.languages " + condition;
+        String get = "SELECT " + test + " FROM languages.languages " + condition;
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(get);

@@ -1,8 +1,9 @@
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -12,7 +13,7 @@ public class FileChooser extends javax.swing.JFrame {
 
     String[] fileArray;
     int count;
-
+    
     /**
      * Creates new form FileChooser
      */
@@ -33,10 +34,15 @@ public class FileChooser extends javax.swing.JFrame {
     private void initComponents() {
 
         fileChooser = new javax.swing.JFileChooser();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textarea = new javax.swing.JTextArea();
         CV_count = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        infoText = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        cvPaste = new javax.swing.JScrollPane();
+        infoCv = new javax.swing.JTextArea();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         JobForm = new javax.swing.JMenuItem();
@@ -51,14 +57,43 @@ public class FileChooser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textarea.setColumns(20);
-        textarea.setRows(5);
-        textarea.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
-        jScrollPane1.setViewportView(textarea);
-
         CV_count.setText("0");
 
         jLabel1.setText("CVs Loaded:");
+
+        jSplitPane1.setDividerLocation(50);
+        jSplitPane1.setDividerSize(30);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        infoText.setColumns(20);
+        infoText.setRows(5);
+        infoText.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
+        infoText.setWrapStyleWord(true);
+        infoText.setName("infoText"); // NOI18N
+        jScrollPane1.setViewportView(infoText);
+        infoText.getAccessibleContext().setAccessibleName("");
+
+        jSplitPane1.setTopComponent(jScrollPane1);
+
+        jScrollPane2.setName(""); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setName("cvPaste"); // NOI18N
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jSplitPane1.setRightComponent(jScrollPane2);
+
+        cvPaste.setName("cvPaste"); // NOI18N
+
+        infoCv.setColumns(20);
+        infoCv.setRows(5);
+        infoCv.setName("infoCv"); // NOI18N
+        cvPaste.setViewportView(infoCv);
+        infoCv.getAccessibleContext().setAccessibleDescription("");
+        infoCv.getAccessibleContext().setAccessibleParent(jScrollPane2);
+
+        jSplitPane1.setRightComponent(cvPaste);
 
         FileMenu.setMnemonic('F');
         FileMenu.setText("File");
@@ -73,6 +108,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(JobForm);
 
+        Add_CV.setMnemonic('A');
         Add_CV.setText("Add CV");
         Add_CV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,21 +164,22 @@ public class FileChooser extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(CV_count, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CV_count, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CV_count)
@@ -168,7 +205,7 @@ public class FileChooser extends javax.swing.JFrame {
 
             try {
                 // What to do with the file, e.g. display it in a TextArea
-                textarea.read(new FileReader(file.getAbsolutePath() + ".txt"), null);
+                infoText.read(new FileReader(file.getAbsolutePath() + ".txt"), null);
             } catch (IOException ex) {
                 System.out.println("problem accessing file" + file.getAbsolutePath());
             }
@@ -205,7 +242,7 @@ public class FileChooser extends javax.swing.JFrame {
         // TODO add your handling code here:
         //send File path array through the converter
         for (int i = 0; i < count; i++) {
-            textarea.append("\n\n" + fileArray[i] + "\n");
+            infoText.append("\n\n" + fileArray[i] + "\n");
             Converter.start(fileArray[i]);
         }
 
@@ -219,7 +256,7 @@ public class FileChooser extends javax.swing.JFrame {
         count = count - 1;
         if (count == 0) {
             Remove_CV.setEnabled(false);
-            textarea.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
+            infoText.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
         }
         //set components
         CV_count.setText("" + count + "");
@@ -237,7 +274,7 @@ public class FileChooser extends javax.swing.JFrame {
         count = 0;
         //reset writing on screen
         CV_count.setText("" + count + "");
-        textarea.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
+        infoText.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
     }//GEN-LAST:event_Remove_ALLActionPerformed
 
     /**
@@ -285,12 +322,22 @@ public class FileChooser extends javax.swing.JFrame {
     private javax.swing.JMenuItem Remove_ALL;
     private javax.swing.JMenuItem Remove_CV;
     private javax.swing.JMenuItem Results;
+    private javax.swing.JScrollPane cvPaste;
     private javax.swing.JFileChooser fileChooser;
+    private static javax.swing.JTextArea infoCv;
+    private javax.swing.JTextArea infoText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTextArea textarea;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
+    public static JTextArea getInfoCv()
+    {
+        return infoCv;
+    }
+    
     class MyCustomFilter extends javax.swing.filechooser.FileFilter {
 
         @Override
