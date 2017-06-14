@@ -13,7 +13,7 @@ import java.util.List;
 public class ClientGUI {
     private List<String> categories;
     private String info;
-    public ListView List;
+    public ListView listView;
 
     // Constructor
     ClientGUI()

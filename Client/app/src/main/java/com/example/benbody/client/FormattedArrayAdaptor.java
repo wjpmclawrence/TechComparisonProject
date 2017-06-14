@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
-import utils.Language;
+import Utils.Language;
 
 
 /**

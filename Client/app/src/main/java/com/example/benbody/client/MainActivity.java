@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import utils.Language;
+import Utils.Language;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         System.out.println("onCreate Called");
         setContentView(R.layout.activity_main);
+        gui.listView = (ListView) findViewById(R.id.info);
         // Spinner variables
         spinner = (Spinner) findViewById(R.id.spinner);
         // Spinner click listener
@@ -58,11 +60,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
 
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-        // Capture the layout's TextView and set the string as its text
-        //textView.setText("GET OFFA MAH LAWN");
-       // gui.textView.setText(gui.GetInfo(item.toLowerCase()));
         request(position);
 
     }
@@ -80,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void displayOptions()
     {
         //TODO code to display options
+        options.add(0, "Select Language");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,10 +90,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //TODO code to format and display results using FormattedArrayAdapter
 
         FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this, R.layout.list_layout, (List<Language>)(Object) results);
+        gui.listView.setAdapter(formArrayAdapt);
     }
 
     private void request(int i)
     {
+        if(i == 0)
+            return;
         String lang = options.get(i);
 
         RequestTask requestTask = new RequestTask();
