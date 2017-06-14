@@ -73,17 +73,7 @@ public class RequestManager
 		
 		if ( langAvail )
 		{
-			/*String[][] array = DB_Interface.request( langName );
-			
-			for ( int i = 0; i < array.length; i++ )
-			{
-				if ( !array[i][0].equalsIgnoreCase( langName ) )
-				{
-					returnList.add( new Language( array[i][0], Integer.parseInt( array[i][1] ) ) );
-				}
-			}*/
-			
-			returnList.addAll( LanguageManager.setupLanguages( DB_Interface.request( langName ) ) );
+			returnList.addAll( LanguageManager.setupLanguages( DB_Interface.request( langName ), langName ) );
 			
 			Collections.sort( (List<Language>) (Object) returnList );
 			returnList.add( 0, "sub_menu_list" );

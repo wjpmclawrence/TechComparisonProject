@@ -9,14 +9,17 @@ public class LanguageManager
 {
 	static List<Language> langList;
 	
-	public static List<Language> setupLanguages ( String[][] incoming )
+	public static List<Language> setupLanguages ( String[][] incoming, String compName )
 	{
 		langList = new ArrayList<Language>();
 		
 		for ( int i = 0; i < incoming.length; i++ )
 		{
-			int similarity = Integer.parseInt( incoming[i][1] );
-			langList.add( new Language( incoming[i][0], similarity, calcWeeks( similarity ) ) );
+			if ( !incoming[i][0].equalsIgnoreCase( compName ) )
+			{
+				int similarity = Integer.parseInt( incoming[i][1] );
+				langList.add( new Language( incoming[i][0], similarity, calcWeeks( similarity ) ) );
+			}
 		}
 		
 		return langList;
@@ -56,7 +59,7 @@ public class LanguageManager
 		{
 			return "7-8 Weeks";
 		}
-
+		
 		return "Over 2 Months";
 	}
 }
