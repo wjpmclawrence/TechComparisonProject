@@ -174,6 +174,9 @@ public class Converter extends FileChooser {
                 if (wordString[0].equalsIgnoreCase("Delphi")) {
                     merge = "Delphi/Object-Pascal";
                 }
+                if (wordString[1].equalsIgnoreCase("Delphi/Object") && wordString[0].equalsIgnoreCase("Pascal")) {
+                    merge = "Delphi/Object-Pascal";
+                }
 
                 //check for start of skills setcion
                 if (wordString[2].equalsIgnoreCase("qualifications") && wordString[1].equalsIgnoreCase("and") && wordString[0].equalsIgnoreCase("skills")) {
@@ -227,7 +230,7 @@ public class Converter extends FileChooser {
         String output = input.substring(0, 1).toUpperCase() + input.substring(1);
 
         //Select statement to find variables
-        String get = "SELECT * FROM mydb.percentages";
+        String get = "SELECT * FROM languages.percentages";
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(get);
@@ -260,9 +263,9 @@ public class Converter extends FileChooser {
 
     public static void connectToDatabase(String destination) {
         //Database Info
-        String host = "jdbc:mysql://localhost:3306/mydb";
+        String host = "jdbc:mysql://192.168.1.124:3306/languages";
         String uName = "root";
-        String pWord = "password";
+        String pWord = "whatpassword?";
         String[] compArray;
 
         try {
@@ -295,7 +298,7 @@ public class Converter extends FileChooser {
         String condition = "";
 
         //Select statement to find variables
-        String get = "SELECT " + test + " FROM mydb.languages " + condition;
+        String get = "SELECT " + test + " FROM languages.languages " + condition;
 
         //Execute Query on statement
         ResultSet rs = stmt.executeQuery(get);
