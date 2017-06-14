@@ -1,0 +1,162 @@
+         Contact: Andrew Jacob 
+andrew.jacob@capita.co.uk / (0) 7557 202 942
+Capita Novus
+
+PROFILE SUMMARY	
+
+Poojan has taken the time to volunteer with Cancer Research UK using own initiative to Design and Build IT solutions that have increased productivity for the clinical trials unit. Seeing his project put to use has provide Poojan with much joy and has motivated him to learn more and keep his skills up to date. Poojan has a wide range of experience in a number of fields which has allowed him to grow as a person and he now looks forward to beginning his career as a software developer.
+
+PREVIOUS ENGAGEMENTS
+Capita IT Professional Services
+Software Engineer
+June 2016 - Present
+
+Capita’s intensive programme covers both theoretical and practical aspects of software development. As well as engaging with real projects to prove the skills acquired, the programme equips the individual with the skill sets required in programming techniques for desktop and web applications, database connectivity and querying, and HTML, CSS and JavaScript web development.
+
+Your account manager can provide a full course outline if requested. 
+
+Royal Mail, Greenford
+Mail Sorter
+December 2014- August 2015		
+
+Poojan worked within a team to ensure the mail was sorted before the cut of period, with ability to deal with repetitive tasks quickly and efficiently within a team.
+
+Hydro Water Well (Kenya) Ltd, Kenya
+Procurement Manager
+January 2014 - March 2014
+
+Poojan maintained stock levels with future projects in mind. He monitored suppliers’ performance and kept all supplier programs current and accurate. He also monitored and adjusted the sourcing strategies, and promoted best practice across the company, so that there was an adequate stock level. Poojan initially had problems ensuring that he had enough space for incoming supplies, which he was able to resolve by communicating better with the onsite teams to reduce stock kept in the warehouse.
+
+
+
+Pisu & Co (Kenya), Kenya 
+IT Manager
+August 2013- January 2014
+		
+Poojan supported 30 users in a medium sized company, where he strengthened the IT infrastructure through to implementing new technologies. Responsible for hardware and software installation, maintenance and repair. Reported recommendations and implemented improvements and efficiencies to the Director and Chief Executive. He performed routine audits of systems and software and managed the IT budgets. Managed the backup routines of the server software and associated backup.  Maintaining documentation of changes regarding users, functions & systems.
+
+Technologies Used:
+Windows Server 2012 & 2008
+SAP Business one
+Google apps support
+IT & network maintenance
+
+Hydro Water Well (Kenya) Ltd, Kenya 
+Procurement Manager
+June 2012- August 2013
+
+
+Poojan maintained stock levels with future projects in mind. He monitored suppliers’ performance and kept all supplier programs current and accurate. He also monitored and adjusted the sourcing strategies, and promoted best practice across the company, so that there was an adequate stock level. Poojan initially had problems ensuring that He had enough space for incoming supplies, which he was able to resolve by communicating better with the onsite teams to reduce stock kept in the warehouse.
+
+
+Spring Project, London
+IT Support
+March 2012- June 2012
+
+Maintained the computers and the server ensuring that everything ran smoothly, with regular system and software audits.  Maintained documents of changes regarding users, functions & systems.
+
+Bathroom Cash and Carry, Wembley 
+Website Manager
+October 2011- December 2011
+
+Poojan Uploaded content and communicate changes required to developer team.
+
+Ealing Equality Council, Ealing 
+Website Manager
+July 2011- September 2011		
+				
+Poojan created the website within a month, using HTML5 and CSS3 via a Joomla, , He spoke to all of the stakeholders involved to ensure the website was a good reflection of the organisation. He Spoke to directors to ensure that it was done correctly.
+
+Cancer Research UK, Wolfson Institute, London
+Junior Software Developer (Volunteer)
+August 2009- April 2010	
+		
+The Department had a problem with managing information about all studies, completed and ongoing. The information stored was not used to its full potential. There is also a risk, that should a member of staff leave the department, knowledge about datasets; especially older ones, would be lost.
+He designed and built an intranet application with oracle application express. The application was developed with the agile methodology as it allowed the client to provide feedback while it was developed.
+It was designed to store so that the relevant information for the trail could be looked up. They like the application and enjoyed using it.
+
+Developed an intranet application with Oracle Application Express & Oracle Database 11g.
+Acquired and analysed client and user requirements. 
+Website Development & Maintenance.
+Testing software in a wide range of scenarios and is defect free.
+Documenting project specifications, program code and.
+Create users and maintenance manuals.
+
+Cancer Research UK, Wolfson Institute, London
+Junior Software Developer (Volunteer)
+August 2008- August 2008
+
+Created MS Access basic applications
+Website Development & Maintenance that used PHP and JavaScript.
+
+Cancer Research UK, Wolfson Institute, London
+Junior Software Developer (Volunteer)
+July 2006- September 2006
+
+As a Volunteer he helped in digitizing documents, so that they would be able to find them more easily rather than going to look up the boxes of each files in storage.   
+
+
+EDUCATION
+
+University of Hertfordshire, Hatfield
+BSc Hons Computer Science – 2:2
+September 2010- August 2011
+
+Core Modules:			Further Object-Oriented Development
+				Programming Language Design & Implementation
+Advance Database
+Professional Issues in Computing
+Languages & Technologies:	Java, MySQL, SQLite
+
+Final Year Project:		Analytically and empirically research, language features for developing web applications.
+
+University of Hertfordshire, Hatfield
+Foundation Degree in IT for Multimedia - Commendation 
+September 2008- August 2010
+
+Core Modules:			Object Oriented Programming
+				Applied Programing
+				Human Computer Interaction
+				Work Based Learning Project
+Languages & Technologies:	Java, VB.NET, Oracle Application Express
+
+West Herts. College, Watford 
+September 2006- August 2008
+
+				BTEC National IT Practitioners – MPP 
+
+Stanmore Sixth Form College, Stanmore
+September 2005- August 2006
+
+				BTEC first diploma in Business – Merit
+
+
+Hatch end High School, Hatch end
+September 2001- August 2005
+
+				Five GCSE’s
+QUALIFICATIONS AND SKILLS
+Completed:
+
+Working Towards:
+JAVA Associate Java SE8 programming 1
+Technical Skills:
+Programming Languages: Java, C#, MYSQL and Ruby on Rails
+IDEs: Eclipse and NetBeans
+INTERESTS AND HOBBIES
+
+Poojan  has previously enjoyed volunteering, which has allowed him to learn new skills and develop himself as a person.
+
+Poojan have recently going to the gym, which has allowed him to become more focused and relentless on his goals. This has allowed him to push myself every time to work out harder. 
+
+Novus Name:	Poojan Shah	
+Role:	Software Engineer	
+Availability:	Immediate	
+Last Assignment:	Capita Training	
+
+Capita IT Professional Services
+17 Rochester Row, London, SW1P 1JB
+Tel +44 (0) 8456 077466 Email mail.at@capita.co.uk   www.capita.co.uk 
+A trading name of Capita Business Services Limited
+Registered Office: 71 Victoria Street, Westminster, London SW1H 0XA. Registered in England No. 2299747.
+Part of the Capita Group. www.capita.co.uk
