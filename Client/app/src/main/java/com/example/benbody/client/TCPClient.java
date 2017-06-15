@@ -34,9 +34,9 @@ public class TCPClient
     }
 
     //used by Request Task to request data from the server
-    public List<Object> request(String request)
+    public List<?> request(String request)
     {
-        List<Object> result = null;
+        List<?> result = null;
         SSLSocket socket = createSocket();
 
         if (socket != null)
@@ -53,7 +53,7 @@ public class TCPClient
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 System.out.println("created input stream");
                 // receive response
-                result = (List<Object>) in.readObject();
+                result = (List<?>) in.readObject();
                 System.out.println("Object received: " + result);
                 socket.close();
             }

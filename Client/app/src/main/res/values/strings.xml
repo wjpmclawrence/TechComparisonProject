@@ -8,4 +8,6 @@
     <string name="no_version_no">No version number found</string>
     <string name="prob_cache_lang">Problem caching languages</string>
     <string name="invalid_response">Invalid Response from server</string>
+    <string name="select_lang">Select Language</string>
+    <string name="response_error">No Response from server, would you like to retry?</string>
 </resources>

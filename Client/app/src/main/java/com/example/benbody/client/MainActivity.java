@@ -32,16 +32,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ClientGUI gui = new ClientGUI();
     private Spinner spinner;
     private List<String> options;
+    private boolean optionsLoaded = false;
 
     public TCPClient getClient()
     {
         return client;
     }
 
+    // on create called every time app is created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("onCreate Called");
         setContentView(R.layout.activity_main);
         gui.listView = (ListView) findViewById(R.id.info);
         // Spinner variables
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
 
         startup();
-
     }
 
 
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String item = parent.getItemAtPosition(position).toString();
 
         request(position);
+    }
 
-    }
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-    }
+    // Method never used
+    public void onNothingSelected(AdapterView<?> arg0) {}
+
     // startup method for things that need executing as soon as app starts
     // Functionality moved to Startuptask
     private void startup()
@@ -74,40 +74,47 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startupTask.execute("");
     }
 
+    // uses the stored list of options to fill the spinner
     private void displayOptions()
     {
-        //TODO code to display options
-        options.add(0, "Select Language");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        // sets the intially selected option to "Select Language"
+        options.add(0, getString(R.string.select_lang));
+        // uses an Array Adapter to contation the options
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, options);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        optionsLoaded = true;
     }
 
+    //takes a list of Languages and displays it in the listview
     private void displayResults(List<?> results)
     {
-        //TODO code to format and display results using FormattedArrayAdapter
-
-        FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this, R.layout.list_layout, (List<Language>)(Object) results);
+        FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this,
+                R.layout.list_layout, (List<Language>) results);
         gui.listView.setAdapter(formArrayAdapt);
     }
 
+    // method uses request task to send a request to the server
     private void request(int i)
     {
-        if(i == 0)
+        if(i == 0) // case where "select language" is selected
             return;
+        // gets name of the language
         String lang = options.get(i);
-
+        // creates and executes a requestTask
         RequestTask requestTask = new RequestTask();
         requestTask.execute(REQUEST + DELIMITER + lang);
     }
 
+    // Updates the stored version number
     private void setVersionNo(int versionNo)
     {
         try
         {
-            File version = new File(this.getFilesDir(), VERSIONNOFILEPATH);
+            File version = new File(getFilesDir(), VERSIONNOFILEPATH);
             FileWriter writer = new FileWriter(version);
             writer.write(Integer.toString(versionNo));
             writer.close();
@@ -115,10 +122,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         catch(IOException e)
         {
             Toast.makeText(this, R.string.problem_version_no, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+            if (BuildConfig.DEBUG)
+                e.printStackTrace();
         }
     }
 
+    // loads the version number from the file
     private int getVersionNo()
     {
         File version = new File(this.getFilesDir(), VERSIONNOFILEPATH);
@@ -134,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             catch(IOException e)
             {
                 Toast.makeText(this, R.string.no_version_no, Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+                if (BuildConfig.DEBUG)
+                    e.printStackTrace();
             }
         }
         return 0; //if unable to find version on file, default to 0
@@ -159,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(R.string.languages_error)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
@@ -186,12 +196,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void dealWithResponse(List<Object> result)
+    private void errorMessageResponse()
     {
-        System.out.println("dealing with response");
+        // class which builds a dialog message
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.response_error)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        //uses RequestTask to request from the server
+                        RequestTask requestTask = new RequestTask();
+                        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());;
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void dealWithResponse(List<?> result)
+    {
         if(result == null || result.isEmpty() || !(result.get(0) instanceof String))
         {
-            Toast.makeText(this, R.string.invalid_response, Toast.LENGTH_LONG).show(); // TODO offer chance to retry
+            if (optionsLoaded) // in case of failed request
+                Toast.makeText(this, R.string.invalid_response, Toast.LENGTH_LONG).show();
+            else // case where options have not been loaded
+                errorMessageResponse();
         }
         else// take result, format it, and display in UI
         {
@@ -202,8 +234,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     // 2nd item in the list will be the version no.
                     setVersionNo((Integer) result.get(1));
                     //Saves the list to a .dat file
-                    List<String> menu = (List<String>) (Object) result.subList(2, result.size()); //take a list of all options
-                    languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                    List<String> menu = (List<String>) result.subList(2, result.size()); //take a list of all options
+                    languages = new File(getFilesDir(), LANGUAGESFILEPATH);
                     options = new ArrayList<>(menu); //
                     try
                     {
@@ -216,7 +248,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     {
                         Toast.makeText(MainActivity.this,
                                 R.string.prob_cache_lang, Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
+                        if (BuildConfig.DEBUG)
+                            e.printStackTrace();
                     }
                     // Toast used to display "languages updated"
                     Toast.makeText(MainActivity.this, R.string.language_update, Toast.LENGTH_SHORT).show();
@@ -225,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 case "version_ok" :
                     // loads menu from .dat file
                     options = new ArrayList<>();
-                    languages = new File(MainActivity.this.getFilesDir(), LANGUAGESFILEPATH);
+                    languages = new File(getFilesDir(), LANGUAGESFILEPATH);
                     try
                     {
                         Scanner reader = new Scanner(languages).useDelimiter(DELIMITER);
@@ -239,12 +272,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     catch (IOException e)
                     {
                         errorMessageLanguages();
-                        e.printStackTrace();
+                        if (BuildConfig.DEBUG)
+                            e.printStackTrace();
                     }
                     displayOptions(); //calls method to display the options
                     break;
                 case "sub_menu_list" :
-                    List<Object> submenu = result.subList(1, result.size());
+                    List<?> submenu = result.subList(1, result.size());
                     displayResults(submenu);
                     break;
                 default:
@@ -255,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    // AsyncTask used as creating TCPClient requires network operations, which are not allowed on the main thread
+    // This class is no longer strictly necessary as there is now no network operations performed
     private class StartupTask extends AsyncTask<String, String, TCPClient>
     {
         @Override
@@ -284,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     //AsyncTask used to perform connection on separate thread to GUI
-    private class RequestTask extends AsyncTask<String, String, List<Object>>
+    private class RequestTask extends AsyncTask<String, String, List<?>>
     {
 
         @Override // Executes before doInBackground in UI thread
@@ -295,19 +329,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         @Override // operates in separate thread
-        protected List<Object> doInBackground(String... params)
+        protected List<?> doInBackground(String... params)
         {
             // obtains the list from the TCP client
             return  getClient().request(params[0]);
         }
 
         @Override // executes after doInBackground to update the UI
-        protected void onPostExecute(List<Object> result)
+        protected void onPostExecute(List<?> result)
         {
             stopLoading();
             dealWithResponse(result);
         }
     }
-
 
 }
