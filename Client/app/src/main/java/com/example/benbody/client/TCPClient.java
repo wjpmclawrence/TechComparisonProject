@@ -2,7 +2,6 @@ package com.example.benbody.client;
 
 import android.content.Context;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
@@ -19,7 +18,7 @@ import javax.net.ssl.TrustManagerFactory;
  * Created by BenBody on 11/05/2017.
  */
 // Class which handles sending and receiving of data
-public class TCPClient
+class TCPClient
 {
     private Context context; // context required to load keystore
     // URL must be changed to the correct URL for the computer the server is running on
@@ -28,13 +27,13 @@ public class TCPClient
     private static final String KEYSTOREPASS = "capita123";
 
     // constructor initialises the context
-    public TCPClient(Context context)
+    TCPClient(Context context)
     {
         this.context = context;
     }
 
     //used by Request Task to request data from the server
-    public List<?> request(String request)
+    List<?> request(String request)
     {
         List<?> result = null;
         SSLSocket socket = createSocket();
@@ -44,29 +43,21 @@ public class TCPClient
             try
             {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                System.out.println("request is " + request);
                 // send request to server
                 out.println(request);
-                System.out.println("request sent");
                 // create input stream
-                System.out.println("creating input stream");
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                System.out.println("created input stream");
                 // receive response
                 result = (List<?>) in.readObject();
-                System.out.println("Object received: " + result);
                 socket.close();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                e.printStackTrace();
-            }
-            catch(ClassNotFoundException e)
-            {
-                e.printStackTrace();
+                if (BuildConfig.DEBUG)
+                    e.printStackTrace();
             }
         }
-        // return response
+        // return response (or null if none received)
         return result;
     }
 
@@ -90,12 +81,12 @@ public class TCPClient
             // uses the SSLContext to initialise the SSLSocketFactory
             SSLSocketFactory sf = sslctx.getSocketFactory();
             // uses the SSLSocketFactory to create the socket
-            System.out.println("creating socket");
             socket = (SSLSocket) sf.createSocket(SERVERIP, SERVERPORT);
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            if (BuildConfig.DEBUG)
+                e.printStackTrace();
         }
         return socket;
     }

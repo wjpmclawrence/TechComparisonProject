@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
-
         request(position);
     }
 
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // sets the intially selected option to "Select Language"
         options.add(0, getString(R.string.select_lang));
         // uses an Array Adapter to contation the options
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, options);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -209,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     {
                         //uses RequestTask to request from the server
                         RequestTask requestTask = new RequestTask();
-                        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());;
+                        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

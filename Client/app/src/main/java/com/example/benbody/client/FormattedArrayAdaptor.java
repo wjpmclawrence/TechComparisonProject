@@ -20,7 +20,7 @@ import Utils.Language;
  */
 
 // Class which will format the data to be put into the list
-public class FormattedArrayAdaptor extends ArrayAdapter<Language>
+class FormattedArrayAdaptor extends ArrayAdapter<Language>
 {
     private Context context;
     private List<Language> values;
@@ -28,7 +28,7 @@ public class FormattedArrayAdaptor extends ArrayAdapter<Language>
 
 
     // constructor
-    public FormattedArrayAdaptor(Context context, int resource, List<Language> values)
+    FormattedArrayAdaptor(Context context, int resource, List<Language> values)
     {
         super(context, resource, values.toArray(new Language[values.size()]));
         this.context = context;
