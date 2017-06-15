@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 import DatabaseInterface.DB_Interface;
-//import Tests.DB_Interface;
+import Utils.ErrorHandler;
+// import Tests.DB_Interface;
 import Utils.Language;
+import Utils.NotImplemented;
 
 /**
  * 
@@ -80,7 +82,50 @@ public class RequestManager
 		}
 		else
 		{
-			returnList.add( "Language Unavailable" );
+			returnList.add( ErrorHandler.getError( 3 ) );
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * Carries out the necessary actions to handle a request regarding Novus
+	 * profiles in the database.
+	 * <p>
+	 * Will check if the request is to add a profile, remove one, or check the
+	 * requirements of a job specification against the profiles that are stored.
+	 * 
+	 * @param request
+	 *            The request that was received and recognised as a profile request.
+	 * @return A list of objects, the first element of which will be the tag describing the response.
+	 * @throws NotImplemented
+	 */
+	private static List<Object> profileRequest ( String request ) throws NotImplemented
+	{
+		String splitter = "::";
+		List<Object> returnList = new ArrayList<Object>();
+		String[] splitReq = request.split( splitter );
+		
+		if ( splitReq.length > 1 )
+		{
+			switch ( splitReq[0].toLowerCase() )
+			{
+				case "add":
+					returnList = ProfileManager.add( splitReq[1] );
+					break;
+				case "remove":
+					returnList = ProfileManager.remove( splitReq[1] );
+					break;
+				case "check":
+					returnList = ProfileManager.check( splitReq[1] );
+					break;
+				default:
+					returnList.add( ErrorHandler.getError( 0 ) );
+			}
+		}
+		else
+		{
+			returnList.add( ErrorHandler.getError( 0 ) );
 		}
 		
 		return returnList;
@@ -103,11 +148,12 @@ public class RequestManager
 	 */
 	public static List<Object> requestMade ( String request )
 	{
+		String splitter = "~";
 		List<Object> returnList = new ArrayList<Object>();
 		
-		if ( request != null && request.contains( "~" ) )
+		if ( request != null && request.contains( splitter ) )
 		{
-			String[] tmp = request.split( "~" );
+			String[] tmp = request.split( splitter );
 			
 			if ( tmp.length > 1 )
 			{
@@ -122,31 +168,32 @@ public class RequestManager
 						case "request":
 							returnList = getSubMenu( tmp[1] );
 							break;
+						
+						case "profile":
+							returnList = profileRequest( tmp[1] );
+							break;
+						
 						default:
-							returnList.add( "Request Not Recognised" );
+							returnList.add( ErrorHandler.getError( 0 ) );
 					}
 				}
 				catch ( NumberFormatException e )
 				{
-					returnList.add( "Provided Version Is Not An int" );
-				}
-				catch ( UnsupportedOperationException e )
-				{
-					throw e;
+					returnList.add( ErrorHandler.getError( 2 ) );
 				}
 				catch ( Exception e )
 				{
-					e.printStackTrace();
+					returnList.add( e.getMessage() );
 				}
 			}
 			else
 			{
-				returnList.add( "No Data Provided" );
+				returnList.add( ErrorHandler.getError( 1 ) );
 			}
 		}
 		else
 		{
-			returnList.add( "Request Not Recognised" );
+			returnList.add( ErrorHandler.getError( 0 ) );
 		}
 		
 		return returnList;
