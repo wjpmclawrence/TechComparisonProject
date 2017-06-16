@@ -143,6 +143,7 @@ public class FileChooser extends javax.swing.JFrame {
         FileMenu.setMnemonic('F');
         FileMenu.setText("File");
 
+        JobForm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
         JobForm.setMnemonic('J');
         JobForm.setText("Job Form");
         JobForm.setEnabled(false);
@@ -153,6 +154,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(JobForm);
 
+        Add_CV.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         Add_CV.setMnemonic('A');
         Add_CV.setText("Add CV");
         Add_CV.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +164,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Add_CV);
 
+        Remove_CV.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         Remove_CV.setMnemonic('R');
         Remove_CV.setText("Remove CV");
         Remove_CV.setEnabled(false);
@@ -172,7 +175,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Remove_CV);
 
-        Remove_ALL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        Remove_ALL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
         Remove_ALL.setText("Remove All");
         Remove_ALL.setEnabled(false);
         Remove_ALL.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +185,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Remove_ALL);
 
+        Results.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
         Results.setMnemonic('R');
         Results.setText("Results");
         Results.addActionListener(new java.awt.event.ActionListener() {
@@ -191,6 +195,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
         FileMenu.add(Results);
 
+        Exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         Exit.setMnemonic('E');
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
