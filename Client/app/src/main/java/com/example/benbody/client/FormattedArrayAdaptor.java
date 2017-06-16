@@ -1,7 +1,12 @@
 package com.example.benbody.client;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +78,46 @@ class FormattedArrayAdaptor extends ArrayAdapter<Language>
         holder.noWeeks.setText(lang.getTrainingTime());
         holder.percentage.setText(String.format(Locale.ENGLISH, "%d%%",lang.getSimilarity()));
         holder.percProgress.setProgress(lang.getSimilarity());
+        chooseProgressBarColour(holder.percProgress, lang.getSimilarity());
 
         return convertView;
     }
+
+    // chooses the colour to set the progress bar
+    private void chooseProgressBarColour(ProgressBar progressBar, int similarity)
+    {
+        int category = similarity/25; // splits into categories 0 - 3
+
+        switch (category)
+        {
+            case 0: // 0 - 24
+                // if setProgressTintList is available
+                setProgressBarColour(progressBar, R.color.red);
+                break;
+            case 1: // 25 - 49
+                setProgressBarColour(progressBar, R.color.orange);
+                break;
+            case 2: // 50 - 74
+                setProgressBarColour(progressBar, R.color.yellow);
+                break;
+            case 3: // 75 - 99
+                setProgressBarColour(progressBar, R.color.green);
+                break;
+        }
+    }
+
+    // takes colour resource and sets the progress bar to that colour
+    private void setProgressBarColour(ProgressBar progressBar, @ColorRes int colour)
+    {
+        // if setProgressTintList is available
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            progressBar.setProgressTintList(ColorStateList.valueOf(
+                    ResourcesCompat.getColor(context.getResources(), colour, null)));
+        else
+            progressBar.getProgressDrawable().setColorFilter(
+                    ResourcesCompat.getColor(context.getResources(), colour, null),
+                    PorterDuff.Mode.SRC_IN);
+    }
+
 
 }
