@@ -54,6 +54,8 @@ public class FileChooser extends javax.swing.JFrame {
         Remove_ALL = new javax.swing.JMenuItem();
         Results = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
+        help = new javax.swing.JMenu();
+        about = new javax.swing.JMenuItem();
 
         fileChooser.setDialogTitle("This is my open dialog.");
         fileChooser.setFileFilter(new MyCustomFilter());
@@ -207,6 +209,21 @@ public class FileChooser extends javax.swing.JFrame {
 
         MenuBar.add(FileMenu);
 
+        help.setMnemonic('H');
+        help.setText("Help");
+
+        about.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        about.setMnemonic('A');
+        about.setText("About");
+        about.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutActionPerformed(evt);
+            }
+        });
+        help.add(about);
+
+        MenuBar.add(help);
+
         setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -325,6 +342,11 @@ public class FileChooser extends javax.swing.JFrame {
         infoText.setText("Add CV's to compare to the Job Requirements.\nMaximum 10 at a time.");
     }//GEN-LAST:event_Remove_ALLActionPerformed
 
+    private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
+        // TODO add your handling code here:
+        new AboutGUI().setVisible(true);
+    }//GEN-LAST:event_aboutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -370,8 +392,10 @@ public class FileChooser extends javax.swing.JFrame {
     private javax.swing.JMenuItem Remove_ALL;
     private javax.swing.JMenuItem Remove_CV;
     private javax.swing.JMenuItem Results;
+    private javax.swing.JMenuItem about;
     private javax.swing.JScrollPane cvPaste;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JMenu help;
     private static javax.swing.JTextArea infoCv;
     private static javax.swing.JTextArea infoText;
     private javax.swing.JLabel jLabel1;
