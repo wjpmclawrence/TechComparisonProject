@@ -62,14 +62,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // Method never used
+    @Override
     public void onNothingSelected(AdapterView<?> arg0) {}
 
     // startup method for things that need executing as soon as app starts
-    // Functionality moved to Startuptask
     private void startup()
     {
-      StartupTask startupTask = new StartupTask();
-        startupTask.execute("");
+        client = new TCPClient(this);
+
+        //uses RequestTask to request from the server
+        RequestTask requestTask = new RequestTask();
+        requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
     }
 
     // uses the stored list of options to fill the spinner
@@ -285,35 +288,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-
-
-    // This class is no longer strictly necessary as there is now no network operations performed
-    private class StartupTask extends AsyncTask<String, String, TCPClient>
-    {
-        @Override
-        protected void onPreExecute()
-        {
-            startLoading();
-        }
-
-        @Override // operates in background thread
-        protected TCPClient doInBackground(String... params)
-        {
-            return new TCPClient(MainActivity.this);
-        }
-
-        @Override
-        protected void onPostExecute(TCPClient result)
-        {
-            stopLoading();
-            //assigns client
-            client = result;
-
-            //uses RequestTask to request from the server
-            RequestTask requestTask = new RequestTask();
-            requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
-        }
-    }
 
     //AsyncTask used to perform connection on separate thread to GUI
     private class RequestTask extends AsyncTask<String, String, List<?>>
