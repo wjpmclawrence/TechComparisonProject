@@ -113,12 +113,15 @@ public class RequestManager
 				case "add":
 					returnList = ProfileManager.add( splitReq[1] );
 					break;
+					
 				case "remove":
 					returnList = ProfileManager.remove( splitReq[1] );
 					break;
+					
 				case "check":
 					returnList = ProfileManager.check( splitReq[1] );
 					break;
+					
 				default:
 					returnList.add( ErrorHandler.getError( 0 ) );
 			}
