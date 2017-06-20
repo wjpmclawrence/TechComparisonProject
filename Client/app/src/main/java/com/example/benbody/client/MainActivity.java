@@ -39,7 +39,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return client;
     }
 
-    // on create called every time app is created
+    /**
+     *  Called every time the app is created.
+     *  Sets up references to the views and calls the startup Method
+     *
+     * @param savedInstanceState Bundle which is passed into the superclass method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +59,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    // List selection functionality
+    /**
+     * Method implemented from AdapterView.OnItemSelectedListener.
+     * Uses the position selected to send a request to the server
+     *
+     * @param parent Never used
+     * @param view Never used
+     * @param position The position of the item selected
+     * @param id Never used
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
@@ -65,7 +78,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {}
 
-    // startup method for things that need executing as soon as app starts
+    /**
+     *  Startup Method used to execute all tasks required at startup
+     *  Sets up the TCPClient and uses a RequestTask to send a request to the server
+     */
     private void startup()
     {
         client = new TCPClient(this);
@@ -75,7 +91,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
     }
 
-    // uses the stored list of options to fill the spinner
+    /**
+     * Used to display the options from the stored list.
+     * Uses an ArrayAdapter to display the options in the Spinner.
+     */
     private void displayOptions()
     {
         // sets the intially selected option to "Select Language"
@@ -90,7 +109,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         optionsLoaded = true;
     }
 
-    //takes a list of Languages and displays it in the listview
+    /**
+     * Takes a list of Languages and displays them using a FormattedArrayAdapter
+     *
+     * @param results A list of Language Objects to be displayed
+     */
     private void displayResults(List<?> results)
     {
         FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this,
@@ -98,7 +121,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         gui.listView.setAdapter(formArrayAdapt);
     }
 
-    // method uses request task to send a request to the server
+    /**
+     * Sends a request of the language at the specified position in the list.
+     * In the case that "Please Select A Language" is selected, nothing happens.
+     * Uses a RequestTask
+     *
+     * @param i the position in the languages list that is selected
+     */
     private void request(int i)
     {
         if(i == 0) // case where "select language" is selected
@@ -110,7 +139,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         requestTask.execute(REQUEST + DELIMITER + lang);
     }
 
-    // Updates the stored version number
+    /**
+     * Updates the stored Version number for the app.
+     * Saves the number in a .dat file in the directory supplied by android.
+     *
+     * @param versionNo New version number
+     */
     private void setVersionNo(int versionNo)
     {
         try
@@ -128,7 +162,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    // loads the version number from the file
+    /**
+     * Loads the current version from the .dat file
+     *
+     * @return Current version number
+     */
     private int getVersionNo()
     {
         File version = new File(this.getFilesDir(), VERSIONNOFILEPATH);
@@ -163,7 +201,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //TODO Remove loading graphic
     }
 
-    // displays an error dialog in case the languages can't be loaded
+    /**
+     *  Displays an Alert Dialog to inform the user that the languages can't be loaded.
+     *  Gives the option to attempt to get them from the server, or to close the app.
+     */
     private void errorMessageLanguages()
     {
         // class which builds a dialog message
@@ -197,6 +238,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /**
+     * Displays an Alert Dialog to inform the user that the server has not responded.
+     * Gives the option to to resend the request or not.
+     */
     private void errorMessageResponse()
     {
         // class which builds a dialog message
@@ -217,6 +262,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .show();
     }
 
+    /**
+     * Deals with the list returned by the server.
+     * If the list is null, empty or the first element is not a string an error message is shown
+     * In all other cases the first element is a string which describes what to do.
+     * More information is in the project documentation.
+     *
+     * @param result The List received from the server
+     */
     private void dealWithResponse(List<?> result)
     {
         if(result == null || result.isEmpty() || !(result.get(0) instanceof String))
