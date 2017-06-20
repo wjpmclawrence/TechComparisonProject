@@ -18,7 +18,7 @@ public class LanguageManager
 			if ( !incoming[i][0].equalsIgnoreCase( compName ) )
 			{
 				int similarity = Integer.parseInt( incoming[i][1] );
-				langList.add( new Language( incoming[i][0], similarity, calcWeeks( similarity ) ) );
+				langList.add( new Language( incoming[i][0], similarity, calcWeeks( similarity ), incoming[i][2] ) );
 			}
 		}
 		
