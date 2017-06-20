@@ -1,48 +1,50 @@
 package com.example.benbody.client;
 
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 /**
  * Created by William J P Mclawrence on 14/06/2017.
+ *
+ * Container Class for all the GUI Elements
  */
 
-public class ClientGUI {
-    private List<String> categories;
-    private String info;
-    public ListView listView;
+public class ClientGUI
+{
+    private ListView listView;
+    private Spinner spinner;
+    private ProgressBar progressBar;
 
-    // Constructor
-    ClientGUI()
-    {
-        categories = new ArrayList<String>();
-        info = "Waiting for Server";
-    }
     // GUI Methods
 
-    // Populate the categories list
-    public void GenerateList(String[] list)
+    public ListView getListView()
     {
-        for (int i = 0; i< list.length; i++)
-        {
-            categories.add(list[i]);
-        }
+        return listView;
     }
 
-    // Return the current list of categories
-    public List<String> GetList()
+    public void setListView(ListView listView)
     {
-        return categories;
+        this.listView = listView;
     }
 
-    // Take in selected object string,
-    public String GetInfo(String lang) {
-        String msg = lang;
-        return msg;
+    public Spinner getSpinner()
+    {
+        return spinner;
     }
 
+    public void setSpinner(Spinner spinner)
+    {
+        this.spinner = spinner;
+    }
 
+    public ProgressBar getProgressBar()
+    {
+        return progressBar;
+    }
+
+    public void setProgressBar(ProgressBar progressBar)
+    {
+        this.progressBar = progressBar;
+    }
 }

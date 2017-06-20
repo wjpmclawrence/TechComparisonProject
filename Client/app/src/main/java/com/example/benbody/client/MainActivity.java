@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String DELIMITER = "~";
     private TCPClient client;
     private ClientGUI gui = new ClientGUI();
-    private Spinner spinner;
     private List<String> options;
     private boolean optionsLoaded = false;
-    private ProgressBar progressBar;
 
     public TCPClient getClient()
     {
@@ -51,12 +49,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        gui.listView = (ListView) findViewById(R.id.info);
-        // Spinner variables
-        spinner = (Spinner) findViewById(R.id.spinner);
+        gui.setProgressBar( (ProgressBar) findViewById(R.id.progressBar));
+        gui.setListView((ListView) findViewById(R.id.info));
+        gui.setSpinner((Spinner) findViewById(R.id.spinner));
         // Spinner click listener
-        spinner.setOnItemSelectedListener(this);
+        gui.getSpinner().setOnItemSelectedListener(this);
 
         startup();
     }
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        gui.getSpinner().setAdapter(adapter);
         optionsLoaded = true;
     }
 
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     {
         FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this,
                 R.layout.list_layout, (List<Language>) results);
-        gui.listView.setAdapter(formArrayAdapt);
+        gui.getListView().setAdapter(formArrayAdapt);
     }
 
     /**
@@ -195,13 +192,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // displays a loading graphic on the UI
     private void startLoading()
     {
-        progressBar.setVisibility(View.VISIBLE);
+        gui.getProgressBar().setVisibility(View.VISIBLE);
     }
 
     // removes the loading graphic
     private void stopLoading()
     {
-        progressBar.setVisibility(View.GONE);
+        gui.getProgressBar().setVisibility(View.GONE);
     }
 
     /**
