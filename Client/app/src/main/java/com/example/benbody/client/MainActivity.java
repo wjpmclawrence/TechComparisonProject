@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Spinner spinner;
     private List<String> options;
     private boolean optionsLoaded = false;
+    private ProgressBar progressBar;
 
     public TCPClient getClient()
     {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         gui.listView = (ListView) findViewById(R.id.info);
         // Spinner variables
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -192,13 +195,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // displays a loading graphic on the UI
     private void startLoading()
     {
-        //TODO display loading graphic
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     // removes the loading graphic
     private void stopLoading()
     {
-        //TODO Remove loading graphic
+        progressBar.setVisibility(View.GONE);
     }
 
     /**
