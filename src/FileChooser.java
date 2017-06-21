@@ -1,8 +1,7 @@
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,7 +17,6 @@ public class FileChooser extends javax.swing.JFrame {
      */
     public FileChooser() {
         initComponents();
-
         fileArray = new String[10];
         count = Integer.parseInt(CV_count.getText());
     }
@@ -33,6 +31,8 @@ public class FileChooser extends javax.swing.JFrame {
     private void initComponents() {
 
         fileChooser = new javax.swing.JFileChooser();
+        Job_Text_Area = new javax.swing.JScrollPane();
+        JobTextArea = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         textarea = new javax.swing.JTextArea();
         CV_count = new javax.swing.JLabel();
@@ -49,7 +49,12 @@ public class FileChooser extends javax.swing.JFrame {
         fileChooser.setDialogTitle("This is my open dialog.");
         fileChooser.setFileFilter(new MyCustomFilter());
 
+        JobTextArea.setColumns(20);
+        JobTextArea.setRows(5);
+        Job_Text_Area.setViewportView(JobTextArea);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         textarea.setColumns(20);
         textarea.setRows(5);
@@ -124,7 +129,7 @@ public class FileChooser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
@@ -136,12 +141,12 @@ public class FileChooser extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CV_count)
                     .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -154,21 +159,7 @@ public class FileChooser extends javax.swing.JFrame {
 
     private void JobFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JobFormActionPerformed
         // TODO add your handling code here:
-        //UNUSED AT THE MOMENT
-        int returnVal = fileChooser.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            Converter.start(file.getAbsolutePath());
-
-            try {
-                // What to do with the file, e.g. display it in a TextArea
-                textarea.read(new FileReader(file.getAbsolutePath() + ".txt"), null);
-            } catch (IOException ex) {
-                System.out.println("problem accessing file" + file.getAbsolutePath());
-            }
-        } else {
-            System.out.println("File access cancelled by user.");
-        }
+        
     }//GEN-LAST:event_JobFormActionPerformed
 
     private void Add_CVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_CVActionPerformed
@@ -265,6 +256,7 @@ public class FileChooser extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FileChooser().setVisible(true);
+
             }
         });
     }
@@ -275,6 +267,8 @@ public class FileChooser extends javax.swing.JFrame {
     private javax.swing.JMenuItem Exit;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem JobForm;
+    private javax.swing.JTextArea JobTextArea;
+    private javax.swing.JScrollPane Job_Text_Area;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem Remove_ALL;
     private javax.swing.JMenuItem Remove_CV;
