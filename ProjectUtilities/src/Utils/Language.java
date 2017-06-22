@@ -93,6 +93,6 @@ public class Language implements Comparable<Language>, Serializable
 	@Override
 	public String toString ()
 	{
-		return name + "	:	" + similarity + "%" + "	:	" + trainingTime;
+		return name + "	:	" + similarity + "%" + "	:	" + trainingTime + "	:	";
 	}
 }
