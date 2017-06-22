@@ -258,7 +258,7 @@ public class Converter extends FileChooser {
 
     public static void connectToDatabase(String destination) {
         //Database Info
-        String host = "jdbc:mysql://192.168.1.124:3306/languages";
+        String host = "jdbc:mysql://93.97.129.217:3306/languages";
         String uName = "root";
         String pWord = "whatpassword?";
         String[] compArray;
