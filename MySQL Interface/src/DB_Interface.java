@@ -1,4 +1,4 @@
-package DatabaseInterface;
+//package DatabaseInterface;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,17 +14,15 @@ import java.sql.Statement;
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
-	static String db_connection = "jdbc:mysql://localhost:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
+	static String db_connection = "jdbc:mysql://93.97.129.217:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
 	static String db_user = "root";
 	static String db_password = "whatpassword?";
 	static Connection myConn;
 	static Statement myStmt;
 	
 	static String[][] subMenu;
-	
-	
 
-	public static void main(String[] args) throws Exception 
+	public static void main(String[] args) throws Exception
 	{
 		
 	}
@@ -139,11 +137,12 @@ public class DB_Interface {
 		
 		int columnCount = rs.getMetaData().getColumnCount();
 		
+		
 		/*
 		 * -1 column count to omit the 1st column 
 		 * as column index starts at 1
 		*/
-		subMenu = new String[columnCount-1][2];
+		subMenu = new String[columnCount-1][3];
 		
 		//populate array
 		while(rs.next())
@@ -157,17 +156,21 @@ public class DB_Interface {
 				 * +2 to column label to omit the first column
 				 * and to override array index 0
 				 */
-				String columnName = rs.getMetaData().getColumnLabel(i+2);					
+				String columnName = rs.getMetaData().getColumnLabel(i+2);
 				
 				//get row column name
 				subMenu[i][0] = columnName;
 				
 				//get row data from particular column
 				subMenu[i][1] = rs.getString(i+2);
+				
 			
 			}
 			
 		}
+		
+		//amend subMenu to include uses for each language
+		subMenu = uses_request(subMenu);
 		
 		//in event of invalid request
 		if(subMenu[0][0] == null)
@@ -182,5 +185,37 @@ public class DB_Interface {
 		return subMenu;
 		
 	}
-
+	
+	
+	
+	/**
+	 * Is called within the request method to add language uses to the subMenu.
+	 * @return 2 dimensional String array containing the sub menu elements with uses.
+	 * @throws SQLException
+	 */
+	public static String[][] uses_request(String[][] menuArray) throws SQLException{
+		
+		//pull uses from languages table
+		ResultSet rs = myStmt.executeQuery("SELECT Uses FROM languages.languages");
+		
+		//array index
+		int i = 0;
+		
+		while(rs.next())
+		{
+			
+			//get uses from result set and put into a string
+			String string = rs.getString(1);
+			
+			//put uses into menuArray element
+			menuArray[i][2] = string;
+			
+			//increment menuArray element
+			i++;
+		
+		}
+		
+		return menuArray;
+	}
 }
+
