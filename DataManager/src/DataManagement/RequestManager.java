@@ -69,16 +69,23 @@ public class RequestManager
 	@SuppressWarnings ( { "unchecked" } )
 	private static List<Object> getSubMenu ( String langName ) throws Exception
 	{
-		boolean langAvail = DB_Interface.langAvailable( langName );
-		
 		List<Object> returnList = new ArrayList<Object>();
 		
-		if ( langAvail )
+		if ( !langName.contains( "\\" ) && !langName.contains( "\'" ) )
 		{
-			returnList.addAll( LanguageManager.setupLanguages( DB_Interface.request( langName ), langName ) );
+			boolean langAvail = DB_Interface.langAvailable( langName );
 			
-			Collections.sort( (List<Language>) (Object) returnList );
-			returnList.add( 0, "sub_menu_list" );
+			if ( langAvail )
+			{
+				returnList.addAll( LanguageManager.setupLanguages( DB_Interface.request( langName ), langName ) );
+				
+				Collections.sort( (List<Language>) (Object) returnList );
+				returnList.add( 0, "sub_menu_list" );
+			}
+			else
+			{
+				returnList.add( ErrorHandler.getError( 3 ) );
+			}
 		}
 		else
 		{
@@ -113,15 +120,15 @@ public class RequestManager
 				case "add":
 					returnList = ProfileManager.add( splitReq[1] );
 					break;
-					
+				
 				case "remove":
 					returnList = ProfileManager.remove( splitReq[1] );
 					break;
-					
+				
 				case "check":
 					returnList = ProfileManager.check( splitReq[1] );
 					break;
-					
+				
 				default:
 					returnList.add( ErrorHandler.getError( 0 ) );
 			}
