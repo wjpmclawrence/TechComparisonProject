@@ -83,11 +83,13 @@ public class FileChooser extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 161, 193));
 
         CV_count.setText("0");
 
         jLabel1.setText("CVs Loaded:");
 
+        jSplitPane1.setBackground(new java.awt.Color(0, 161, 193));
         jSplitPane1.setDividerLocation(50);
         jSplitPane1.setDividerSize(30);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -112,7 +114,9 @@ public class FileChooser extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
+        jPanel3.setBackground(new java.awt.Color(0, 161, 193));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Language Comparison", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel3.setForeground(new java.awt.Color(0, 161, 193));
 
         cvPaste.setName("cvPaste"); // NOI18N
 
