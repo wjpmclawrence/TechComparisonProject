@@ -8,4 +8,10 @@ public class NotImplemented extends Exception
 	{
 		super( "Not Yet Implemented" );
 	}
+	
+	@Override
+	public String toString ()
+	{
+		return super.getMessage();
+	}
 }
