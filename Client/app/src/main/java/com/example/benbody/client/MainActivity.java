@@ -349,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override // Executes before doInBackground in UI thread
         protected void onPreExecute()
         {
+            gui.getListView().setAdapter(null); // takes away what is currently displayed
             startLoading();
         }
 
