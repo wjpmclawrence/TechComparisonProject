@@ -85,6 +85,7 @@ public class FileChooser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 161, 193));
+        setPreferredSize(new java.awt.Dimension(733, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         CV_count.setText("0");
@@ -167,7 +168,7 @@ public class FileChooser extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 30;
         gridBagConstraints.ipady = 287;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 8, 1, 10);
+        gridBagConstraints.insets = new java.awt.Insets(11, 23, 1, 0);
         getContentPane().add(jSplitPane1, gridBagConstraints);
 
         FileMenu.setMnemonic('F');
