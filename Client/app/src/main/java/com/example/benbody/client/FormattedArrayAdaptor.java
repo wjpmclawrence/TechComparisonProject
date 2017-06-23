@@ -80,27 +80,32 @@ class FormattedArrayAdaptor extends ArrayAdapter<Language>
         holder.percProgress.setProgress(lang.getSimilarity());
         chooseProgressBarColour(holder.percProgress, lang.getSimilarity());
 
+        if (position % 2 == 0) // Even
+            convertView.setBackgroundResource(R.color.darkerGrey);
+        else
+            convertView.setBackgroundResource(R.color.lightGrey);
+
         return convertView;
     }
 
     // chooses the colour to set the progress bar
     private void chooseProgressBarColour(ProgressBar progressBar, int similarity)
     {
-        int category = similarity/25; // splits into categories 0 - 3
+        int category = similarity/20; // splits into categories 0 - 4
 
         switch (category)
         {
-            case 0: // 0 - 24
-                // if setProgressTintList is available
+            case 0: // 0 - 19
                 setProgressBarColour(progressBar, R.color.red);
                 break;
-            case 1: // 25 - 49
+            case 1: // 20 - 39
                 setProgressBarColour(progressBar, R.color.orange);
                 break;
-            case 2: // 50 - 74
+            case 2: // 40 - 59
                 setProgressBarColour(progressBar, R.color.yellow);
                 break;
-            case 3: // 75 - 99
+            case 3: // 60 - 79
+            case 4: // 80
                 setProgressBarColour(progressBar, R.color.green);
                 break;
         }
