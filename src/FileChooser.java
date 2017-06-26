@@ -84,6 +84,7 @@ public class FileChooser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 161, 193));
+        setResizable(false);
 
         CV_count.setText("0");
 
