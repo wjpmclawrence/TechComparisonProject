@@ -27,7 +27,7 @@ public class LanguageManager
 	
 	private static String calcWeeks ( int similarity )
 	{
-		if ( similarity > 75 )
+		if ( similarity >= 75 )
 		{
 			return "1 Week";
 		}
@@ -60,6 +60,6 @@ public class LanguageManager
 			return "7-8 Weeks";
 		}
 		
-		return "Over 2 Months";
+		return "> 2 Months";
 	}
 }
