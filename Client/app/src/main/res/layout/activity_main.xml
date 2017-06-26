@@ -9,14 +9,16 @@
 
     <ImageView
         android:id="@+id/Logo"
-        android:layout_width="118dp"
-        android:layout_height="59dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/applogo"
-        android:layout_marginStart="16dp" />
+        app:srcCompat="@drawable/logo"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <Spinner
         android:id="@+id/spinner"
