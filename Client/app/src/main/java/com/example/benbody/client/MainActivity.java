@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -51,9 +52,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         gui.setProgressBar( (ProgressBar) findViewById(R.id.progressBar));
         gui.setListView((ListView) findViewById(R.id.info));
-        gui.setSpinner((Spinner) findViewById(R.id.spinner));
+        gui.setSpinnerTextView((AutoCompleteTextView) findViewById(R.id.spinnerTextView));
+        gui.setParent(findViewById(R.id.parentMain));
+        // set threshold to minimum
+        gui.getSpinnerTextView().setThreshold(1);
         // Spinner click listener
-        gui.getSpinner().setOnItemSelectedListener(this);
+        gui.getSpinnerTextView().setOnItemSelectedListener(this);
+        gui.getSpinnerTextView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                request(position);
+                gui.getParent().requestFocus();
+                ClientGUI.hideKeyboard(MainActivity.this);
+            }
+        });
 
         startup();
     }
@@ -98,14 +110,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void displayOptions()
     {
         // sets the intially selected option to "Select Language"
-        options.add(0, getString(R.string.select_lang));
         // uses an Array Adapter to contation the options
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, options);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        gui.getSpinner().setAdapter(adapter);
+                android.R.layout.simple_dropdown_item_1line, options);
+        // Specify the layout to use when the list of choices appears TODO May not need
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        // Apply the adapter to the 'spinner'
+        gui.getSpinnerTextView().setAdapter(adapter);
+        // add onfocus listener to make it act like a spinner
+        gui.getSpinnerTextView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                    gui.getSpinnerTextView().showDropDown();
+                }
+            }
+        });
+        gui.getSpinnerTextView().showDropDown();
+
         optionsLoaded = true;
     }
 
@@ -126,14 +149,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * In the case that "Please Select A Language" is selected, nothing happens.
      * Uses a RequestTask
      *
+     *
      * @param i the position in the languages list that is selected
      */
     private void request(int i)
     {
-        if(i == 0) // case where "select language" is selected
-            return;
-        // gets name of the language
-        String lang = options.get(i);
+        String lang = gui.getSpinnerTextView().getText().toString();
         // creates and executes a requestTask
         RequestTask requestTask = new RequestTask();
         requestTask.execute(REQUEST + DELIMITER + lang);
