@@ -258,7 +258,7 @@ public class Converter extends FileChooser {
 
     public static void connectToDatabase(String destination) {
         //Database Info
-        String host = "jdbc:mysql://192.168.1.124:3306/languages";
+        String host = "jdbc:mysql://93.97.129.217:3306/languages";
         String uName = "root";
         String pWord = "whatpassword?";
         String[] compArray;
@@ -278,9 +278,8 @@ public class Converter extends FileChooser {
 
             //call comparison class
             compareSkills(destination, compArray, stmt, con);
-            
-            // Confusing way to delete last character in CV string
-            getInfoCv().setText(getInfoCv().getText().substring(0, getInfoCv().getText().length() - 1));
+
+            getInfoCv().append("\n");
         } catch (SQLException | ClassNotFoundException err) {
             System.out.println(err.getMessage());
 

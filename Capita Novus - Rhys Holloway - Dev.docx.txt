@@ -1,0 +1,73 @@
+         
+Capita Novus
+
+PROFILE SUMMARY	
+Rhys is an enthusiastic and responsible graduate who is developing his skills in order to meet his aspirations of securing a role as a Software Developer. He has been passionate about software development since having exposure whilst studying Physics and Astrophysics at University. This interest spurred him on to learn Python and SQL in his own time. 
+
+His time as a student completing many varying assignments and a complex final year project demonstrates his willingness and capacity to learn as well as good time management and organisation. 
+
+His also course required degree-level mathematical skills, problem solving and analytical skills, allowing him to understand complex concepts and convey logical solutions these are skills he feels are essential in a role as a Software Developer. Whilst at University he learnt the skills to become well-practiced in the use of FORTRAN and Python coding languages, and gained the experience to create programs which can perform many advanced functions. He has also used mathematical software packages (Mathcad, Mathematica) that allowed him to plot diagrams and investigate patterns in complex equations and data. In addition, he further developed his Python coding and learned SQL during his employment at Cannon Electrical Services, working on a number of research projects. 
+PREVIOUS ENGAGEMENTS
+
+Capita Novus
+Software Development Trainee
+June 2016 – Present
+Novus development programmes cover both theoretical and practical aspects of application and web development. As well as engaging with real projects to prove skills acquired, the programme equips the individual with the skill sets required in programming techniques, database connectivity and querying, programming techniques for desktop and web applications, HTML, CSS and JavaScript web development. 
+
+A full course outline can be provided by your account manager if requested.
+
+Cannon Electrical Services – Bradford University
+October 2014 – March 2015		             	
+Electrical Coding Assistant Work Placement
+Mainly worked in coding using Python and SQL for several different applications that used a miniature computer called a Raspberry Pi.
+Assisted in the development of a number of projects, such as PV Meter data gathering, IR Thermometers, Heart Rate Monitors, Solar Trackers, etc. 
+Also performed several other tasks such as dismantling electronic equipment, tutoring other people who were considering joining the company and occasional manual labour. 
+
+
+
+EDUCATION
+
+University of Hull  	
+August 2010 – June 2014
+Mphys – Physics with Astrophysics - 2.1
+
+Final year project (science paper using Mathcad and Mathematica to plot universe expansion)
+Used COMSOL Multiphysics Modelling Software to analyse behaviour of semiconductor diodes
+Used VPython to model different physical processes, such as bouncing balls and swinging pendulums
+Module on Fortran, learning to input the data, use different Fortran functions, how to insert and read data and the best process to design our codes. In addition, he learned to create our own functions and use subroutines and modules. 
+
+Tong High School, Bradford, England
+September 2008 – July 2010
+Mathematics					
+IT
+Physics
+QUALIFICATIONS AND SKILLS
+
+Technical Skills:
+SQL
+Java
+Python
+Fortran
+Currently studying C#
+
+INTERESTS AND HOBBIES
+
+Studying
+Travelling
+Programming
+Watching TV series/films
+Listening to podcasts
+Read internet articles
+Playing video games
+
+Novus Name:	Rhys Holloway	
+Role:	Software Developer	
+Availability:	In Training	
+Last Assignment:	In Training	
+
+Capita IT Professional Services
+17 Rochester Row, London, SW1P 1JB
+Tel +44 (0) 8456 077466 Email mail.at@capita.co.uk   www.capita.co.uk 
+A trading name of Capita Business Services Limited
+Registered Office: 71 Victoria Street, Westminster, London SW1H 0XA. Registered in England No. 2299747.
+Part of the Capita Group. www.capita.co.uk

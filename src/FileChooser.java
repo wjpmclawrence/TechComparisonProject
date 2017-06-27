@@ -316,6 +316,8 @@ public class FileChooser extends javax.swing.JFrame {
             getInfoCv().append(fileArray[i]);
             Converter.start(fileArray[i]);
         }
+        // Confusing way to delete last character in CV string
+        getInfoCv().setText(getInfoCv().getText().substring(0, getInfoCv().getText().length() - 2));
     }//GEN-LAST:event_ResultsActionPerformed
 
     private void Remove_CVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Remove_CVActionPerformed
