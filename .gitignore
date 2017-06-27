@@ -12,3 +12,7 @@
 hs_err_pid*
 DataManager/src/Tests/
 Serverp/client_log.dat
+Serverp/version.dat
+/nbproject/private/
+/AndroidAppTests/nbproject/private/
+/AndroidAppTests/build/
