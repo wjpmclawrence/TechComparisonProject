@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.5" />
 
-    <AutoCompleteTextView
+    <com.example.benbody.client.InstantAutoComplete
         android:id="@+id/spinnerTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

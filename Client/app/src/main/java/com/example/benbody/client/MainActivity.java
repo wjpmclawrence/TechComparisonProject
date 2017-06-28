@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Scanner;
 import Utils.Language;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener {
 
     private static final String LANGUAGESFILEPATH = "languages.dat";
     private static final String VERSIONNOFILEPATH = "versionno.dat";
@@ -91,6 +90,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> arg0) {}
 
     /**
+     * Method Implemented from View.OnFocusChangeListener called whenever textbox gains focus
+     *
+     * Empties the textbox and shows the dropdown menu
+     *
+     * @param v view not used
+     * @param hasFocus whether the view now has focus
+     */
+    @Override
+    public void onFocusChange(View v, boolean hasFocus)
+    {
+        if (hasFocus)
+        {
+            // clears the text
+            gui.getSpinnerTextView().setText("");
+            // shows the dropdown menu
+            gui.getSpinnerTextView().showDropDown();
+        }
+    }
+
+    /**
      *  Startup Method used to execute all tasks required at startup
      *  Sets up the TCPClient and uses a RequestTask to send a request to the server
      */
@@ -117,17 +136,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         // Apply the adapter to the 'spinner'
         gui.getSpinnerTextView().setAdapter(adapter);
-        // add onfocus listener to make it act like a spinner
-        gui.getSpinnerTextView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        // add onfocus & onclick listener to make it act like a spinner
+        gui.getSpinnerTextView().setOnFocusChangeListener(this);
+        gui.getSpinnerTextView().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                {
-                    gui.getSpinnerTextView().showDropDown();
-                }
+            public void onClick(View v) {
+                onFocusChange(v, true);
             }
         });
-        gui.getSpinnerTextView().showDropDown();
+        gui.getSpinnerTextView().setText(getText(R.string.select_lang));
 
         optionsLoaded = true;
     }
