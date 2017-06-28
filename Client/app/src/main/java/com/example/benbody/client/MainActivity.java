@@ -6,12 +6,14 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -144,6 +146,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 onFocusChange(v, true);
             }
         });
+
+        // should set enter to submit the action
+        gui.getSpinnerTextView().setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //TODO Add method
+                return false;
+            }
+        });
+
         gui.getSpinnerTextView().setText(getText(R.string.select_lang));
 
         optionsLoaded = true;
