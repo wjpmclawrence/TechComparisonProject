@@ -58,16 +58,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         gui.setParent(findViewById(R.id.parentMain));
         // set threshold to minimum
         gui.getSpinnerTextView().setThreshold(1);
-        // Spinner click listener
-        gui.getSpinnerTextView().setOnItemSelectedListener(this);
-        gui.getSpinnerTextView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                request(position);
-                gui.getParent().requestFocus();
-                ClientGUI.hideKeyboard(MainActivity.this);
-            }
-        });
 
         startup();
     }
@@ -86,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         request(position);
+        gui.getParent().requestFocus();
+        ClientGUI.hideKeyboard(this);
     }
 
     // Method never used
@@ -127,7 +119,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**
      * Used to display the options from the stored list.
-     * Uses an ArrayAdapter to display the options in the Spinner.
+     * Uses an ArrayAdapter to display the options in the AutoCompleteTextBox.
+     *
+     * Also sets up all the listeners required
      */
     private void displayOptions()
     {
@@ -135,8 +129,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // uses an Array Adapter to contation the options
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, options);
-        // Specify the layout to use when the list of choices appears TODO May not need
+        // Specify the layout to use when the list of choices appears May not need
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        // Sets the on Item Selected & Item Clicked to be the same
+        gui.getSpinnerTextView().setOnItemSelectedListener(this);
+        gui.getSpinnerTextView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onItemSelected(parent, view, position, id);
+            }
+        });
         // Apply the adapter to the 'spinner'
         gui.getSpinnerTextView().setAdapter(adapter);
         // add onfocus & onclick listener to make it act like a spinner
@@ -163,9 +165,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         if (s.equalsIgnoreCase(text))
                         {
                             gui.getSpinnerTextView().setText(s);
-                            request(0);
-                            gui.getParent().requestFocus();
-                            ClientGUI.hideKeyboard(MainActivity.this);
+                            onItemSelected(null, null, 0, 0);
                             return true;
                         }
                     }
