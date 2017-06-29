@@ -10,9 +10,4 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-DataManager/src/Tests/
-Serverp/client_log.dat
-Serverp/version.dat
-/nbproject/private/
-/AndroidAppTests/nbproject/private/
-/AndroidAppTests/build/
+/bin/
