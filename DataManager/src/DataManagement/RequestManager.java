@@ -179,9 +179,9 @@ public class RequestManager
 							returnList = getSubMenu( tmp[1] );
 							break;
 						
-						case "profile":
+						/*case "profile":
 							returnList = profileRequest( tmp[1] );
-							break;
+							break;*/
 						
 						default:
 							returnList.add( ErrorHandler.getError( 0 ) );
