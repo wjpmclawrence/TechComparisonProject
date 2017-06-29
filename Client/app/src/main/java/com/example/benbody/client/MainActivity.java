@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        request(position);
+        request();
         gui.getParent().requestFocus();
         ClientGUI.hideKeyboard(this);
     }
@@ -194,14 +194,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     /**
-     * Sends a request of the language at the specified position in the list.
-     * In the case that "Please Select A Language" is selected, nothing happens.
+     * Sends a request of the language which is in the textbox.
+     *
      * Uses a RequestTask
      *
-     *
-     * @param i the position in the languages list that is selected
      */
-    private void request(int i)
+    private void request()
     {
         String lang = gui.getSpinnerTextView().getText().toString();
         // creates and executes a requestTask
@@ -251,11 +249,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             catch(IOException e)
             {
-                Toast.makeText(this, R.string.no_version_no, Toast.LENGTH_SHORT).show();
                 if (BuildConfig.DEBUG)
                     e.printStackTrace();
             }
         }
+        Toast.makeText(this, R.string.no_version_no, Toast.LENGTH_SHORT).show();
         return 0; //if unable to find version on file, default to 0
     }
 
