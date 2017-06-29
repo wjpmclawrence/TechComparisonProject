@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -152,7 +153,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                //TODO Add method
+                // in theory the next line means it only applies when enter is pressed
+                if (actionId == EditorInfo.IME_NULL || actionId == EditorInfo.IME_ACTION_GO)
+                {
+                    String text = gui.getSpinnerTextView().getText().toString();
+                    for (String s : options)
+                    {
+                        // if entered text is in the options
+                        if (s.equalsIgnoreCase(text))
+                        {
+                            gui.getSpinnerTextView().setText(s);
+                            request(0);
+                            gui.getParent().requestFocus();
+                            ClientGUI.hideKeyboard(MainActivity.this);
+                            return true;
+                        }
+                    }
+                    Toast.makeText(MainActivity.this,
+                            R.string.invalid_language, Toast.LENGTH_SHORT);
+                }
                 return false;
             }
         });
