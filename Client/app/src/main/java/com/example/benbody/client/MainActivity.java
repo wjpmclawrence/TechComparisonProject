@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         }
                     }
                     Toast.makeText(MainActivity.this,
-                            R.string.invalid_language, Toast.LENGTH_SHORT);
+                            R.string.invalid_language, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -328,7 +328,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         requestTask.execute(VERSIONREQUEST + DELIMITER + getVersionNo());
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
                 .show();
     }
 
