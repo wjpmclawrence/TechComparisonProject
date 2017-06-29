@@ -60,6 +60,6 @@ public class LanguageManager
 			return "7-8 Weeks";
 		}
 		
-		return "> 2 Months";
+		return "> 8 Weeks";
 	}
 }
