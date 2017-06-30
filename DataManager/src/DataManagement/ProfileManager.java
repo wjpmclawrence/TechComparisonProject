@@ -31,14 +31,19 @@ public class ProfileManager
 			out.add( new ArrayList<String>() );
 			out.get( i ).add( detagged[i][0] );
 			String[] tmp = detagged[i][1].split( "," );
+			String name = detagged[i][0];
+			detagged[i] = new String[tmp.length + 1];
+			detagged[i][0] = name;
 			
 			for ( int j = 0; j < tmp.length; j++ )
 			{
+				detagged[i][j + 1] = tmp[i];
 				out.get( i ).add( tmp[j] );
 			}
 		}
 		
 		System.out.println( "Received:" );
+		System.out.println( detagged );
 		
 		for ( int i = 0; i < out.size(); i++ )
 		{

@@ -14,7 +14,7 @@ import java.sql.Statement;
 public class DB_Interface {
 	
 	//DB CONNECTION VARIABLES
-	static String db_connection = "jdbc:mysql://localhost:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
+	static String db_connection = "jdbc:mysql://93.97.129.217:3306/languages?verifyServerCertificate=false&useSSL=true";		//languages/
 	static String db_user = "root";
 	static String db_password = "whatpassword?";
 	static Connection myConn;
