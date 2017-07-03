@@ -13,57 +13,56 @@ import android.widget.ProgressBar;
  * Container Class for all the GUI Elements
  */
 
-public class ClientGUI
+class ClientGUI
 {
     private ListView listView;
     private AutoCompleteTextView spinnerTextView;
     private ProgressBar progressBar;
     private View parent;
 
-    // GUI Methods
 
-    public ListView getListView()
+    ListView getListView()
     {
         return listView;
     }
 
-    public void setListView(ListView listView)
+    void setListView(ListView listView)
     {
         this.listView = listView;
     }
 
-    public AutoCompleteTextView getSpinnerTextView()
+    AutoCompleteTextView getSpinnerTextView()
     {
         return spinnerTextView;
     }
 
-    public void setSpinnerTextView(AutoCompleteTextView spinnerTextView)
+    void setSpinnerTextView(AutoCompleteTextView spinnerTextView)
     {
         this.spinnerTextView = spinnerTextView;
     }
 
-    public ProgressBar getProgressBar()
+    ProgressBar getProgressBar()
     {
         return progressBar;
     }
 
-    public void setProgressBar(ProgressBar progressBar)
+    void setProgressBar(ProgressBar progressBar)
     {
         this.progressBar = progressBar;
     }
 
-    public View getParent()
+    View getParent()
     {
         return parent;
     }
 
-    public void setParent(View parent)
+    void setParent(View parent)
     {
         this.parent = parent;
     }
 
     // utility method for hiding the keyboard
-    public static void hideKeyboard(Activity activity) {
+    static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();

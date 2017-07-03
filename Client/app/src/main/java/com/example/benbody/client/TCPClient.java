@@ -16,8 +16,10 @@ import javax.net.ssl.TrustManagerFactory;
 
 /**
  * Created by BenBody on 11/05/2017.
+ *
+ * Class which handles sending and receiving of data from server
  */
-// Class which handles sending and receiving of data
+
 class TCPClient
 {
     private Context context; // context required to load keystore

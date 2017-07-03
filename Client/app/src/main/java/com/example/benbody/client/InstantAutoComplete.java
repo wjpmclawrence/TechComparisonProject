@@ -26,6 +26,7 @@ public class InstantAutoComplete extends AppCompatAutoCompleteTextView {
         super(context, attrs, defStyleAttr);
     }
 
+    // always returns true so that the dropdown menu will always appear
     @Override
     public boolean enoughToFilter() {
         return true;

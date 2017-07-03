@@ -125,12 +125,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     private void displayOptions()
     {
-        // sets the intially selected option to "Select Language"
-        // uses an Array Adapter to contation the options
+        // uses an Array Adapter to connect the options to the AutocompleteTextBox
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, options);
-        // Specify the layout to use when the list of choices appears May not need
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         // Sets the on Item Selected & Item Clicked to be the same
         gui.getSpinnerTextView().setOnItemSelectedListener(this);
         gui.getSpinnerTextView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -176,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        // sets the initial text to "select language"
         gui.getSpinnerTextView().setText(getText(R.string.select_lang));
 
         optionsLoaded = true;
@@ -186,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      *
      * @param results A list of Language Objects to be displayed
      */
+    @SuppressWarnings("unchecked")
     private void displayResults(List<?> results)
     {
         FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this,
@@ -337,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      *
      * @param result The List received from the server
      */
+    @SuppressWarnings("unchecked")
     private void dealWithResponse(List<?> result)
     {
         if(result == null || result.isEmpty() || !(result.get(0) instanceof String))
