@@ -3,16 +3,21 @@ package com.example.benbody.client;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 import Utils.Language;
 
@@ -190,6 +196,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         FormattedArrayAdaptor formArrayAdapt = new FormattedArrayAdaptor(this,
                 R.layout.list_layout, (List<Language>) results);
         gui.getListView().setAdapter(formArrayAdapt);
+
+        // set the on click listener to create a popup
+        gui.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Language lang = (Language) gui.getListView().getItemAtPosition(position);
+                displayPopup(lang, view);
+            }
+        });
+    }
+
+    private void displayPopup(Language lang, View view)
+    {
+        // creates the layout inflater and inflates the layout
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View layout = layoutInflater.inflate(R.layout.language_popup,
+                (ViewGroup) findViewById(R.id.popupLayout));
+        // creates popup window
+        PopupWindow popup = new PopupWindow(layout, ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT, true);
+
+        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
+       // popup.showAsDropDown(view);
+        // finds references to views
+        TextView langNamePopup = (TextView) layout.findViewById(R.id.popupLangName);
+        TextView percMatchPopup = (TextView) layout.findViewById(R.id.popupPercentage);
+        TextView usesPopup = (TextView) layout.findViewById(R.id.popupUses);
+        // sets text according to language info
+        langNamePopup.setText(lang.getName());
+        percMatchPopup.setText(String.format(Locale.ENGLISH, "%d%%", lang.getSimilarity()));
+        usesPopup.setText(lang.getUses());
+
+
     }
 
     /**

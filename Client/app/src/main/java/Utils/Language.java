@@ -21,13 +21,15 @@ public class Language implements Comparable<Language>, Serializable
 	private static final long	serialVersionUID	= 1L;
 	private String				name;			// Name of this language
 	private String				trainingTime;	// Amount of time it would take to be trained based on similarity
+	private String				uses;			// A description of what this language can be used for
 	private int					similarity;		// Similarity to the language this is being compared to
 	
-	public Language( String name, int similarity, String trainingTime )
+	public Language( String name, int similarity, String trainingTime, String uses )
 	{
 		this.name = name;
 		this.similarity = similarity;
 		this.trainingTime = trainingTime;
+		this.uses = uses;
 	}
 	
 	public Language( String name, int similarity )
@@ -67,6 +69,16 @@ public class Language implements Comparable<Language>, Serializable
 	}
 	
 	/**
+	 * Used to obtain the description of this languages uses
+	 * 
+	 * @return	A String containing the uses of this language
+	 */
+	public String getUses ()
+	{
+		return uses;
+	}
+	
+	/**
 	 * Comparator method, allowing Languages to be compared to one another by similarity
 	 */
 	@Override
@@ -81,6 +93,6 @@ public class Language implements Comparable<Language>, Serializable
 	@Override
 	public String toString ()
 	{
-		return name + "	:	" + similarity + "%" + "	:	" + trainingTime;
+		return name + "	:	" + similarity + "%" + "	:	" + trainingTime + "	:	" + uses;
 	}
 }

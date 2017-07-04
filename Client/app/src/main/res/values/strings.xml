@@ -11,4 +11,5 @@
     <string name="select_lang">Select Language</string>
     <string name="response_error">No Response from server, would you like to retry?</string>
     <string name="invalid_language">Invalid Language entered</string>
+    <string name="similarity">similarity</string>
 </resources>
