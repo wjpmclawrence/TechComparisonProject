@@ -1,0 +1,84 @@
+       
+Capita Novus
+
+PROFILE SUMMARY	
+Martins is a very ambitious individual who does not shy away from challenges, he handles multiple tasks and priorities simultaneously. In his last role he was supporting 3 projects, which had tight deadlines. He has a huge interest in Information Technology, which led him graduate with an MSc in IT security studies at the University of Liverpool. He enjoys keeping up to date with Dynamic CRM and has keen interest in learning about Ethical Hacking. His main goal is to become a highly credible and known IT professional who can find solution to any IT challenge. 
+Martins has worked in a team as a key member and also and as a lead in projects before. He was leading a team of people on a daily basis to run the operations smoothly as a snow resort technical lead and food manufacturing departmental shift lead. He developed standard operating procedures and training, used CI tools to problem solve. Those sets of skills were easily transferrable into the Novus scheme in Capita Case and Record Solutions, which gave him opportunity to closely work on solution design with the project team business analyst, very experienced contractors, test team and do the first round presentation to client.
+PREVIOUS ENGAGEMENTS
+Capita Case and Record Solutions 
+Microsoft Dynamics CRM Developer
+March 2016 –April 2017
+
+Developing solutions for Microsoft Dynamic CRM in agile manner with the business analyst as per client’s requirements, mainly on government based CRM projects. Main project was building a centralised call centre management platform for 5 councils to effectively manage their customer calls and complaints. The work included customising, configuring, extending Microsoft Dynamic CRM environment by writing custom plug-ins and workflows in test driven approach. Due to his very keen interest to solve challenging tasks in Dynamic CRM, he also was supporting other project teams within the Capita Record Solutions. This flexible floating between teams allowed him to develop the IT tools that can be transferred project to project, i.e. automated reporting from CRM, data migration picking from flat file (txt) was the solution that impressed even solutions architect. Since then, he has worked on really complex bug fixing cases and to conduct various knowledge transfer sessions to his peers, i.e. Oauth2 for Dynamic CRM. Please see below more technical activities he has executed in the past year:
+Customising Microsoft Dynamics CRM 2015 organizations at the form, entity, relationship, reports, workflow, dialogs, and business unit/user role permission level, performed customization on ribbons
+Implemented JQuery, ODATA (REST) and FetchXML
+Using of HTTP protocols
+Creating Web resources HTML
+Upgrading from Dynamics CRM 2011 to 2015, worked with 2015, 2016 and Dynamics 365, CRM SDK 2015/2016/365, .NET
+Using tools such as XrmToolbox and SonomaDevTools, multiple environments dev, test, UAT (User Acceptance Testing) and production, data importing exporting solutions, data import export.
+Regularly communicating with the customer on the status of the issue resolution
+Sound knowledge on concepts of unit testing own code, legacy code
+Planning and performing data migration from to other systems
+Managing user access to CRM through portal
+Estimating tasks in TFS (Team Foundation Server)
+Working with Microsoft Azure and Active Directory 
+Worked on legacy code written by other developers and successfully replaced it
+
+Westmill Foods 
+Projects IT support
+June 2013 – February 2016 
+
+Supporting the implementation of robotics software of large capital investment, writing problem solving flowcharts and operating manuals to urgent project deadlines. F
+ocussing on building problem solving skills. This was a change project for the manufacturing site, hence, a lot of effort was put to persuate and align people to new working practices. Train the trainer certification obtained at that time.
+
+Westmill Foods 
+Manufacturing Lead Technician
+July 2009 – June 2013
+
+Effective management of 7 technicians on shift to effectively run food manufacturing lines to achieve required targets, CI tools application to problem solving, such a 5 Whys, 4Ms and support engineering team with upgrades to software working instructions, also ensuring the site complies to required technical standards at all times.
+
+AB Swedbank, Riga, Latvia
+Junior Oracle developer
+July 2007 – May 2009
+
+Providing design, development, integration, and testing services for Oracle databases. 
+Supporting the projects and leading own project with small investment.
+
+Zagarkalns Ski Resort, Cesis, Latvia
+Technical manager
+Dec 2005- April 2007
+Responsible for ensuring smooth running of equipment and services for 13 ski lift, H&S compliance to legal requirements, implementation of standard operating procedures and training of 30 operations employees. Put in charge of serious complaints management. Traines as a first aider.
+EDUCATION
+QUALIFICATIONS AND SKILLS
+Completed:
+MS: Microsoft Dynamics CRM 2016 Customization and Configuration
+MCPS: Microsoft Certified Professional
+Train the Trainer
+
+Working Towards:
+GIAC
+Azure Certification
+
+Technical Skills:
+.NET, C#, Windows Azure, Active directory, Visual Studio
+HTML 5, CSS, JAVA, JavaScript, MySQL 
+MS Windows, MS Office, Kali, Mac OS 
+
+INTERESTS AND HOBBIES			
+
+He never misses out on winter sports season, enjoys gym, speaks 3 foreign languages, in his free- time he is learning about ethical hacking and likes solving challenging puzzles
+
+Novus Name:	Martins Canders	
+Role:	Dynamics CRM Developer	
+Availability:	1st of May	
+Last Assignment:	Capita Case and Record Solution	
+
+ 2012 – 2015 	MSc Computer security at the University of Liverpool	Key achievements in high grades are Computer Forensics and Programming the Internet, JAVA programming
+ 2002 - 06 2006					 1998 - 06 2002	BSc Energetics and Electrical engineering at the Riga Technical University, Latvia. 	Subject include: game theory, statistics, applied mathematics, advanced physics. 	Key achievements: 	Sumo Robot competition project team member (2nd  place winner) 	Mobile Billboard development (illustration upon request)- patented	Cesu Gymnasium, Cesis, Latvia		
+
+Capita IT Professional Services
+17 Rochester Row, London, SW1P 1JB
+Tel +44 (0) 8456 077466 Email mail.at@capita.co.uk   www.capita.co.uk 
+A trading name of Capita Business Services Limited
+Registered Office: 71 Victoria Street, Westminster, London SW1H 0XA. Registered in England No. 2299747.
+Part of the Capita Group. www.capita.co.uk

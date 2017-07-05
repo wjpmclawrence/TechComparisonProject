@@ -1,0 +1,85 @@
+         
+Capita Novus
+
+PROFILE SUMMARY	
+Rafiq is a recent graduate from Brunel University with a degree in Computer Science specialising in Software Engineering. He is eager for a career in Programming as a Software Engineer so he has focussed his efforts and education to ensuring he has the best start to his career possible. For his final year dissertation, he developed a new Visible Light Communication System which solves many issues faced with similar technologies. During this project Rafiq had to mix chemistry, electronics and programming and learn new technologies and languages. The reason why this project succeeded is because of his ability to problem solve and his determination to succeed.
+Rafiq has joined the Capita Novus programme knowing that it will give his career a boost and the chance to put all the theory learnt at university into practice. The added training and practical experience will get him up to industry standard with both his coding and professional skills.   
+PREVIOUS ENGAGEMENTS
+Capita Novus  
+Software Development Trainee 
+September 2016 – Present 
+Capita’s intensive programme covers both theoretical and practical aspects of java/C# development. As well as engaging with real projects to prove the skills acquired, the programme equips the individual with the skill sets required in programming techniques for desktop and web applications, database connectivity and querying, and HTML, CSS and JavaScript web development.
+
+Your account manager can provide the full course outline if required.
+EDUCATION
+Brunel University London
+BSc (Hons) Computer Science (Software Engineering) 2:1 
+2013-2016
+Modules:
+Level 1 Group Project Lectures and Tutorials
+Introductory Programming
+Data and Information
+Information Systems and Organisations
+Logic and Computation
+Level 2 Group Project
+Software Development and Management
+Usability Engineering
+
+Dissertation/ Final Year Project:
+Rafiq successfully created a new visible light communication system (prototype) which surpasses and overcomes issues in similar fields, it uses mobile computer vision (image and video processing) which interacts with a Microcontroller (Arduino).
+College of North West London 
+Edexcel BTEC Extended Diploma Level 3 (Distinction * Distinction * Distinction)
+2010-2013
+
+Modules:
+Communication & Employability Skills for IT
+Computer Systems
+Computer Networks
+Maintaining Computer Systems
+Working at a small/Med Business (CCNA2 Discovery) 
+- ORACLE SQL Programming
+
+Hampstead School
+GCSE
+2005-2010
+
+8 A-C s including Maths, English and Science
+QUALIFICATIONS AND SKILLS
+Completed:
+BCS Agile Foundation
+Working Towards:
+Oracle Certified Associate Java SE 8 Programmer I
+programming in C#
+Microsoft Technology Associate Software Development Fundamentals
+Oracle Database
+
+Technical Skills:
+Java 7 & 8 (Intellij, Eclipse and Android studio) – He use a mix of these on a daily basis, from home to university projects. He’s latest project is
+C++ (Visual Studio and Dev C++) – C++ was used to develop his final year project (VLC system with Computer Vision). He also developed an event ticketing system for his collage. 
+Visual basic – This was the Rafiq’s first programming language.
+Complete Microsoft Office including Visio and Project – He uses the office package on a daily basis and has completed an online course on plural sight. Technical presentations to dissertation and reports. In a Project Management module, MS Project was used to handle budget, timescale while working on multiple projects. Visio was used as a visual representation for projects, processes and plans.  
+Adobe creative suite (intermediate) – Uses Photoshop and illustrator for photo editing/enhancing and logo and banner designs for websites and basic photography projects. 
+Oracle/MySQL/ Amazon DynamoDB (AWS) – have been used to create, modify and manipulate data in a normalized database. Java/andriod applications can create, modify and manipulate data using JDBC (Java Database Connectivity API) .
+Jetty/Glassfish was used as a Web server for multiple projects. Last project used Glassfish to run a web based java application, where data from a CSV file is queried.
+PuTTY/Linux (Ubuntu) server puTTY was used to connect remotely to a terminal Ubuntu server.
+HTML/CSS and JQuery (Dreamweaver) – Rafiq creates websites for different uses from university websites to personal, his latest website is being developed for a community.  
+IBM SPSS – This has been used in statistical analysis during university project, collecting Twitter data about certain subjects to get more meaningful insights of people’s views and feelings and to predict future trends
+Windows 7, 8, 8.1, 10, Account Management and home networking– Rafiq has used windows from its first OS and still uses it for day to day activities, He has created a mix of wired and wireless home network using Workgroups/IP configurations which all share Files, recourses and drives.
+INTERESTS AND HOBBIES
+
+Rafiq enjoys doing many sports. He is currently he playing on a football and American football team. 
+He is enjoys trying and doing multiple extreme sports like off-road and downhill mountain biking, Rock climbing (Mountaineering) and many others. He ran an Airsoft society at university for 2 years and is part of a First Aid society in which he taught First Aid as part of (SJ ambulance) to inspire people to learn and save lives.   
+
+Rafiq enjoys attending expos to keep himself up-to-dated of the latest technologies and issues, he recently attended an IP EXPO in London ExCel about technology but in specific Cyber Security and is using Backtrack Linux (Penetration Testing OS) to learn how vulnerabilities are found and how they can be stopped. He is currently building a website for a community in London, in which it should get everyone closer and keeps them updated of events, currently he is collecting requirements. He is trying out Deep learning algorithms, which he thinks he could use in a smart personal assistant with a sense of humour and recognises human feelings.
+Rafiq stared to learn about and is aiming to get Skydiving and pilot’s licence soon.
+Novus Name:	Rafiq Gasmi	
+Role:	Software Developer 	
+Availability:	Immediate	
+Last Assignment:	Capita Training	
+
+Capita IT Professional Services
+17 Rochester Row, London, SW1P 1JB
+Tel +44 (0) 8456 077466 Email mail.at@capita.co.uk   www.capita.co.uk 
+A trading name of Capita Business Services Limited
+Registered Office: 71 Victoria Street, Westminster, London SW1H 0XA. Registered in England No. 2299747.
+Part of the Capita Group. www.capita.co.uk

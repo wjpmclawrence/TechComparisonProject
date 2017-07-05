@@ -1,0 +1,127 @@
+         Contact: Andrew Jacob 
+andrew.jacob@capita.co.uk / (0) 7557 202 942
+Capita Novus
+
+PROFILE SUMMARY	
+Mohammed is an ambitious Computer Science Graduate, who is interested in working in Software Development and Testing. He is motivated by the thought of making new technologies that will enhance software quality. Mohammed comes from an IT background as he has studied Computer Science in university and has a BTEC National Diploma in IT Practitioner from college, which shows that he has great knowledge of computer terminology and methodologies.
+
+During his work at both BP and Proto Motors, Mohammed has been able to interact with customers in a social and professional manner which shows he has good communication skills. Mohammed has experience in problem solving and this combined with his creativity will enable him to fix problems in a manner that others may not think possible. 
+
+In university Mohammed has created a collections system that collected information from a text file about various wines and stored them into arrays using buffered readers and then added a binary search tree feature to the system so as to find a specific wine using a keyword. He also created a Chat Messenger which had a GUI interface incorporated into it that was also multithreaded so that multiple users are allowed to join the chat room. He has also created an EJB Auction Site which used JSP and JPA, and this allowed auction members to register themselves and any items they wish to auction away onto a SQL database. In the Mobile Application module at university he created a NFC Messenger that allowed users to send receive information like phone numbers and then store the information onto a SQLite Database and also added a Google Map service so as to track user locations. He has experience in SQL as he has used the Server Query Language in university in modules called Databases, Management Support Systems and Mobile Applications and Distributed and Internet Systems. 
+
+What Mohammed hopes to gain from the Novus program is to improve to his testing skills and use it to improve his programming skills and become a more all-round tester who can identify faults and defect in early and during development quickly and easily.
+PREVIOUS ENGAGEMENTS
+Capita Novus
+Software Testing Trainee
+May 2016 – Present
+Capita’s intensive programme covers both theoretical and practical aspects of Software Testing. As well as engaging with real projects to prove the skills acquired, the programme equips the individual with the skill sets required to be a successful Software Test Analyst.
+
+Your account manager can provide a full course outline if required.
+
+BP Plc
+Customer Service Assistant
+April 2016 – July 2016
+Interacting and assisting Customers.
+Working tills.
+Organising shelves and ensuring they are stocked.
+Handling deliveries.
+Keeping store clean.
+Wild Bean Cooking.
+Cleaning Forecourt
+
+July 2011 – September 2014 (Trainee Mechanic) Proto Motors Limited
+Servicing Vehicles.
+Making Invoices and Ordering Invoices.
+Ordering car parts from various parts dealer.
+Interacting with customers.
+
+July 2008 – August 2008 (Assistant Clerk) Talk Digital
+Assisting customers in using PC and ensuring all computers are running.
+Working the tills and making transaction.
+Interacting with customers.
+
+June 2007 – June 2007 (Secretary) Clean A. Services
+Organising cabinet records.
+Sending mail and faxes and also photocopying,
+Answering calls.
+Sorting cleaning supplies after moving offices.
+
+EDUCATION
+
+London Metropolitan University
+BSc Computer Science, Lower Second Class Honours
+2012 – 2015
+Information Systems
+Programming
+Computer Hardware and Software Architectures
+Logic and Mathematical Techniques
+Databases	Professional Issues, Ethics and Computer Law
+Networks and Operating Systems
+Software Engineering
+Data Structures and Specialist Programming
+Mobile Applications	Formal Specification & Software Implementation
+Distributed and Internet Systems
+Project
+Management Support Systems
+
+Dissertation / Final Year Project:
+Mohammed’s Final Year Project was called ‘A Domotic System on a Raspberry Pi’ which was about a home automation system that allowed users to input commands into a Raspberry Pi. The Raspberry Pi was also linked to a Micro phone and accepted commands via Speech Recognition, also commands were processed they outputted to LED light components on a breadboard circuit connected to the Raspberry Pi’s GPIO connectors.
+
+Redbridge College
+BTEC National Diploma for IT Practitioner, DDM
+2009 - 2011
+•	Communication and Employability Skills for IT	
+•	Information Systems	
+•	Website Production and Management
+•	Computer Systems	
+•	Advanced Database Skills	
+•	Digital Graphics and Computers
+•	Communication Technologies	
+•	Advanced Spreadsheet Skills	
+•	Computer Animation
+•	Organisational Systems Security	
+•	Computer Architecture	
+•	Networked Systems Security
+•	Network Management	
+•	Developing Computer Games	
+•	E-Commerce (Distinction)
+•	Principles of Computer Networks	
+•	Principles of Software Design and Development	
+•	Impact of the Use of IT on Business Systems
+
+Beal High School 
+2008 - 2009
+Maths (C), English (C), PASS in BTEC First in ICT and MERIT in BTEC First in Business.
+QUALIFICATIONS AND SKILLS
+Completed:
+ISEB – ISQTB Foundation to Software Testing
+Working Towards:
+Software Test Analyst Skills
+Technical Skills:
+Knowledgeable in Java, JavaScript, SQL, Python, Visual Basics, HTML, CSS and C++ Programming Languages
+Capable of using UNIX and Windows operating
+Capable at Android mobile development
+Able to work as part of a team
+Problem solving skills
+Proficient at Agile Development
+Technical Knowledge in Software Development
+Broad knowledge of various IT topics
+Full UK License
+INTERESTS AND HOBBIES
+Bengali Language
+Playing football and snooker on the weekends.
+Enjoys playing various video games that involve role playing and adventure games especially video games with new game mechanics.
+Writing script programs for my Raspberry PI.
+Builds Video Games on Unity Game Development Engine in free time.
+
+Novus Name:	Mohammed Abdul Kadir	
+Role:	Software Tester	
+Availability:	Immediate	
+Last Assignment:	Capita Training	
+
+Capita IT Professional Services
+17 Rochester Row, London, SW1P 1JB
+Tel +44 (0) 8456 077466 Email mail.at@capita.co.uk   www.capita.co.uk 
+A trading name of Capita Business Services Limited
+Registered Office: 71 Victoria Street, Westminster, London SW1H 0XA. Registered in England No. 2299747.
+Part of the Capita Group. www.capita.co.uk
