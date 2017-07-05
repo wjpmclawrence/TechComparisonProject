@@ -218,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, true);
 
         popup.showAtLocation(view, Gravity.CENTER, 0, 0);
-       // popup.showAsDropDown(view);
         // finds references to views
         TextView langNamePopup = (TextView) layout.findViewById(R.id.popupLangName);
         TextView percMatchPopup = (TextView) layout.findViewById(R.id.popupPercentage);
@@ -226,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // sets text according to language info
         langNamePopup.setText(lang.getName());
         percMatchPopup.setText(String.format(Locale.ENGLISH, "%d%%", lang.getSimilarity()));
-        usesPopup.setText(lang.getUses());
+        usesPopup.setText(String.format(Locale.ENGLISH, "%s: %s",
+                getString(R.string.uses), lang.getUses()));
 
 
     }
