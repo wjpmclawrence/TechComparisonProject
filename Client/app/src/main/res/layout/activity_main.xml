@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGrey"
-    tools:context="com.example.benbody.client.MainActivity">
+    tools:context="com.capita.client.MainActivity">
 
     <ImageView
         android:id="@+id/Logo"
@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.5" />
 
-    <com.example.benbody.client.InstantAutoComplete
+    <com.capita.client.InstantAutoComplete
         android:id="@+id/spinnerTextView"
         android:inputType="textNoSuggestions"
         android:imeOptions="actionGo"

@@ -1,4 +1,4 @@
-package com.example.benbody.client;
+package com.capita.client;
 
 import android.app.Activity;
 import android.view.View;

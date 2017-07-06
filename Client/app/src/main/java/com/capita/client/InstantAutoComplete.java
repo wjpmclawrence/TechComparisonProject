@@ -1,4 +1,4 @@
-package com.example.benbody.client;
+package com.capita.client;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
