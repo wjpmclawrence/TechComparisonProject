@@ -186,10 +186,6 @@ public class RequestManager
 						 * break;
 						 */
 						
-						case "pausing":
-							returnList.add( "thankyou" );
-							break;
-						
 						default:
 							returnList.add( ErrorHandler.getError( 0 ) );
 					}

@@ -1,5 +1,6 @@
 package ClientInterface;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,11 +20,15 @@ public class ServerGUI
 	// Buttons
 	private static JButton		btnClose;
 	private static JButton		btnPause;
+	private static JButton		btnModDB;
 	
 	// Labels
 	private static JLabel		lblClients;
 	
+	// Basic Variables
 	private static int			clientsConnected	= 0;
+	private static int			btnHeight			= 50;
+	private static int			btnWidth			= 250;
 	
 	public static JScrollPane getScrollPane ()
 	{
@@ -43,16 +48,16 @@ public class ServerGUI
 	public static void addClient ()
 	{
 		clientsConnected++;
-		numClientsDisp();
+		updateClientsLbl();
 	}
 	
 	public static void removeClient ()
 	{
 		clientsConnected--;
-		numClientsDisp();
+		updateClientsLbl();
 	}
 	
-	private static void numClientsDisp ()
+	private static void updateClientsLbl ()
 	{
 		String lblText = String.valueOf( clientsConnected + " " );
 		
@@ -66,6 +71,22 @@ public class ServerGUI
 		}
 		
 		lblClients.setText( lblText );
+	}
+	
+	private static void updatePauseBtn ( boolean conAccepted )
+	{
+		if ( conAccepted )
+		{
+			btnPause.setText( "Accepting Connections" );
+			btnPause.setBackground( new Color( 88, 188, 90 ) );
+			btnPause.setForeground( Color.BLACK );
+		}
+		else
+		{
+			btnPause.setText( "Not Accepting Connections" );
+			btnPause.setBackground( new Color( 188, 3, 3 ) );
+			btnPause.setForeground( Color.WHITE );
+		}
 	}
 	
 	private static void shutdown ()
@@ -93,7 +114,6 @@ public class ServerGUI
 	public ServerGUI()
 	{
 		initialize();
-		numClientsDisp();
 		sInterface.setVisible( true );
 	}
 	
@@ -106,18 +126,25 @@ public class ServerGUI
 		sInterface.setExtendedState( JFrame.MAXIMIZED_BOTH );
 		sInterface.setUndecorated( true );
 		sInterface.setVisible( true );
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds( 0, 0, sInterface.getWidth(), sInterface.getHeight() - 70 );
 		sInterface.getContentPane().add( scrollPane );
 		textArea = new JTextArea();
 		textArea.setEditable( false );
 		scrollPane.setViewportView( textArea );
+		
 		lblClients = new JLabel();
-		lblClients.setBounds( 120, sInterface.getHeight() - 60, 200, 50 );
+		lblClients.setBounds( 10, sInterface.getHeight() - ( 10 + btnHeight ), 200, 50 );
+		updateClientsLbl();
 		sInterface.getContentPane().add( lblClients );
+		
 		btnClose = new JButton();
-		btnClose.setBounds( 10, sInterface.getHeight() - 60, 100, 50 );
+		btnClose.setBounds( ( sInterface.getWidth() - btnWidth ) / 2, sInterface.getHeight() - ( 10 + btnHeight ),
+				btnWidth, btnHeight );
 		btnClose.setText( "Shutdown" );
+		btnClose.setBackground( Color.RED );
+		btnClose.setForeground( Color.WHITE );
 		btnClose.addActionListener( new ActionListener()
 		{
 			@Override
@@ -127,17 +154,34 @@ public class ServerGUI
 			}
 		} );
 		sInterface.getContentPane().add( btnClose );
+		
 		btnPause = new JButton();
-		btnPause.setBounds( ( sInterface.getWidth() / 2 ) - 75, sInterface.getHeight() - 60, 150, 50 );
-		btnPause.setText( "Pause Connections" );
+		btnPause.setBounds( btnClose.getX() - ( 10 + btnWidth ), sInterface.getHeight() - ( 10 + btnHeight ), btnWidth,
+				btnHeight );
+		updatePauseBtn( true );
 		btnPause.addActionListener( new ActionListener()
 		{
 			@Override
 			public void actionPerformed ( ActionEvent e )
 			{
-				Server.toggleConnections();
+				updatePauseBtn( Server.toggleConnections() );
 			}
 		} );
 		sInterface.getContentPane().add( btnPause );
+		
+		btnModDB = new JButton();
+		btnModDB.setBounds( btnClose.getX() + ( 10 + btnWidth ), sInterface.getHeight() - ( 10 + btnHeight ), btnWidth,
+				btnHeight );
+		btnModDB.setText( "Add a Language (NOT IMPLEMENTED)" );
+		btnModDB.setBackground( new Color( 0, 161, 193 ) );
+		btnModDB.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed ( ActionEvent e )
+			{
+				
+			}
+		} );
+		sInterface.getContentPane().add( btnModDB );
 	}
 }

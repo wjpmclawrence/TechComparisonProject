@@ -67,10 +67,11 @@ public class Server
 		
 	}
 	
-	public static void toggleConnections ()
+	public static boolean toggleConnections ()
 	{
 		acceptingConnections = !acceptingConnections;
 		log( "Currently Accepting Connections: " + String.valueOf( acceptingConnections ) );
+		return acceptingConnections;
 	}
 	
 	/**
