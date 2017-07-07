@@ -11,10 +11,16 @@ import javax.swing.JTextArea;
 
 public class ServerGUI
 {
+	// General Frame Components
 	private static JFrame		sInterface;
 	private static JScrollPane	scrollPane;
 	private static JTextArea	textArea;
+	
+	// Buttons
 	private static JButton		btnClose;
+	private static JButton		btnPause;
+	
+	// Labels
 	private static JLabel		lblClients;
 	
 	private static int			clientsConnected	= 0;
@@ -50,13 +56,13 @@ public class ServerGUI
 	{
 		String lblText = String.valueOf( clientsConnected + " " );
 		
-		if ( clientsConnected == 1 )
+		if ( clientsConnected != 1 )
 		{
-			lblText += "Client Connected";
+			lblText += "Clients Connected";
 		}
 		else
 		{
-			lblText += "Clients Connected";
+			lblText += "Client Connected";
 		}
 		
 		lblClients.setText( lblText );
@@ -65,11 +71,10 @@ public class ServerGUI
 	private static void shutdown ()
 	{
 		Server.toggleConnections();
-		System.out.println( clientsConnected + " clients" );
 		
 		if ( clientsConnected == 0 )
 		{
-			// System.exit( 0 );
+			System.exit( 0 );
 		}
 		else
 		{
@@ -107,12 +112,12 @@ public class ServerGUI
 		textArea = new JTextArea();
 		textArea.setEditable( false );
 		scrollPane.setViewportView( textArea );
-		btnClose = new JButton();
 		lblClients = new JLabel();
 		lblClients.setBounds( 120, sInterface.getHeight() - 60, 200, 50 );
 		sInterface.getContentPane().add( lblClients );
+		btnClose = new JButton();
 		btnClose.setBounds( 10, sInterface.getHeight() - 60, 100, 50 );
-		btnClose.setText( "Close" );
+		btnClose.setText( "Shutdown" );
 		btnClose.addActionListener( new ActionListener()
 		{
 			@Override
@@ -122,5 +127,17 @@ public class ServerGUI
 			}
 		} );
 		sInterface.getContentPane().add( btnClose );
+		btnPause = new JButton();
+		btnPause.setBounds( ( sInterface.getWidth() / 2 ) - 75, sInterface.getHeight() - 60, 150, 50 );
+		btnPause.setText( "Pause Connections" );
+		btnPause.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed ( ActionEvent e )
+			{
+				Server.toggleConnections();
+			}
+		} );
+		sInterface.getContentPane().add( btnPause );
 	}
 }
