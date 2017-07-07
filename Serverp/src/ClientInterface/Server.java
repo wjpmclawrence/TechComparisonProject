@@ -94,8 +94,7 @@ public class Server
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println( e.getMessage() );
 			}
 		}
 	}
@@ -172,15 +171,17 @@ public class Server
 		try
 		{
 			String output = timeStamp() + msg + System.lineSeparator();
+			
 			BufferedWriter writer = new BufferedWriter( new FileWriter( log, true ) );
 			writer.write( output );
-			ServerGUI.getTextArea().append( output );
 			writer.close();
+			
+			ServerGUI.getTextArea().append( output );
 			ServerGUI.checkScrollBar();
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 	}
 	
@@ -226,7 +227,7 @@ public class Server
 		private void writeToClient ( List<Object> list ) throws IOException
 		{
 			ObjectOutputStream outStream = new ObjectOutputStream( socket.getOutputStream() );
-			log( list + " sent to client " + socket.getInetAddress() );
+			log( "sent to client " + socket.getInetAddress() + ":" + System.lineSeparator() + "	" + list );
 			outStream.writeObject( list );
 		}
 		
