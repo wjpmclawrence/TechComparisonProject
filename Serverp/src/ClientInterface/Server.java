@@ -6,7 +6,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,7 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.net.ServerSocketFactory;
+import javax.net.SocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.JOptionPane;
 
 import DataManagement.RequestManager;
@@ -26,12 +30,13 @@ import DataManagement.RequestManager;
  */
 public class Server
 {
-	private static String				log				= "client_log.dat";
+	private static String				log						= "client_log.dat";
 	private static SimpleDateFormat		time;
 	
 	private static ServerSocket			sS;
-	private static final int			PORT			= 1234;
-	private static boolean				serverRunning	= true;
+	private static final int			PORT					= 1234;
+	private static boolean				serverRunning			= true;
+	private static boolean				acceptingConnections	= true;
 	private static ObjectOutputStream	oos;
 	
 	/**
@@ -66,6 +71,33 @@ public class Server
 		
 	}
 	
+	public static void toggleConnections ()
+	{
+		acceptingConnections = !acceptingConnections;
+		
+		if ( !acceptingConnections )
+		{
+			try
+			{
+				System.setProperty( "javax.net.ssl.trustStore", "keystore.jks" );
+				SocketFactory factory = SSLSocketFactory.getDefault();
+				Socket socket = factory.createSocket( "127.0.0.1", 1234 );
+				PrintWriter writer = new PrintWriter( socket.getOutputStream(), true );
+				ObjectInputStream inStream = new ObjectInputStream( socket.getInputStream() );
+				writer.println( "pausing~0" );
+				inStream.readObject();
+				socket.close();
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+				System.out.println( e.getMessage() );
+			}
+		}
+		
+		log( "Currently Accepting Connections: " + String.valueOf( acceptingConnections ) );
+	}
+	
 	/**
 	 * Uses self signed certificate "ca.store" to authenticate a handshake
 	 * Server starts up and listens for connections, if an instance of the
@@ -87,16 +119,18 @@ public class Server
 			
 			time = new SimpleDateFormat( "dd/MM/yy HH:mm:ss" );
 			
-			ServerGUI.getTextArea().append( "Server running and listening for connections...\n" );
+			log( "Server running and listening for connections..." );
 			while ( serverRunning )
 			{
-				Socket socket = sS.accept();
-				ServerThread rc = new ServerThread( socket );
-				Thread tr = new Thread( rc );
-				tr.start();
-				ServerGUI.getTextArea()
-						.append( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
-				log( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
+				if ( acceptingConnections )
+				{
+					System.out.println( "Waiting for connection\n" );
+					Socket socket = sS.accept();
+					ServerThread rc = new ServerThread( socket );
+					Thread tr = new Thread( rc );
+					tr.start();
+					log( "Client at " + socket.getInetAddress() + " Connected" );
+				}
 			}
 		}
 		catch ( BindException e )
@@ -106,14 +140,14 @@ public class Server
 		}
 		catch ( Exception e )
 		{
-			ServerGUI.getTextArea().append( e.getMessage() + "\n" );
+			log( e.getMessage() );
 			e.printStackTrace();
 		}
 	}
 	
 	private static String timeStamp ()
 	{
-		return time.format( new Date() );
+		return ( time.format( new Date() ) + " " );
 	}
 	
 	/**
@@ -123,37 +157,17 @@ public class Server
 	{
 		try
 		{
+			String output = timeStamp() + msg + System.lineSeparator();
 			BufferedWriter writer = new BufferedWriter( new FileWriter( log, true ) );
 			writer.newLine();
-			writer.write( msg );
+			writer.write( output );
+			ServerGUI.getTextArea().append( output );
 			writer.close();
 		}
 		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Writes a List of objects to the client through socket
-	 */
-	private static void writeToClient ( List<Object> list, Socket socket ) throws IOException
-	{
-		oos = new ObjectOutputStream( socket.getOutputStream() );
-		ServerGUI.getTextArea()
-				.append( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
-		log( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
-		oos.writeObject( list );
-	}
-	
-	/**
-	 * reads in a string from the client
-	 */
-	private static String readStringFromClient ( Socket socket ) throws IOException
-	{
-		BufferedReader fromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
-		
-		return fromClient.readLine();
 	}
 	
 	/**
@@ -178,20 +192,38 @@ public class Server
 		{
 			try
 			{
-				frmClient = readStringFromClient( this.socket );
-				ServerGUI.getTextArea().append( timeStamp() + " " + frmClient + "\n" );
-				log( timeStamp() + " " + frmClient + "\n" );
-				writeToClient( RequestManager.requestMade( frmClient ), socket );
+				ServerGUI.addClient();
+				frmClient = readStringFromClient();
+				log( frmClient );
+				writeToClient( RequestManager.requestMade( frmClient ) );
 				socket.close();
-				ServerGUI.getTextArea().append(
-						timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
-				log( timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
+				log( "Client " + socket.getInetAddress() + " Disconnected, thread removed" );
+				ServerGUI.removeClient();
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		/**
+		 * Writes a List of objects to the client through socket
+		 */
+		private void writeToClient ( List<Object> list ) throws IOException
+		{
+			oos = new ObjectOutputStream( socket.getOutputStream() );
+			log( list + " sent to client " + socket.getInetAddress() );
+			oos.writeObject( list );
+		}
+		
+		/**
+		 * reads in a string from the client
+		 */
+		private String readStringFromClient () throws IOException
+		{
+			BufferedReader fromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+			
+			return fromClient.readLine();
 		}
 	}
 }

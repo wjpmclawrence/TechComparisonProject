@@ -7,7 +7,7 @@ import java.util.List;
 
 import DatabaseInterface.DB_Interface;
 import Utils.ErrorHandler;
-//import Tests.DB_Interface;
+// import Tests.DB_Interface;
 import Utils.Language;
 import Utils.NotImplemented;
 
@@ -107,6 +107,7 @@ public class RequestManager
 	 * @return A list of objects, the first element of which will be the tag describing the response.
 	 * @throws NotImplemented
 	 */
+	@SuppressWarnings ( "unused" )
 	private static List<Object> profileRequest ( String request ) throws NotImplemented
 	{
 		String splitter = "::";
@@ -179,9 +180,15 @@ public class RequestManager
 							returnList = getSubMenu( tmp[1] );
 							break;
 						
-						/*case "profile":
-							returnList = profileRequest( tmp[1] );
-							break;*/
+						/*
+						 * case "profile":
+						 * returnList = profileRequest( tmp[1] );
+						 * break;
+						 */
+						
+						case "pausing":
+							returnList.add( "thankyou" );
+							break;
 						
 						default:
 							returnList.add( ErrorHandler.getError( 0 ) );
