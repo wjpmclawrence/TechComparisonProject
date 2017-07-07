@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,13 +30,13 @@ import DataManagement.RequestManager;
  */
 public class Server
 {
-	private static String				log						= "client_log.dat";
-	private static SimpleDateFormat		time;
+	private static String			log						= "client_log.dat";
+	private static SimpleDateFormat	time;
 	
-	private static ServerSocket			sS;
-	private static final int			PORT					= 1234;
-	private static boolean				serverRunning			= true;
-	private static boolean				acceptingConnections	= true;
+	private static ServerSocket		sS;
+	private static final int		PORT					= 1234;
+	private static boolean			serverRunning			= true;
+	private static boolean			acceptingConnections	= true;
 	
 	/**
 	 * Launch the application.
@@ -74,6 +77,29 @@ public class Server
 		return acceptingConnections;
 	}
 	
+	private static void dispLog ()
+	{
+		Path path = Paths.get( "client_log.dat" );
+		
+		if ( Files.exists( path ) )
+		{
+			try ( BufferedReader in = Files.newBufferedReader( path ) )
+			{
+				String logLine;
+				
+				while ( ( logLine = in.readLine() ) != null )
+				{
+					ServerGUI.getTextArea().append( logLine + System.lineSeparator() );
+				}
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * Uses self signed certificate "ca.store" to authenticate a handshake
 	 * Server starts up and listens for connections, if an instance of the
@@ -95,7 +121,8 @@ public class Server
 			
 			time = new SimpleDateFormat( "dd/MM/yy HH:mm:ss" );
 			
-			log( "Server running and listening for connections..." );
+			dispLog();
+			log( "Server started and listening for connections..." );
 			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
@@ -140,16 +167,16 @@ public class Server
 	/**
 	 * Writes supplied message to log
 	 */
-	private static void log ( String msg )
+	public static void log ( String msg )
 	{
 		try
 		{
 			String output = timeStamp() + msg + System.lineSeparator();
 			BufferedWriter writer = new BufferedWriter( new FileWriter( log, true ) );
-			writer.newLine();
 			writer.write( output );
 			ServerGUI.getTextArea().append( output );
 			writer.close();
+			ServerGUI.checkScrollBar();
 		}
 		catch ( IOException e )
 		{

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -57,6 +58,15 @@ public class ServerGUI
 		updateClientsLbl();
 	}
 	
+	/**
+	 * Ensure that the scroll bar is set to the bottom of the chat display area
+	 */
+	public static void checkScrollBar ()
+	{
+		JScrollBar bar = scrollPane.getVerticalScrollBar();
+		bar.setValue( bar.getMaximum() );
+	}
+	
 	private static void updateClientsLbl ()
 	{
 		String lblText = String.valueOf( clientsConnected + " " );
@@ -95,6 +105,7 @@ public class ServerGUI
 		
 		if ( clientsConnected == 0 )
 		{
+			Server.log( "Server Shutdown" );
 			System.exit( 0 );
 		}
 		else
@@ -106,7 +117,7 @@ public class ServerGUI
 			}
 			catch ( InterruptedException e )
 			{
-				e.printStackTrace();
+				Server.log( e.getMessage() );;
 			}
 		}
 	}
