@@ -70,6 +70,11 @@ public class Server
 		
 	}
 	
+	/**
+	 * Toggles client connections (whether clients are accepted) on/off.
+	 * 
+	 * @return Either true or false, whichever is the case for client connections being accepted
+	 */
 	public static boolean toggleConnections ()
 	{
 		acceptingConnections = !acceptingConnections;
@@ -77,6 +82,9 @@ public class Server
 		return acceptingConnections;
 	}
 	
+	/**
+	 * Obtains the persistent log stored in the clinet_log.dat file and displays it in the GUI.
+	 */
 	private static void dispLog ()
 	{
 		Path path = Paths.get( "client_log.dat" );
@@ -100,6 +108,8 @@ public class Server
 	}
 	
 	/**
+	 * Authenticates client handshakes.
+	 * <p>
 	 * Uses self signed certificate "ca.store" to authenticate a handshake
 	 * Server starts up and listens for connections, if an instance of the
 	 * server is already running notify and close the current instance.
@@ -158,6 +168,10 @@ public class Server
 		}
 	}
 	
+	/**
+	 * Used to obtain the current time, correct to the second.
+	 * @return	The current time.
+	 */
 	private static String timeStamp ()
 	{
 		return ( time.format( new Date() ) + " " );
@@ -190,7 +204,6 @@ public class Server
 	 * method handle requests to for testing with dummy client.
 	 * 
 	 * @author Yasiru Dahanayake
-	 * @author Nathan Steer
 	 */
 	private static class ServerThread implements Runnable
 	{

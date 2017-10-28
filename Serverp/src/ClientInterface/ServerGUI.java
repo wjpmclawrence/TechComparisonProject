@@ -46,12 +46,18 @@ public class ServerGUI
 		return sInterface;
 	}
 	
+	/**
+	 * Increments the number of clients connected.
+	 */
 	public static void addClient ()
 	{
 		clientsConnected++;
 		updateClientsLbl();
 	}
 	
+	/**
+	 * Decrements the number of clients connected.
+	 */
 	public static void removeClient ()
 	{
 		clientsConnected--;
@@ -67,6 +73,9 @@ public class ServerGUI
 		bar.setValue( bar.getMaximum() );
 	}
 	
+	/**
+	 * Updates the label displaying the number of connected clients.
+	 */
 	private static void updateClientsLbl ()
 	{
 		String lblText = String.valueOf( clientsConnected + " " );
@@ -83,6 +92,14 @@ public class ServerGUI
 		lblClients.setText( lblText );
 	}
 	
+	/**
+	 * Updates the connections toggle button.
+	 * <p>
+	 * Adjusts the button colour, and text colour dependent on whether client connections are being accepted.
+	 * 
+	 * @param conAccepted
+	 *            Whether or not client connections are currently being accepted.
+	 */
 	private static void updatePauseBtn ( boolean conAccepted )
 	{
 		if ( conAccepted )
@@ -99,6 +116,12 @@ public class ServerGUI
 		}
 	}
 	
+	/**
+	 * Shuts the server down.
+	 * <p>
+	 * Outputs to the log that the server is shutting down, then carries out the server shutdown.
+	 * Will wait for all clients to disconnect before shutdown is carried out.
+	 */
 	private static void shutdown ()
 	{
 		Server.toggleConnections();
