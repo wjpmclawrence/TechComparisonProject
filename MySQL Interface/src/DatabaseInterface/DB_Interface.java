@@ -21,12 +21,6 @@ public class DB_Interface {
 	static Statement myStmt;
 	
 	static String[][] subMenu;
-
-	public static void main(String[] args) throws Exception
-	{
-		
-	}
-	
 	
 	/**
 	 * Called to initialise the DB connection. First creates a connection to the DB using
