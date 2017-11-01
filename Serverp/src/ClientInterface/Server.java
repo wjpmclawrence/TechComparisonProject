@@ -10,7 +10,11 @@ import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,13 +30,13 @@ import DataManagement.RequestManager;
  */
 public class Server
 {
-	private static String				log				= "client_log.dat";
-	private static SimpleDateFormat		time;
+	private static String			log						= "client_log.dat";
+	private static SimpleDateFormat	time;
 	
-	private static ServerSocket			sS;
-	private static final int			PORT			= 1234;
-	private static boolean				serverRunning	= true;
-	private static ObjectOutputStream	oos;
+	private static ServerSocket		sS;
+	private static final int		PORT					= 1234;
+	private static boolean			serverRunning			= true;
+	private static boolean			acceptingConnections	= true;
 	
 	/**
 	 * Launch the application.
@@ -67,6 +71,45 @@ public class Server
 	}
 	
 	/**
+	 * Toggles client connections (whether clients are accepted) on/off.
+	 * 
+	 * @return Either true or false, whichever is the case for client connections being accepted
+	 */
+	public static boolean toggleConnections ()
+	{
+		acceptingConnections = !acceptingConnections;
+		log( "Currently Accepting Connections: " + String.valueOf( acceptingConnections ) );
+		return acceptingConnections;
+	}
+	
+	/**
+	 * Obtains the persistent log stored in the clinet_log.dat file and displays it in the GUI.
+	 */
+	private static void dispLog ()
+	{
+		Path path = Paths.get( "client_log.dat" );
+		
+		if ( Files.exists( path ) )
+		{
+			try ( BufferedReader in = Files.newBufferedReader( path ) )
+			{
+				String logLine;
+				
+				while ( ( logLine = in.readLine() ) != null )
+				{
+					ServerGUI.getTextArea().append( logLine + System.lineSeparator() );
+				}
+			}
+			catch ( IOException e )
+			{
+				System.out.println( e.getMessage() );
+			}
+		}
+	}
+	
+	/**
+	 * Authenticates client handshakes.
+	 * <p>
 	 * Uses self signed certificate "ca.store" to authenticate a handshake
 	 * Server starts up and listens for connections, if an instance of the
 	 * server is already running notify and close the current instance.
@@ -87,16 +130,30 @@ public class Server
 			
 			time = new SimpleDateFormat( "dd/MM/yy HH:mm:ss" );
 			
-			ServerGUI.getTextArea().append( "Server running and listening for connections...\n" );
+			dispLog();
+			log( "Server started and listening for connections..." );
 			while ( serverRunning )
 			{
 				Socket socket = sS.accept();
-				ServerThread rc = new ServerThread( socket );
-				Thread tr = new Thread( rc );
-				tr.start();
-				ServerGUI.getTextArea()
-						.append( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
-				log( timeStamp() + " Client at " + socket.getInetAddress() + " Connected\n" );
+				log( "Client " + socket.getInetAddress() + " Connected" );
+				
+				if ( acceptingConnections )
+				{
+					ServerThread rc = new ServerThread( socket );
+					Thread tr = new Thread( rc );
+					tr.start();
+				}
+				else
+				{
+					String message = "Server Currently Unavailable";
+					List<Object> rtnList = new ArrayList<Object>();
+					rtnList.add( message );
+					ObjectOutputStream outStream = new ObjectOutputStream( socket.getOutputStream() );
+					log( rtnList + " sent to client " + socket.getInetAddress() );
+					outStream.writeObject( rtnList );
+					socket.close();
+					log( "Client " + socket.getInetAddress() + " Disconnected" );
+				}
 			}
 		}
 		catch ( BindException e )
@@ -106,54 +163,40 @@ public class Server
 		}
 		catch ( Exception e )
 		{
-			ServerGUI.getTextArea().append( e.getMessage() + "\n" );
+			log( e.getMessage() );
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Used to obtain the current time, correct to the second.
+	 * @return	The current time.
+	 */
 	private static String timeStamp ()
 	{
-		return time.format( new Date() );
+		return ( time.format( new Date() ) + " " );
 	}
 	
 	/**
 	 * Writes supplied message to log
 	 */
-	private static void log ( String msg )
+	public static void log ( String msg )
 	{
 		try
 		{
+			String output = timeStamp() + msg + System.lineSeparator();
+			
 			BufferedWriter writer = new BufferedWriter( new FileWriter( log, true ) );
-			writer.newLine();
-			writer.write( msg );
+			writer.write( output );
 			writer.close();
+			
+			ServerGUI.getTextArea().append( output );
+			ServerGUI.checkScrollBar();
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
-	}
-	
-	/**
-	 * Writes a List of objects to the client through socket
-	 */
-	private static void writeToClient ( List<Object> list, Socket socket ) throws IOException
-	{
-		oos = new ObjectOutputStream( socket.getOutputStream() );
-		ServerGUI.getTextArea()
-				.append( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
-		log( timeStamp() + " " + list + " sent to client " + socket.getInetAddress() + "\n" );
-		oos.writeObject( list );
-	}
-	
-	/**
-	 * reads in a string from the client
-	 */
-	private static String readStringFromClient ( Socket socket ) throws IOException
-	{
-		BufferedReader fromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
-		
-		return fromClient.readLine();
 	}
 	
 	/**
@@ -161,7 +204,6 @@ public class Server
 	 * method handle requests to for testing with dummy client.
 	 * 
 	 * @author Yasiru Dahanayake
-	 * @author Nathan Steer
 	 */
 	private static class ServerThread implements Runnable
 	{
@@ -178,20 +220,38 @@ public class Server
 		{
 			try
 			{
-				frmClient = readStringFromClient( this.socket );
-				ServerGUI.getTextArea().append( timeStamp() + " " + frmClient + "\n" );
-				log( timeStamp() + " " + frmClient + "\n" );
-				writeToClient( RequestManager.requestMade( frmClient ), socket );
+				ServerGUI.addClient();
+				frmClient = readStringFromClient();
+				log( frmClient );
+				writeToClient( RequestManager.requestMade( frmClient ) );
 				socket.close();
-				ServerGUI.getTextArea().append(
-						timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
-				log( timeStamp() + " Client " + socket.getInetAddress() + " Disconnected, thread removed\n" );
+				log( "Client " + socket.getInetAddress() + " Disconnected, thread removed" );
+				ServerGUI.removeClient();
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		/**
+		 * Writes a List of objects to the client through socket
+		 */
+		private void writeToClient ( List<Object> list ) throws IOException
+		{
+			ObjectOutputStream outStream = new ObjectOutputStream( socket.getOutputStream() );
+			log( "sent to client " + socket.getInetAddress() + ":" + System.lineSeparator() + "	" + list );
+			outStream.writeObject( list );
+		}
+		
+		/**
+		 * reads in a string from the client
+		 */
+		private String readStringFromClient () throws IOException
+		{
+			BufferedReader fromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+			
+			return fromClient.readLine();
 		}
 	}
 }
